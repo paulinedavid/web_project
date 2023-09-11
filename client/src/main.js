@@ -28,4 +28,4 @@ console.log('addressServer: ' + localStorage.getItem('addressServer'))
 /* add icons to the library */
 library.add(faGoogle, faLinkedinIn, faGithub, faUserLarge, faArrowUp, faMagnifyingGlass, faAngleLeft, faAngleRight, faPlus, faHeart, faHeartSolid, faHeartCirclePlus, faBookmark, faBookmarkSolid, faBars)
 
-createApp(App).use(router).use(VScrollLock).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+createApp(App).use(router).use(router).use(VScrollLock).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
