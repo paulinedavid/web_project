@@ -12,9 +12,9 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/catalog-page" class="to-page-nav">Book catalog</router-link>
-                    <router-link to="/catalog-library-page" class="to-page-nav">My Library</router-link>
-                    <router-link to="/catalog-recs-page" class="to-page-nav">Recommendations</router-link>
+                    <router-link to="/catalog-page" class="to-page-nav">Videos</router-link>
+                    <router-link to="/catalog-library-page" class="to-page-nav">Games</router-link>
+                    <router-link to="/catalog-recs-page" class="to-page-nav">Organizations</router-link>
                 </div>
                 <UserMenu></UserMenu>
                 <div class="light">
@@ -22,9 +22,15 @@
                 </div>
             </div>
         </header>
+        <div class="login-color-container" style="z-index:0">
+        <div class="login-color"></div>
+        <div class="login-color"></div>
+        <div class="login-color"></div>
+        <div class="login-color"></div>
+        </div>
         <a id="top"></a>
         <div class="help-page">
-            <div class="help-page-container">
+            <div class="help-page-container" style="z-index:10">
                 <h1 class="modal-Title">Contact Support</h1>
                 <p class="help-prompt">For any problem with your account, security concerns, or questions about our policy,
                     we're happy to help !</p>
@@ -88,7 +94,7 @@
             <div class="content-footer">
                 <div class="top">
                     <div class="logo-details">
-                        <img alt="Vue logo" style="opacity: 0.7;" src="../assets/LogoDayClean1.png"
+                        <img alt="Vue logo" style="opacity: 0.7;" src="../assets/LogoWhite.png"
                             class="logo-nav-clean" />
                         <p class="logo-name">
                             BOOK MASTER <br />

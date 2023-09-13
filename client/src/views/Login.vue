@@ -1,6 +1,13 @@
 <template>
   <body>
     <div class="LoginPage">
+      <div class="login-color-container">
+        <div class="login-color"></div>
+        <div class="login-color"></div>
+        <div class="login-color"></div>
+        <div class="login-color"></div>
+      </div>
+      
       <div class="loginBox">
         <div class="loginContainer">
           <div class="loginForm">
@@ -33,19 +40,20 @@
               Forgot your password ?
               <router-link to="/fgpassword-page">Reset it</router-link>
             </p>
-            <p class="forgotPswd" style="margin-top: -2%">
+            <p class="forgotPswd">
               New here ? <router-link to="/register-page">Sign up</router-link>
             </p>
-            <p class="forgotPswd" style="margin-top: -2%">
+            <p class="forgotPswd">
               Need Help ?<router-link to="/help-page">Contact us</router-link>
             </p>
           </div>
         </div>
-        <!-- <img
-          src="../assets/Login.png"
-          alt="Calendar people"
+        <div class="img-log-container">
+        <img
+          src="../assets/plant_login.png"
+          alt="login_plant"
           class="login-img"
-        /> -->
+        /></div>
       </div>
     </div>
   </body>

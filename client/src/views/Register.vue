@@ -2,6 +2,12 @@
 
   <body>
     <section class="RegisterPage">
+      <div class="register-color-container">
+        <div class="register-color"></div>
+        <div class="register-color"></div>
+        <div class="register-color"></div>
+        <div class="register-color"></div>
+      </div>
       <div class="loginBox">
         <div class="loginContainer">
           <div class="loginForm">
@@ -62,16 +68,17 @@
               Already have an account ?
               <router-link to="/login-page">Login</router-link>
             </p>
-            <p class="forgotPswd" style="margin-top: -2%">
+            <p class="forgotPswd">
               Need Help ?<router-link to="/help-page">Contact us</router-link>
             </p>
           </div>
         </div>
-        <!-- <img
-          src="../assets/Register.png"
-          alt="Calendar people"
+        <div class="img-log-container">
+        <img
+          src="../assets/waterfall_register.png"
+          alt="waterfall"
           class="register-img"
-        /> -->
+        /></div>
       </div>
     </section>
   </body>
