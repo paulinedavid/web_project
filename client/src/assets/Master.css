@@ -431,7 +431,7 @@
 
 #Registerbtn {
   background-color: aliceblue;
-  color: #c18cd6;
+  color: rgb(182, 164, 106);
   width: fit-content;
   cursor: pointer;
   margin-top: 10px;
@@ -441,7 +441,7 @@
 }
 
 #Registerbtn:hover {
-  background-color: #c18cd6;
+  background-color: rgb(182, 164, 106);
   color: aliceblue;
 }
 
@@ -449,6 +449,7 @@
 .register-img{
   width: 120%;
   border-radius: 255px;
+  /* box-shadow: 0 5px 45px rgba(241, 241, 241, 0.83); */
 }
 
 @media (min-width:1100px) {
@@ -456,6 +457,63 @@
       margin-left: 10%;
     }
 }
+
+
+/*-------------------------------------------------------------------------------*/
+
+/**--------------------------------- Change password page ------------------------------------**/
+
+/*-------------------------------------------------------------------------------*/
+
+.ResetPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  /* background: linear-gradient(to bottom, #2e2e2e, #6b6b6b); */
+  background: linear-gradient(
+    95deg,
+    #95bf74,
+    #659b5e,
+    #556f44,
+    #283f3b,
+    #4f3206
+  );
+  /* box-shadow: 0px -20px 256px 28px rgba(255, 255, 255, 0.778) inset; */
+}
+
+.resetBox {
+  position: relative;
+  color: aliceblue;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+/* 
+@media (max-width: 1400px) {
+  .resetBox {
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10%;
+  }
+} */
+
+/*------------Explanation prompt at top of the box-------------*/
+
+.NewPswdPrompt {
+  text-align: center;
+  margin-top: 4em;
+  margin-bottom: 2em;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
 
   
 /*--------------------------------------------------------------------------------------------------*/
@@ -766,10 +824,10 @@ body.dark .to-page-nav {
 }
 
 .to-page-nav:hover {
-  background: #ff9ca3;
-  box-shadow: 0px 0px 25px rgba(236, 140, 216, 0.562);
-  border-bottom: 0.4px solid #c711ac;
-  border-right: 0.4px solid #ee79de;
+  background: #efe795;
+  box-shadow: 0px 0px 25px rgba(157, 236, 140, 0.827);
+  border-bottom: 0.4px solid #878b0a;
+  border-right: 0.4px solid #1f8b0a;
 }
 
 .to-page-nav:active {
