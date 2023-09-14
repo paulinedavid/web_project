@@ -1,8 +1,15 @@
 <template>
         <body>
             <section class="LoginPage">
-                <div class="loginBox">
-                    <img src="../assets/Forgot.webp" alt="Calendar people" class="login-img">
+                <div class="login-color-container">
+                    <div class="login-color"></div>
+                    <div class="login-color"></div>
+                    <div class="login-color"></div>
+                    <div class="login-color"></div>
+                </div>
+                <div class="loginBox" style="justify-content: flex-start;">
+                    <div class="img-forgot-container">
+                    <img src="../assets/Forgot.png" alt="Calendar people" class="forgot-img"></div>
                     <div class="loginContainer">
                         <div class="loginForm">
                             <h2>Reset your Password</h2>
@@ -20,9 +27,9 @@
     
                             <p class="forgotPswd">Remembered password ?<router-link to="/login-page">Login</router-link>
                             </p>
-                            <p class="forgotPswd" style="margin-top:-2%;">Don't have an account ?<router-link
+                            <p class="forgotPswd">Don't have an account ?<router-link
                                     to="/register-page">Register</router-link></p>
-                            <p class="forgotPswd" style="margin-top:-2%;">Need Help ?<router-link to="/help-page">Contact us</router-link>
+                            <p class="forgotPswd">Need Help ?<router-link to="/help-page">Contact us</router-link>
                             </p>
                         </div>
                     </div>
