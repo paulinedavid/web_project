@@ -583,7 +583,7 @@ body.dark .help-page-container{
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
-  box-shadow: 0px 0px 25px rgba(124, 9, 147, 0.562);
+  box-shadow: 0px 0px 25px rgba(147, 133, 9, 0.562);
   transition: all 0.4s ease-in-out;
   z-index: 1;
   color: rgb(89, 81, 81);
@@ -595,15 +595,15 @@ body.dark .help-page-container{
 }
 
 .submit-help-btn:active {
-  background: #d341ccbb;
+  background: #95bf74;
   box-shadow: 0px 0px 25px rgba(236, 140, 216, 0.562);
 }
 
 .submit-help-btn:hover {
-  background: #ff9ca3;
-  box-shadow: 0px 0px 25px rgba(236, 140, 216, 0.562);
-  border-bottom: 0.4px solid #c711ac;
-  border-right: 0.4px solid #ee79de;
+  background: #bcef95;
+  box-shadow: 0px 0px 25px rgba(157, 236, 140, 0.827);
+  border-bottom: 0.4px solid #1f8b0a;
+  border-right: 0.4px solid #1f8b0a;
 }
 /* .submit-help-btn{
   background-color: #c18cd6;
