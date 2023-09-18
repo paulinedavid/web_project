@@ -2,24 +2,33 @@
   <body>
     <a id="top"></a>
     <div class="FormPage2" style="overflow-y: hidden">
-      <div class="headernav">
-
-        <div class="header-image">
-          <img alt="Vue logo" style="opacity: 0.7;" src="../assets/LogoDayClean1.png" class="logo-nav-clean" />
-        </div>
-        <div class="Navbar">
-          <router-link to="/catalog-page" class="to-page-nav">Book catalog</router-link>
-          <router-link to="/catalog-library-page" class="to-page-nav">My Library</router-link>
-          <router-link to="/catalog-recs-page" class="to-page-nav">Recommendations</router-link>
-        </div>
-        <UserMenu></UserMenu>
-
-      </div>
-      <div class="FormBox">
+      <header>
+            <div class="headernav">
+                <div class="header-container">
+                    <div class="header-image">
+                        <!-- <img alt="Vue logo" src="../assets/LogoDay.png" class="VueLogo" style="    width: 177px;
+    height: 167px;
+    margin: 0px;
+    margin-bottom: 50px; margin-left: 37px;" /> -->
+                        <div class="logo-nav"></div>
+                    </div>
+                </div>
+                <div class="Navbar">
+                    <router-link to="/catalog-page" class="to-page-nav">Videos</router-link>
+                    <router-link to="/catalog-library-page" class="to-page-nav">Games</router-link>
+                    <router-link to="/catalog-recs-page" class="to-page-nav">Organizations</router-link>
+                </div>
+                <UserMenu></UserMenu>
+                <div class="light">
+                    <DarkLightMode></DarkLightMode>
+                </div>
+            </div>
+        </header>
+      <div class="FormBox" style="margin-top: -50px;">
         <div class="FormContainer">
           <div class="Form-banner-container">
             <div class="loginForm">
-              <h2>Add a book</h2>
+              <h2>Add a video</h2>
               <p class="Form-presentation" style="text-align: center">
                 <br />
                 Please fill in
@@ -30,11 +39,11 @@
               <form action="#" method="post" @submit.prevent="handleSend">
                 <div class="Form-question">
                   <p class="CharacterLimitMessage" style="color: red" v-if="bookAlreadyExists">
-                    Book already stored in the database.
+                    Video already stored in the database.
                   </p>
                   <label for="file-upload">
                     <p class="Form-question">
-                      <i class="fa fa-bold" aria-hidden="true">Book's epub file*</i>
+                      <i class="fa fa-bold" aria-hidden="true">Video's *** file*</i>
                     </p>
                   </label>
                   <div class="AddBookInput">
@@ -49,14 +58,14 @@
                   </div>
                 </div>
                 <p class="Form-question">
-                  <i class="fa fa-bold" aria-hidden="true">Book's title*</i>
+                  <i class="fa fa-bold" aria-hidden="true">Video's title*</i>
                 </p>
                 <div class="loginInputBox">
                   <input v-model="titre" type="text" name="txtEmail" placeholder="Title" />
                 </div>
 
                 <p class="Form-question">
-                  <i class="fa fa-bold" aria-hidden="true">Book's author*</i>
+                  <i class="fa fa-bold" aria-hidden="true">Video's author*</i>
                 </p>
                 <div class="loginInputBox">
                   <input v-model="auteur" type="text" name="txtEmail" placeholder="Author" />
@@ -65,7 +74,7 @@
                 <div class="Form-question">
                   <label for="file-upload">
                     <p class="Form-question">
-                      <i class="fa fa-bold" aria-hidden="true">Book's cover picture*</i>
+                      <i class="fa fa-bold" aria-hidden="true">Video's thumbnail picture*</i>
                     </p>
                   </label>
                   <div class="AddBookInput">
@@ -80,10 +89,10 @@
                   </div>
                 </div>
                 <p class="Form-question">
-                  <i class="fa fa-bold" aria-hidden="true">Number of pages*</i>
+                  <i class="fa fa-bold" aria-hidden="true">Duration*</i>
                 </p>
                 <div class="loginInputBox">
-                  <input v-model="pages" type="text" name="txtEmail" placeholder="Number of pages" />
+                  <input v-model="pages" type="text" name="txtEmail" placeholder="Duration" />
                 </div>
                 <p class="Form-question">
                   <i class="fa fa-bold" aria-hidden="true">Publication year*</i>
@@ -91,7 +100,7 @@
                 <div class="loginInputBox">
                   <input v-model="date_parution" type="text" name="txtEmail" placeholder="Year in 4 digits" />
                 </div>
-                <p class="Form-question">
+                <!-- <p class="Form-question">
                   <i class="fa fa-bold" aria-hidden="true">Book's genre(s)*</i>
                 </p>
                 <div class="loginInputBox" v-for="i in nbGenre" :key="i" style="
@@ -110,9 +119,9 @@
                     nbGenre += 1;
                   console.log(selectedGenres);
                   " id="TaskPlus" icon="fa-solid fa-plus" size="sm" />
-                </div>
+                </div> -->
                 <p class="Form-question">
-                  <i class="fa fa-bold" aria-hidden="true">Book's language*</i>
+                  <i class="fa fa-bold" aria-hidden="true">Video's language*</i>
                 </p>
                 <div class="loginInputBox">
                   <div class="custom-select1">
@@ -127,7 +136,7 @@
                   </div>
                 </div>
                 <p class="Form-question">
-                  <i class="fa fa-bold" aria-hidden="true">Book's summary*</i>
+                  <i class="fa fa-bold" aria-hidden="true">Video's summary*</i>
                 </p>
                 <div class="loginInputBox">
                   <p class="CharacterLimitMessage" style="color: red" v-if="resumeExceedsLimit">
@@ -140,19 +149,19 @@
                 <div class="loginInputBox FormInputBox">
                   <p class="CharacterLimitMessage" style="color: red; text-align: center; font-weight: bold"
                     v-if="bookAlreadyExists">
-                    Book already stored in the database.
+                    Video already stored in the database.
                   </p>
                   <p class="CharacterLimitMessage" style="color: red; text-align: center; font-weight: bold"
                     v-if="notComplete">
                     Please fill all the fields with a * !
                   </p>
                   <p class="CharacterLimitMessage" style="text-align: center; font-weight: bold" v-if="sent">
-                    Book successfully added !
+                    Video successfully added !
                   </p>
 
                   <input type="submit" value="Submit Information" name="btnUpdate" />
                 </div>
-                <p class="forgotPswd MoveOn">
+                <p class="Form-forgotPswd">
                   Done here ?
                   <router-link to="/fgpassword-page">Go back</router-link>
                 </p>
@@ -164,25 +173,27 @@
     </div>
     <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon
         icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe" /></a>
-    <footer style="margin-top: 0%">
-      <div class="content-footer">
-        <div class="top">
-          <div class="logo-details">
-            <img src="../assets/logo_book.png" alt="LB logo" />
-            <p class="logo-name">
-              MASTERBOOKS <br />
-              <small>est. 2023</small>
-            </p>
-          </div>
-          <div class="media-icons">
-            <a href="https://www.linkedin.com/in/lou-brunesseaux-a843aa248"><font-awesome-icon
-                icon="fa-brands fa-linkedin-in" /></a>
-            <a href="mailto:loubruness@gmail.com"><font-awesome-icon icon="fa-brands fa-google" /></a>
-            <a href="https://github.com/loubruness"><font-awesome-icon icon="fa-brands fa-github" /></a>
-          </div>
-        </div>
-      </div>
-    </footer>
+        <footer>
+            <div class="content-footer">
+                <div class="top">
+                    <div class="logo-details">
+                        <!-- <img alt="Vue logo" style="opacity: 0.7;" src="../assets/LogoWhite.png"
+                            class="logo-nav-clean" /> -->
+                            <div class="logo-nav-clean"></div>
+                        <p class="logo-name">
+                            TOGETHEARTH <br />
+                            <small>est. 2023</small>
+                        </p>
+                    </div>
+                    <div class="media-icons">
+                        <a href="https://www.linkedin.com/in/lou-brunesseaux-a843aa248"><font-awesome-icon
+                                icon="fa-brands fa-linkedin-in" /></a>
+                        <a href="mailto:loubruness@gmail.com"><font-awesome-icon icon="fa-brands fa-google" /></a>
+                        <a href="https://github.com/loubruness"><font-awesome-icon icon="fa-brands fa-github" /></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
   </body>
 </template>
 

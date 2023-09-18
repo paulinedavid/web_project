@@ -90,14 +90,15 @@
         </div>
         <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon
                 icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
-        <footer>
+                <footer>
             <div class="content-footer">
                 <div class="top">
                     <div class="logo-details">
-                        <img alt="Vue logo" style="opacity: 0.7;" src="../assets/LogoWhite.png"
-                            class="logo-nav-clean" />
+                        <!-- <img alt="Vue logo" style="opacity: 0.7;" src="../assets/LogoWhite.png"
+                            class="logo-nav-clean" /> -->
+                            <div class="logo-nav-clean"></div>
                         <p class="logo-name">
-                            BOOK MASTER <br />
+                            TOGETHEARTH <br />
                             <small>est. 2023</small>
                         </p>
                     </div>
