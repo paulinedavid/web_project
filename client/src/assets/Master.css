@@ -1728,6 +1728,37 @@ input:checked + .slider:before {
   color: aliceblue;
 }
 
+
+.Form-File-Btn{
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  border-radius: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: rgba(89, 81, 81, 0.714);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
+  background-color: #f9ee8c3c;
+  width: fit-content;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 110px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  /*margin-left: 30%;*/
+}
+
+@media screen {
+  .Form-File-Btn{
+    margin-left: 0px;
+  }
+}
+
 /*------------Messages and redirections at bottom of the box-------------*/
 
 .MoveOn a {

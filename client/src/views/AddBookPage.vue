@@ -46,8 +46,8 @@
                       <i class="fa fa-bold" aria-hidden="true">Video's *** file*</i>
                     </p>
                   </label>
-                  <div class="AddBookInput">
-                    <button class="Create-planning-Btn" style="margin-right: 15px; margin-bottom: 8px"
+                  <div class="AddBookInput" style="margin-top:15px;">
+                    <button class="Form-File-Btn" style="margin-right: 5px; margin-bottom: 8px"
                       @click="$refs.epubfileupload.click()">
                       Click here
                     </button>
@@ -77,8 +77,8 @@
                       <i class="fa fa-bold" aria-hidden="true">Video's thumbnail picture*</i>
                     </p>
                   </label>
-                  <div class="AddBookInput">
-                    <button class="Create-planning-Btn" style="margin-right: 15px; margin-bottom: 8px"
+                  <div class="AddBookInput" style="margin-top:15px;">
+                    <button class="Form-File-Btn" style="margin-right: 15px; margin-bottom: 8px"
                       @click="$refs.coverfileupload.click()">
                       Click here
                     </button>
