@@ -3,33 +3,33 @@
     <div class="Profile-page-container">
       <header>
         <div class="headernav">
-                <div class="header-container">
-                    <div class="header-image">
-                        <!-- <img alt="Vue logo" src="../assets/LogoDay.png" class="VueLogo" style="    width: 177px;
+          <div class="header-container">
+            <div class="header-image">
+              <!-- <img alt="Vue logo" src="../assets/LogoDay.png" class="VueLogo" style="    width: 177px;
     height: 167px;
     margin: 0px;
     margin-bottom: 50px; margin-left: 37px;" /> -->
-                        <div class="logo-nav"></div>
-                    </div>
-                </div>
-                <div class="Navbar">
-                    <router-link to="/catalog-page" class="to-page-nav">Videos</router-link>
-                    <router-link to="/catalog-library-page" class="to-page-nav">Games</router-link>
-                    <router-link to="/catalog-recs-page" class="to-page-nav">Organizations</router-link>
-                </div>
-                <UserMenu></UserMenu>
-                <div class="light">
-                    <DarkLightMode></DarkLightMode>
-                </div>
+              <div class="logo-nav"></div>
             </div>
-        </header>
-        <div class="login-color-container" style="z-index:0">
-        <div class="login-color"></div>
-        <div class="login-color"></div>
-        <div class="login-color"></div>
-        <div class="login-color"></div>
+          </div>
+          <div class="Navbar">
+            <router-link to="/catalog-page" class="to-page-nav">Videos</router-link>
+            <router-link to="/catalog-library-page" class="to-page-nav">Games</router-link>
+            <router-link to="/catalog-recs-page" class="to-page-nav">Organizations</router-link>
+          </div>
+          <UserMenu></UserMenu>
+          <div class="light">
+            <DarkLightMode></DarkLightMode>
+          </div>
         </div>
-        <a id="top"></a>
+      </header>
+      <div class="login-color-container" style="z-index:0">
+        <div class="login-color"></div>
+        <div class="login-color"></div>
+        <div class="login-color"></div>
+        <div class="login-color"></div>
+      </div>
+      <a id="top"></a>
 
       <div class="edit-profile-container">
         <div class="formContainer">
@@ -54,33 +54,42 @@
           </div>
 
         </div>
-        <div class="Navbar" style="margin-top: 50px;" v-show="isAdmin">
-          <router-link to="/add-book-page" class="to-page-nav">Add Book</router-link>
-          <router-link to="/catalog-admin-page" class="to-page-nav">Delete Book</router-link>
+        <!-- <div class="Navbar" style="margin-top: 50px;" v-show="isAdmin"> -->
+        <!-- <router-link to="/add-book-page" class="to-page-nav">Add Book</router-link>
+          <router-link to="/catalog-admin-page" class="to-page-nav">Delete Book</router-link> -->
+          <div class="Navbar" style="margin-top: 50px;">
+          <button class="User-Edit-Btn"
+          @click="$refs.coverfileupload.click()">
+          Add new Video
+        </button>
+        <button class="User-Edit-Btn"
+          @click="$refs.coverfileupload.click()">
+          Add new Game
+        </button>
         </div>
       </div>
       <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
       <footer>
-            <div class="content-footer">
-                <div class="top">
-                    <div class="logo-details">
-                        <!-- <img alt="Vue logo" style="opacity: 0.7;" src="../assets/LogoWhite.png"
+        <div class="content-footer">
+          <div class="top">
+            <div class="logo-details">
+              <!-- <img alt="Vue logo" style="opacity: 0.7;" src="../assets/LogoWhite.png"
                             class="logo-nav-clean" /> -->
-                            <div class="logo-nav-clean"></div>
-                        <p class="logo-name">
-                            TOGETHEARTH <br />
-                            <small>est. 2023</small>
-                        </p>
-                    </div>
-                    <div class="media-icons">
-                        <a href="https://www.linkedin.com/in/lou-brunesseaux-a843aa248"><font-awesome-icon
-                                icon="fa-brands fa-linkedin-in" /></a>
-                        <a href="mailto:loubruness@gmail.com"><font-awesome-icon icon="fa-brands fa-google" /></a>
-                        <a href="https://github.com/loubruness"><font-awesome-icon icon="fa-brands fa-github" /></a>
-                    </div>
-                </div>
+              <div class="logo-nav-clean"></div>
+              <p class="logo-name">
+                TOGETHEARTH <br />
+                <small>est. 2023</small>
+              </p>
             </div>
-        </footer>
+            <div class="media-icons">
+              <a href="https://www.linkedin.com/in/lou-brunesseaux-a843aa248"><font-awesome-icon
+                  icon="fa-brands fa-linkedin-in" /></a>
+              <a href="mailto:loubruness@gmail.com"><font-awesome-icon icon="fa-brands fa-google" /></a>
+              <a href="https://github.com/loubruness"><font-awesome-icon icon="fa-brands fa-github" /></a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   </body>
 </template>
