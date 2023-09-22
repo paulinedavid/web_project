@@ -2,9 +2,9 @@
 // export default router
 import { createWebHistory, createRouter } from "vue-router";
 import AddBookPage from "@/views/AddBookPage.vue";
-// import BookInfoPage from "@/views/BookInfoPage.vue";
+import BookInfoPage from "@/views/BookInfoPage.vue";
 // import CatalogPageAdmin from "@/views/CatalogPage_Admin.vue";
-// import EpubReaderPage from "@/views/EpubReader1.vue";
+import GameInfoPage from "@/views/GameInfoPage.vue";
 import ForgotPwd from "@/views/ForgotPwd.vue";
 import HelloWorld from "@/views/HelloWorld.vue";
 import HelpPage from "@/views/HelpPage.vue";
@@ -23,11 +23,11 @@ const routes = [
     name: "AddBookPage",
     component: AddBookPage,
   },
-  // {
-  //   path: "/book-page",
-  //   name: "BookInfoPag",
-  //   component: BookInfoPage
-  // },
+  {
+    path: "/book-page",
+    name: "BookInfoPag",
+    component: BookInfoPage
+  },
   // {
   //   path: "/catalog-page",
   //   name: "CatalogPage",
@@ -48,11 +48,11 @@ const routes = [
   //   name: "CatalogPageAdmin",
   //   component: CatalogPageAdmin,
   // },
-  // {
-  //   path: "/book-read-page",
-  //   name: "EpubReaderPage",
-  //   component: EpubReaderPage,
-  // },
+  {
+    path: "/game-info-page",
+    name: "GameInfoPage",
+    component: GameInfoPage,
+  },
 
   {
     path: "/fgpassword-page",
