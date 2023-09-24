@@ -2421,6 +2421,269 @@ body.dark .modal{
 }
 
 
+ /*--------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------------CATALOG PAGE----------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------------------------*/
+
+
+.catalog-page{
+  height: 100%;
+  display: flex;
+  min-height: 588px;
+  width: 100%;
+  border-top: 0.2px solid rgba(0, 0, 0, 0.178);
+  border-bottom: 0.2px solid rgba(0, 0, 0, 0.178);
+}
+
+body.dark .catalog-page{
+  border-top: 0.2px solid rgba(255, 255, 255, 0.178);
+  border-bottom: 0.2px solid rgba(255, 255, 255, 0.178);
+}
+
+
+
+.search-and-book-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+
+}
+
+
+
+.dark .search-container{
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.178);
+}
+
+.search-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  /* margin-top:30px;   
+    position:fixed;*/
+  /* margin-bottom: 20px; */
+  height: 90px;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.178);
+}
+
+
+
+/*------------Input box backgrounds after auto fill-------------*/
+
+.SearchInputBox input:-webkit-autofill,
+.SearchInputBox input:-webkit-autofill:hover,
+.SearchInputBox input:-webkit-autofill:focus,
+.SearchInputBox input:-webkit-autofill:active {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.search-container input[type=text]::placeholder {
+  color: rgba(114, 114, 114, 0.858);
+}
+
+.dark .search-container input[type=text]::placeholder {
+  color: rgba(225, 254, 253, 0.858);
+}
+
+
+.search-container input[type=text] {
+  width: 80%;
+  background-color: rgba(182, 182, 182, 0.2);
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  border-radius: 35px;
+  border: 1px solid rgba(164, 252, 0, 0.5);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-top-right-radius: 0%;
+  border-bottom-right-radius: 0%;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: rgba(114, 114, 114, 0.858);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+
+.dark .search-container input[type=text] {
+  width: 80%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  border-radius: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-top-right-radius: 0%;
+  border-bottom-right-radius: 0%;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: aliceblue;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
+}
+
+.search-container .search-bar-container div {
+  display: flex;
+  float: right;
+  width: 20%;
+  background-color: rgba(182, 182, 182, 0.2);
+  border: none;
+  outline: none;
+  padding: 11.5px 0px;
+  border-radius: 35px;
+  border: 1px solid rgba(168, 202, 106, 0.5);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-top-left-radius: 0%;
+  border-bottom-left-radius: 0%;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: rgba(114, 114, 114, 0.858);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  justify-content: center;
+}
+
+.dark .search-container .search-bar-container div {
+  display: flex;
+  float: right;
+  width: 20%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  outline: none;
+  /* padding: 10px 20px; */
+  padding: 11.5px 0px;
+  border-radius: 35px;
+  border-top-left-radius: 0%;
+  border-bottom-left-radius: 0%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: aliceblue;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  justify-content: center;
+}
+
+.dark .search-container .search-bar-container div:hover {
+  background: #ccc;
+}
+
+
+.search-container-fixe{
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 44;
+}
+
+.dark .search-container-fixe{
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  background: rgb(46, 34, 19);
+}
+
+.arrow-left-calendar{
+  margin-left: 15px;
+  color: #7a7474;
+}
+
+.dark .arrow-left-calendar{
+  margin-left: 15px;
+  color: #dbdbdb;
+}
+
+.cat-vids-label{
+  font-size: 23px;
+  border-radius: 50px;
+  margin-left: 15px;
+  color:#393a3ad8;
+}
+
+body.dark .cat-vids-label{
+  color:rgba(255, 255, 255, 0.853);
+}
+
+
+.vid-categories-cont{  font-size: 23px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 143px;
+  margin-right: 143px;
+  margin-top: 10px;
+  padding: 30px;
+  padding-left: 46px;
+  border: 1px solid #e9edef85;
+}
+
+body.dark .vid-categories-cont{
+  color:rgba(255, 255, 255, 0.853);
+  margin-bottom: 10px;
+}
+
+.cat-Navbar-container{
+  position: relative;
+  height:150px;
+  overflow: hidden;
+}
+
+.cat-Navbar{
+  padding: 1rem 0;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.choose-cat-Btn{
+  background-color: rgba(185, 185, 185, 0.2);
+  display: inline-block;
+  outline: none;
+  padding: 20px 20px;
+  border-radius: 35px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: rgba(22, 21, 21, 0.714);
+  text-shadow: 2px 2px #ffffff;
+  /* box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05); */
+  /* background-color: rgba(177, 193, 118, 0.1); */
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+  margin-top: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 30px;
+  font-weight: 600;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(97, 97, 97, 0.5);
+  border-right: 1px solid rgba(97, 97, 97, 0.2);
+  border-bottom: 1px solid rgba(97, 97, 97, 0.2);
+  text-transform: capitalize;
+}
+
+body.dark .choose-cat-Btn{
+  color: #ffffff;
+  text-shadow: 2px 2px rgba(22, 21, 21, 0.714);
+}
+
+.choose-cat-Btn:first-child{
+  margin-left: 50px;
+}
+
+.choose-cat-Btn:last-child{
+  margin-right: 50px;
+}
+
 
 
  /*--------------------------------------------------------------------------------------------------*/

@@ -3,7 +3,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import AddBookPage from "@/views/AddBookPage.vue";
 import BookInfoPage from "@/views/BookInfoPage.vue";
-// import CatalogPageAdmin from "@/views/CatalogPage_Admin.vue";
+import CatalogPageAdmin from "@/views/CatalogPage_Admin.vue";
 import GameInfoPage from "@/views/GameInfoPage.vue";
 import ForgotPwd from "@/views/ForgotPwd.vue";
 import HelloWorld from "@/views/HelloWorld.vue";
@@ -43,11 +43,11 @@ const routes = [
   //   name: "CatalogPageRecs",
   //   component: CatalogPageAdmin,
   // },
-  // {
-  //   path: "/catalog-admin-page",
-  //   name: "CatalogPageAdmin",
-  //   component: CatalogPageAdmin,
-  // },
+  {
+    path: "/catalog-admin-page",
+    name: "CatalogPageAdmin",
+    component: CatalogPageAdmin,
+  },
   {
     path: "/game-info-page",
     name: "GameInfoPage",
