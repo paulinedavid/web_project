@@ -2613,7 +2613,8 @@ body.dark .cat-vids-label{
 }
 
 
-.vid-categories-cont{  font-size: 23px;
+.vid-categories-cont{  
+  font-size: 23px;
   border-radius: 50px;
   display: flex;
   flex-direction: column;
@@ -2691,6 +2692,11 @@ body.dark .choose-cat-Btn{
 
 .choose-cat-Btn:last-child{
   margin-right: 50px;
+}
+
+
+.assoc-categories-cont{
+  height:215px;
 }
 
 

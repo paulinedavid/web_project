@@ -505,6 +505,118 @@
                 </div>
 
 
+                <div class="vid-categories-cont" @scroll="onScroll">
+                    <div class="cat-vids-label">
+                        Associations @arthur
+                    </div>
+                    <div class="hor-scroll-wrap assoc-categories-cont">
+                        <div class="hor-scroll">
+                            <ul class="item-grid">
+                                <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="book-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                 <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="book-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                 <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="book-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                 <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="book-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                 <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="book-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                 <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="book-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                 <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="book-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                 <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="book-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                 <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="book-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
 
 
             </div>
