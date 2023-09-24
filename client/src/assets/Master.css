@@ -2630,6 +2630,15 @@ body.dark .vid-categories-cont{
   margin-bottom: 10px;
 }
 
+.vid-categories-cont:last-child{
+  margin-bottom: 70px;
+}
+
+body.dark .vid-categories-cont:last-child{
+  margin-bottom: 70px;
+}
+
+
 .cat-Navbar-container{
   position: relative;
   height:150px;
