@@ -392,8 +392,7 @@
 
         </div>
 
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon
-                icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
+        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
         <footer style="margin-top: 40px;">
             <div class="content-footer">
                 <div class="top">

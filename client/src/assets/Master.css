@@ -65,7 +65,7 @@
 
 #TopBtn:hover {
   color: rgb(27, 30, 27);
-  background-color: rgba(245, 215, 244, 0.619);
+  background-color: #9bd68c;
 }
 
 .hide {
@@ -2691,6 +2691,10 @@ body.dark .choose-cat-Btn{
   text-shadow: 2px 2px rgba(22, 21, 21, 0.714);
 }
 
+.choose-cat-Btn:hover{
+  background-color: rgba(185, 185, 185, 0.499);
+}
+
 .choose-cat-Btn:first-child{
   margin-left: 50px;
 }
@@ -2772,6 +2776,14 @@ body.dark .join-asso-Btn{
   color: #ffffff;
   text-shadow: 2px 2px rgba(22, 21, 21, 0.714);
   background-color: #59595944;
+}
+
+.join-asso-Btn:hover{
+  background-color: #daedc2bb;
+}
+
+body.dark .join-asso-Btn:hover{
+  background-color: #595959a3;
 }
 
 .pinned-container{
