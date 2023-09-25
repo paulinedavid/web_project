@@ -811,6 +811,8 @@ body.dark .help-page-container{
 
 
 
+
+
 .dark .logo-nav{
   width: 177px;
   height: 167px;
@@ -924,11 +926,14 @@ body.dark .to-page-nav {
   }
 }
 
-@media (max-width: 800px) {
+
+
+@media (max-width: 800px){
   .headernav {
-    display: flex;
-    flex-direction: column;
-    align-content: stretch;
+      display: flex;
+      flex-direction: column;
+      align-content: space-around;
+      align-items: center;
   }
 }
   
@@ -2700,6 +2705,34 @@ body.dark .choose-cat-Btn{
 }
 
 
+ /*--------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------------ASSO INFO PAGE----------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------------------------*/
+
+
+.asso-summary-label{
+
+}
+
+.asso-summary-container{
+  display: flex;
+  font-size: 20px;
+  margin-left: 143px;
+  margin-right: 143px;
+  margin-top: 70px;
+  margin-bottom: 50px ;
+  padding: 30px;
+  /* border: 1px solid rgba(134, 132, 132, 0.382); */
+  border-radius: 30px;
+  color: #404344cc;
+}
+
+body.dark .asso-summary-container{   
+  /* border: 1px solid #e9edef85; */
+  color: #e9edefbd;
+}
 
  /*--------------------------------------------------------------------------------------------------*/
 
@@ -3164,7 +3197,7 @@ footer .content-footer .top {
   opacity: 0.7;
 }
 
-@media (max-width: 1000px) {
+/* @media ((max-width: 1000px) AND (min-width:700px)) {
   .logo-details div {
     margin-top: 5%;
     width: 160px;
@@ -3173,7 +3206,7 @@ footer .content-footer .top {
     float: left;
     opacity: 0.7;
   }
-}
+} */
 
 .content-footer .top .media-icons {
   display: flex;

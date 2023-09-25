@@ -11,7 +11,7 @@ import HelpPage from "@/views/HelpPage.vue";
 import LandingPage from "@/views/LandingPage.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
-// import RequestForm from "@/views/RequestForm.vue"
+import AssoInfoPage from "@/views/AssoInfoPage.vue"
 import ResetPassword from "@/views/ResetPassword.vue";
 import ResetPwd from "@/views/ResetPwd.vue";
 import ProfilePage from "@/views/UserProfilePage.vue";
@@ -84,11 +84,11 @@ const routes = [
     name: "RegisterPage",
     component: Register,
   },
-  // {
-  //   path: "/request-page",
-  //   name: "requestPage",
-  //   component: RequestForm,
-  // },
+  {
+    path: "/asso-info-page",
+    name: "AssoInfoPage",
+    component: AssoInfoPage,
+  },
   {
     path: "/reset-password-page",
     name: "ResetPasswordPage",
