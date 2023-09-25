@@ -815,7 +815,7 @@ body.dark .help-page-container{
 
 .dark .logo-nav{
   width: 177px;
-  height: 167px;
+  /* height: 167px; */
   margin: 0px;
   /* margin-bottom: 50px; */
   margin-top: 21.8px;
