@@ -34,8 +34,11 @@
 
             <div class="asso-presentation-cont">
                 <div class="follow-container">
-                    <div class="follow-icon"></div>
+                    <div class="follow-icon"><button class="join-asso-Btn">
+                        <font-awesome-icon icon="fa-regular fa-heart" /> Join
+                        </button></div>
                     <div class="follow-number">154263</div>
+                    <div class="follow-member">Members</div>
                 </div> 
             </div>
             <div class="pinned-container">
