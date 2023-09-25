@@ -2711,17 +2711,97 @@ body.dark .choose-cat-Btn{
 
 /*--------------------------------------------------------------------------------------------------*/
 
+.pinned-container{
+  display: flex;
+  /* margin-left: 143px; */
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.vid-pinned{
+  width: min-content;
+  font-size: 23px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 43px;
+  margin-right: 43px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 30px;
+  padding-left: 75px;
+  padding-right: 75px;
+  border: 1px solid #50505085;
+}
+
+body.dark .vid-pinned{
+  color: rgba(255, 255, 255, 0.853);
+  border: 1px solid #e9edef85;
+  /* margin-bottom: 10px; */
+}
+.asso-summary-label-cont{
+  background-color: #daedc244;
+  padding: 5px;
+  padding-top: 55px;
+  margin-left: 143px;
+  margin-right: 143px;
+  border-radius:50px;
+  margin-bottom : 70px;
+  border: 1px solid rgba(57, 57, 57, 0.433);
+}
+
+body.dark .asso-summary-label-cont{
+  background-color: #59595944;
+  border: 1px solid rgba(250, 250, 250, 0.433);
+}
+
 
 .asso-summary-label{
+  margin-left: 31px;
+  font-size: 25px;
+}
 
+body.dark .asso-summary-label{   
+  color: #e9edefbd;
+}
+
+.item-grid1 {
+  white-space: nowrap;
+}
+
+.item-grid1 li{
+  display: inline-block;
+  width: 22rem;
+  /* padding: 3rem; */
+  /* background-color: #48484839; */
+  border-radius: 20px;
+}
+
+
+.vid-pinned-pic{
+  display: inline-block;
+  width: 21rem;
+  /* padding: 3rem; */
+  background-color: #48484839;
+  border-radius: 20px;
+}
+
+
+.hor-scroll-wrap1 {
+  position: relative;
+  height:293px;
+  overflow: hidden;
+  border-radius: 40px;
+  /* box-shadow: 0px 19px 113px 0px rgba(255, 255, 255, 0.2); */
 }
 
 .asso-summary-container{
   display: flex;
   font-size: 20px;
-  margin-left: 143px;
-  margin-right: 143px;
-  margin-top: 70px;
+  /* margin-left: 143px; */
+  /* margin-left: 143px; */
+  margin-top: 20px;
   margin-bottom: 50px ;
   padding: 30px;
   /* border: 1px solid rgba(134, 132, 132, 0.382); */
@@ -2732,6 +2812,10 @@ body.dark .choose-cat-Btn{
 body.dark .asso-summary-container{   
   /* border: 1px solid #e9edef85; */
   color: #e9edefbd;
+}
+
+.follow-number{
+  font-size: 25px;
 }
 
  /*--------------------------------------------------------------------------------------------------*/

@@ -32,9 +32,70 @@
 
         <div class="Asso-info-page-container">
 
-            <div class="asso-summary-label">
-                    About us...
+            <div class="asso-presentation-cont">
+                <div class="follow-container">
+                    <div class="follow-icon"></div>
+                    <div class="follow-number">154263</div>
+                </div> 
+            </div>
+            <div class="pinned-container">
+                <div class="vid-pinned" @scroll="onScroll">
+                    <div class="cat-vids-label">
+                        Watch
+                    </div>
+                    <div class="hor-scroll-wrap1">
+                        <div class="hor-scroll">
+                            <ul class="item-grid1">
+                                <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-pinned-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-name">
+                                            Really cool video
+                                        </div>
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="mini-vid-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
                 </div>
+                <div class="vid-pinned" @scroll="onScroll">
+                    <div class="cat-vids-label">
+                        Play
+                    </div>
+                    <div class="hor-scroll-wrap1">
+                        <div class="hor-scroll">
+                            <ul class="item-grid1">
+                                <li>
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-pinned-pic">
+                                    <div class="mini-vid-desc">
+                                        <div class="mini-vid-name">
+                                            Really cool game
+                                        </div>
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="mini-vid-author-info">
+                                                Belvie asso
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="asso-summary-label-cont">
+            <div class="asso-summary-label">
+                Our Mission...
+            </div>
             <div class="asso-summary-container">
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
                 massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam
@@ -45,11 +106,12 @@
                 consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
                 Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi
                 vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus
-                eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. </div>
+                eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.
+            </div></div>
 
             <div class="vid-categories-cont" @scroll="onScroll">
                 <div class="cat-vids-label">
-                    Our videos
+                    Videos
                 </div>
                 <div class="hor-scroll-wrap">
                     <div class="hor-scroll">
@@ -188,7 +250,7 @@
 
             <div class="vid-categories-cont" @scroll="onScroll" style="margin-top: 25px;">
                 <div class="cat-vids-label">
-                    Our games
+                    Games
                 </div>
                 <div class="hor-scroll-wrap">
                     <div class="hor-scroll">
