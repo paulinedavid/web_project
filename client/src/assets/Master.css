@@ -2715,16 +2715,154 @@ body.dark .choose-cat-Btn{
 
 /*--------------------------------------------------------------------------------------------------*/
 
+.Asso-info-page-container{
+  position: relative;
+  width: 100%;
+}
+
 .asso-presentation-cont{
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 50px;
-  margin-top: 50px;
+  align-items: center;
+  /* margin-top: 50px; */
 }
+
+
+@media (max-width: 1200px) {
+  .asso-presentation-cont {
+    flex-direction: column;
+    margin-top: 70px;
+  }
+}
+
+.contrast{
+  position:absolute;
+  background-color: rgba(237, 199, 94, 0.29);
+  border-radius: 500px;
+  width: 928px;
+  height: 614px;
+  border: 1px solid rgba(255, 255, 255, 0.478);
+}
+
+body.dark .contrast{
+  background-color: rgba(237, 199, 94, 0.19);
+}
+
+.asso-name-profile{
+  display: flex;
+  align-items: center;
+}
+
+
+/*Stying and animating asso pictures*/
+
+.HomeImages{
+  display: flex;
+  flex-direction: row;
+  border-bottom: 100px;
+}
+
+.iDpic {
+  width: 10vw;
+  border-radius: 100px;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 1.1);
+}
+
+@media (max-width: 900px) {
+  .iDpic {
+    width: 14vw;
+  }
+}
+
+.iDpicDiv {
+  position: relative;
+  animation-name: AnimImage1;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes AnimImage1 {
+  from {
+    top: 13vw;
+    left: 5vw;
+  }
+  to {
+    top: 17vw;
+    left: 5vw;
+  }
+}
+
+.BigiDpic {
+  width: 25vw;
+  border-radius: 500px;
+}
+
+@media (max-width: 900px) {
+  .BigiDpic {
+    width: 32vw;
+  }
+}
+
+.SmalliDpic {
+  width: 5vw;
+  border-radius: 100px;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 1.1);
+}
+
+@media (max-width: 900px) {
+  .SmalliDpic {
+    width: 7vw;
+  }
+}
+
+.SmalliDpicDiv {
+  position: relative;
+  animation-name: AnimImage;
+  animation-duration: 1.5s;
+  animation-delay: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-fill-mode: backwards;
+}
+
+@keyframes AnimImage {
+  from {
+    top: 3vw;
+    right: 3vw;
+  }
+  to {
+    top: 5vw;
+    right: 3vw;
+  }
+}
+
+.asso-name{
+  font-size: 70px;
+  text-transform: uppercase;
+  color: #4b4b4b;
+  text-shadow: 6px 5px #fffd9c;
+}
+
+body.dark .asso-name{ 
+  color: #ffffff;
+  text-shadow: 6px 5px #fffd9c5a;
+}
+
+/*follower info*/
 
 .follow-container{
   display: flex;
   align-items: baseline;
+}
+
+@media (max-width: 1200px) {
+  .follow-container {
+    margin-top: 110px;
+  }
 }
 
 body.dark .follow-container{
@@ -2744,8 +2882,8 @@ body.dark .follow-member{
 }
 
 .join-asso-Btn{
-  background-color: #daedc244;
-  display: inline-block;
+  background-color: #fdfff144;
+  display: flex;
   outline: none;
   padding: 20px 20px;
   border-radius: 35px;
@@ -2776,6 +2914,7 @@ body.dark .join-asso-Btn{
   color: #ffffff;
   text-shadow: 2px 2px rgba(22, 21, 21, 0.714);
   background-color: #59595944;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
 }
 
 .join-asso-Btn:hover{
@@ -2786,12 +2925,16 @@ body.dark .join-asso-Btn:hover{
   background-color: #595959a3;
 }
 
+
+/*pinned game & vid*/
+
 .pinned-container{
   display: flex;
   /* margin-left: 143px; */
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 50px;
+  margin-bottom: 130px;
+  margin-top: 150px;
 }
 
 .vid-pinned{
@@ -2822,7 +2965,7 @@ body.dark .vid-pinned{
   margin-left: 143px;
   margin-right: 143px;
   border-radius:50px;
-  margin-bottom : 70px;
+  margin-bottom : 130px;
   border: 1px solid rgba(57, 57, 57, 0.433);
 }
 

@@ -29,17 +29,35 @@
         <div class="login-color"></div>
         </div> -->
         <a id="top"></a>
-
+        <div class="login-color-container" style="z-index:0;"><div class="contrast"></div>
+        <div class="login-color" style = "display: none;"></div>
+        <div class="login-color"></div>
+        <div class="login-color"></div>
+        <div class="login-color"></div></div>
+        
         <div class="Asso-info-page-container">
-
+            
             <div class="asso-presentation-cont">
+                <div class="asso-name-profile">
+                <div class="HomeImages">
+                    <div class="iDpicDiv"><img src="..\assets\profile_pic.avif" alt="Profile pic asso" class="iDpic"></div>
+                    <div class="BigiDpicDiv"><img src="..\assets\profile_pic.avif" alt="Profile pic asso" class="BigiDpic"></div>
+                    <div class="SmalliDpicDiv"><img src="..\assets\profile_pic.avif" alt="Profile pic asso" class="SmalliDpic">
+                    </div>
+                    
+                </div>
+                <div class="asso-name">
+                        Belvie Asso
+                    </div></div>
                 <div class="follow-container">
                     <div class="follow-icon"><button class="join-asso-Btn">
-                        <font-awesome-icon icon="fa-regular fa-heart" /> Join
+                        <!-- <font-awesome-icon icon="fa-regular fa-bell" />  -->
+                        <font-awesome-icon icon="fa-regular fa-handshake" style="font-size: 21px; margin-right: 15px;"/>
+                        Join
                         </button></div>
                     <div class="follow-number">154263</div>
                     <div class="follow-member">Members</div>
-                </div> 
+                </div>
             </div>
             <div class="pinned-container">
                 <div class="vid-pinned" @scroll="onScroll">
@@ -96,21 +114,22 @@
                 </div>
             </div>
             <div class="asso-summary-label-cont">
-            <div class="asso-summary-label">
-                Our Mission...
+                <div class="asso-summary-label">
+                    Our Mission...
+                </div>
+                <div class="asso-summary-container">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
+                    massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam
+                    felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede
+                    justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a,
+                    venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.
+                    Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu,
+                    consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
+                    Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi
+                    vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus
+                    eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.
+                </div>
             </div>
-            <div class="asso-summary-container">
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
-                massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam
-                felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede
-                justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a,
-                venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.
-                Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu,
-                consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
-                Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi
-                vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus
-                eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.
-            </div></div>
 
             <div class="vid-categories-cont" @scroll="onScroll">
                 <div class="cat-vids-label">
