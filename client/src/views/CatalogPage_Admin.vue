@@ -146,7 +146,7 @@
                         </form>
                     </div>
                     <div class="lib-button-container">
-                        <div><font-awesome-icon icon="fa-regular fa-heart" /></div>
+                        <div>                        <font-awesome-icon icon="fa-regular fa-handshake" style="font-size: 21px; margin-right: 15px;"/></div>
                     </div>
                     <!-- <div class="page-turner">
                         <p class="page">Page</p>

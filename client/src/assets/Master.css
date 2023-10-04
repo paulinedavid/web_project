@@ -2052,13 +2052,13 @@ body.dark .mini-vid-author-info{
 .justify-start {
   justify-content: flex-start;
 }
-
+/* 
 section {
   display: flex;
   justify-content: center;
   align-items: center;
   background: linear-gradient(to bottom, #f1f4f9, #dff1ff);
-}
+} */
 
 /*Moving colors background*/
 
