@@ -6,6 +6,7 @@ const busboy = require('connect-busboy');
 const app = express();
 
 app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 app.use(busboy({
     highWaterMark: 2 * 1024 * 1024, // Set 2MiB buffer
 })); // Insert the busboy middleware
@@ -19,8 +20,12 @@ app.route('/').get((req, res) => {
     return res.end();
 });
 
+app.route('/auth/test').get((req, res) => {
+    return "Hello World";
+});
 
 require('./app/routes/vid.routes.js')(app);
+require('./app/routes/user.routes.js')(app);
 
 const PORT = 8080;
 app.listen(PORT, () => {

@@ -2,17 +2,16 @@ const sql = require("./db.js");
 const bcrypt = require("bcrypt");
 
 // constructor
-const Utilisateur = function (utilisateur) {
-  this.email_user = utilisateur.email_user;
-  this.pseudo = utilisateur.pseudo;
-  this.mdp = utilisateur.mdp;
+const User = function (user) {
+  this.name = user.name;
+  this.mail = user.mail;
+  this.password = user.password;
 };
 
-
-Utilisateur.create = (newUtilisateur, result) => {
+User.create = (newuser, result) => {
   sql.query(
-    "SELECT * FROM utilisateur WHERE email_user = ?",
-    [newUtilisateur.email_user],
+    "SELECT * FROM users WHERE mail = ?",
+    [newuser.mail],
     (err, rows) => {
       if (err) {
         console.log("error: ", err);
@@ -27,7 +26,7 @@ Utilisateur.create = (newUtilisateur, result) => {
         return;
       }
 
-      bcrypt.hash(newUtilisateur.mdp, 10, (err, hashedPassword) => {
+      bcrypt.hash(newuser.password, 10, (err, hashedPassword) => {
         if (err) {
           console.log("error: ", err);
           result(err, null);
@@ -36,17 +35,17 @@ Utilisateur.create = (newUtilisateur, result) => {
           const hashedmdp = hashedPassword;
 
           sql.query(
-            "INSERT INTO utilisateur (email_user, pseudo, mdp) VALUES (?,?,?)",
-            [newUtilisateur.email_user, newUtilisateur.pseudo, hashedmdp],
+            "INSERT INTO users (name, mail, password) VALUES (?,?,?)",
+            [newuser.name, newuser.mail, hashedmdp],
             (err, res) => {
               if (err) {
                 console.log("error: ", err);
                 result(err, null);
                 return;
               }
-              console.log("created utilisateur: ", {
-                email: newUtilisateur.email_user,
-                pseudo: newUtilisateur.pseudo,
+              console.log("created user: ", {
+                email: newuser.name,
+                pseudo: newuser.mail,
               });
               result(null, { message: "User added successfully" });
             }
@@ -57,77 +56,67 @@ Utilisateur.create = (newUtilisateur, result) => {
   );
 };
 
+User.login = (req, result) => {
+  const mail = req.body.mail;
+  const password = req.body.password;
 
-Utilisateur.login = (req, result) => {
-  const email = req.body.email_user;
-  const mdp = req.body.mdp;
-
-  sql.query(
-    "SELECT * FROM utilisateur WHERE email_user = ?",
-    [email],
-    (err, rows) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
-      if (rows.length === 0) {
-        const errorMessage = "Email not registered";
-        console.log(errorMessage);
-        result(errorMessage, null);
-        return;
-      }
-
-      const utilisateur = rows[0];
-
-      bcrypt.compare(mdp, utilisateur.mdp, (err, isMatch) => {
-        if (err) {
-          console.log("error: ", err);
-          result(err, null);
-          return;
-        }
-
-        if (isMatch) {
-          result(null, utilisateur);
-        } else {
-          const errorMessage = "Wrong password";
-          console.log(errorMessage);
-          result(errorMessage, null);
-        }
-      });
-    }
-  );
-};
-
-
-Utilisateur.exists = (req, result) => {
-  const email = req.body.email;
-
-  sql.query(
-    "SELECT * FROM utilisateur WHERE email_user = ?",
-    [email],
-    (err, rows) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
-      if (rows.length === 0) {
-        const errorMessage = "User not registered";
-        console.log(errorMessage);
-        result(errorMessage, null);
-        return;
-      }
-
-      result(null, { message: "User found." });
+  sql.query("SELECT * FROM users WHERE mail = ?", [mail], (err, rows) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
       return;
     }
-  );
+
+    if (rows.length === 0) {
+      const errorMessage = "Email not registered";
+      console.log(errorMessage);
+      result(errorMessage, null);
+      return;
+    }
+
+    const user = rows[0];
+
+    bcrypt.compare(password, user.password, (err, isMatch) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (isMatch) {
+        result(null, user);
+      } else {
+        const errorMessage = "Wrong password";
+        console.log(errorMessage);
+        result(errorMessage, null);
+      }
+    });
+  });
 };
 
-Utilisateur.change_password = (req, result) => {
+User.exists = (req, result) => {
+  const email = req.body.email;
+
+  sql.query("SELECT * FROM users WHERE mail = ?", [email], (err, rows) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (rows.length === 0) {
+      const errorMessage = "User not registered";
+      console.log(errorMessage);
+      result(errorMessage, null);
+      return;
+    }
+
+    result(null, { message: "User found." });
+    return;
+  });
+};
+
+User.change_password = (req, result) => {
   console.log(req.body);
   const email = req.body.email;
   const oldpassword = req.body.oldpassword;
@@ -135,7 +124,7 @@ Utilisateur.change_password = (req, result) => {
   console.log(oldpassword);
 
   sql.query(
-    "SELECT * FROM utilisateur WHERE email_user = ?",
+    "SELECT * FROM users WHERE email_user = ?",
     [email],
     (err, rows) => {
       if (err) {
@@ -151,9 +140,9 @@ Utilisateur.change_password = (req, result) => {
         return;
       }
 
-      const utilisateur = rows[0];
+      const user = rows[0];
 
-      bcrypt.compare(oldpassword, utilisateur.mdp, (err, isMatch) => {
+      bcrypt.compare(oldpassword, user.mdp, (err, isMatch) => {
         if (err) {
           console.log("error: ", err);
           result(err, null);
@@ -168,7 +157,7 @@ Utilisateur.change_password = (req, result) => {
               return;
             } else {
               sql.query(
-                "UPDATE utilisateur SET mdp = ? WHERE email_user = ?",
+                "UPDATE users SET mdp = ? WHERE email_user = ?",
                 [hashedNewPassword, email],
                 (err, rows) => {
                   if (err) {
@@ -192,36 +181,32 @@ Utilisateur.change_password = (req, result) => {
   );
 };
 
-
-Utilisateur.isAdmin = (req, result) => {
+User.isAdmin = (req, result) => {
   const email = req.body.email_user;
   sql.query(
-    "select admin from utilisateur where email_user = ?",
+    "select admin from users where email_user = ?",
     [email],
     (err, rows) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
         return;
-      }
-      else {
-        console.log("rows",rows[0].admin);
+      } else {
+        console.log("rows", rows[0].admin);
         if (rows[0].admin === 0) {
-          console.log("not admin",rows[0].admin);
+          console.log("not admin", rows[0].admin);
           result(null, false);
-        }
-        else  if (rows[0].admin === 1){
-          console.log("admin",rows[0].admin);
+        } else if (rows[0].admin === 1) {
+          console.log("admin", rows[0].admin);
           result(null, true);
-        }
-        else {
+        } else {
           console.log("error database admin: ", err);
           result(err, null);
           return;
         }
       }
-    })
-
+    }
+  );
 
   // sql.query(
   //   "select * from Admin where email_admin = ?",
@@ -243,22 +228,26 @@ Utilisateur.isAdmin = (req, result) => {
   //       return;
   //     }
   //   })
-}
+};
 
-Utilisateur.get = (userInfo, result) => {
-  sql.query("SELECT * FROM utilisateur WHERE email_user = ?", [userInfo.email_user], (err, rows) => {
-    if (err) {
-      console.log("Error: ", err);
-      result(err, null);
-    } else {
-      if (rows.length === 0) {
-        result(null, null);
+User.get = (userInfo, result) => {
+  sql.query(
+    "SELECT * FROM users WHERE email_user = ?",
+    [userInfo.email_user],
+    (err, rows) => {
+      if (err) {
+        console.log("Error: ", err);
+        result(err, null);
       } else {
-        const user = rows[0];
-        result(null, {email_user: user.email_user, pseudo: user.pseudo});
+        if (rows.length === 0) {
+          result(null, null);
+        } else {
+          const user = rows[0];
+          result(null, { email_user: user.email_user, pseudo: user.pseudo });
+        }
       }
     }
-  });
-}
+  );
+};
 
-module.exports = Utilisateur;
+module.exports = User;

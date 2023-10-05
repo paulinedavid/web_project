@@ -1,4 +1,4 @@
-const Utilisateur = require("../models/utilisateur.model.js");
+const User = require("../models/user.model.js");
 const bcrypt = require("bcrypt");
 const emailController = require("./email.controller.js");
 var jwt = require('jsonwebtoken'); // Importation de la librairie pour générer les jwt
@@ -13,15 +13,20 @@ exports.create = (req, res) => {
     });
   }
 
+  console.log("body :")
+  console.log(req.body)
+
   // Create a User
-  const utilisateur = new Utilisateur({
-    email_user: req.body.email_user,
-    pseudo: req.body.pseudo,
-    mdp: req.body.mdp
+  const user = new User({
+    name: req.body.name,
+    mail: req.body.mail,
+    password: req.body.password
   });
 
+  console.log(user);
+
   // Save the user in the database
-  Utilisateur.create(utilisateur, (err, data) => {
+  User.create(user, (err, data) => {
     if (err)
       if (err === "Email already exists") {
         return res.status(409).json({ message: err });
@@ -33,8 +38,8 @@ exports.create = (req, res) => {
     else {
       res.json({
         message: "User added successfully",
-        email: utilisateur.email_user,
-        pseudo: utilisateur.pseudo,
+        mail: user.mail,
+        name: user.name,
       });
     }
   });
@@ -47,7 +52,7 @@ exports.login = (req, res) => {
     });
   }
 
-  Utilisateur.login(req, (err, data) => {
+  User.login(req, (err, data) => {
     if (err)
       if (err === "Wrong password" || err === "Email not registered") {
         return res.status(409).json({ message: err });
@@ -74,7 +79,7 @@ exports.forgot_password = (req, res) => {
 
   console.log(req.body.email);
 
-  Utilisateur.exists(req, (err, result) => {
+  User.exists(req, (err, result) => {
     if (err) {
       if (err === "User not registered") {
         res.status(409).json({ message: err });
@@ -203,7 +208,7 @@ exports.reset_password = (req, res) => {
       return;
     } else {
       const hashedmdp = hashedPassword;
-      sql.query("UPDATE utilisateur SET mdp = ? WHERE email_user = ?", [hashedmdp, req.body.email], (err, data)=> {
+      sql.query("UPDATE User SET mdp = ? WHERE email_user = ?", [hashedmdp, req.body.email], (err, data)=> {
         if (err)
           if (err === "User not found") {
             return res.status(409).json({ message: err });
@@ -230,7 +235,7 @@ exports.change_password = (req, res) => {
     });
   }
 
-  Utilisateur.change_password(req, (err,data) => {
+  User.change_password(req, (err,data) => {
     if (err)
       if (err === "Wrong password") {
         return res.status(409).json({ message: err });
@@ -275,7 +280,7 @@ exports.updateProfile = (req, res) => {
 
   args.push(email_user_old);
 
-  var query = "UPDATE utilisateur SET " + query_args.join(', ') + " WHERE email_user = ?";
+  var query = "UPDATE User SET " + query_args.join(', ') + " WHERE email_user = ?";
   console.log(query);
   console.log(args);
 
@@ -300,7 +305,7 @@ exports.isAdmin = (req, res) => {
     });
   }
 
-  Utilisateur.isAdmin(req, (error, result) => {
+  User.isAdmin(req, (error, result) => {
     if (error) {
       res.status(500).json({ message: error.message });
     } else {
