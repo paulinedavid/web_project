@@ -8,7 +8,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE organization(
-   id INT,
+   id INT auto_increment,
    name VARCHAR(50),
    mail VARCHAR(50),
    url_site VARCHAR(100),
@@ -22,21 +22,21 @@ CREATE TABLE organization(
 );
 
 CREATE TABLE video(
-   id INT,
+   id INT auto_increment,
    name VARCHAR(50),
    description TEXT,
-   id_1 INT NOT NULL,
+   id_org INT NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(id_1) REFERENCES organization(id)
+   FOREIGN KEY(id_org) REFERENCES organization(id)
 );
 
 CREATE TABLE game(
-   id INT,
+   id INT auto_increment,
    name VARCHAR(50),
    description TEXT,
-   id_1 INT NOT NULL,
+   id_org INT NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(id_1) REFERENCES organization(id)
+   FOREIGN KEY(id_org) REFERENCES organization(id)
 );
 
 CREATE TABLE Theme(
@@ -46,42 +46,42 @@ CREATE TABLE Theme(
 );
 
 CREATE TABLE game_theme(
-   id INT,
-   id_1 VARCHAR(50),
-   PRIMARY KEY(id, id_1),
-   FOREIGN KEY(id) REFERENCES game(id),
-   FOREIGN KEY(id_1) REFERENCES Theme(id)
+   id_game INT,
+   id_theme VARCHAR(50),
+   PRIMARY KEY(id_game, id_theme),
+   FOREIGN KEY(id_game) REFERENCES game(id),
+   FOREIGN KEY(id_theme) REFERENCES Theme(id)
 );
 
 CREATE TABLE video_theme(
-   id INT,
-   id_1 VARCHAR(50),
-   PRIMARY KEY(id, id_1),
-   FOREIGN KEY(id) REFERENCES video(id),
-   FOREIGN KEY(id_1) REFERENCES Theme(id)
+   id_video INT,
+   id_theme VARCHAR(50),
+   PRIMARY KEY(id_video, id_theme),
+   FOREIGN KEY(id_video) REFERENCES video(id),
+   FOREIGN KEY(id_theme) REFERENCES Theme(id)
 );
 
 CREATE TABLE asso_theme(
-   id INT,
-   id_1 VARCHAR(50),
-   PRIMARY KEY(id, id_1),
-   FOREIGN KEY(id) REFERENCES organization(id),
-   FOREIGN KEY(id_1) REFERENCES Theme(id)
+   id_org INT,
+   id_theme VARCHAR(50),
+   PRIMARY KEY(id_org, id_theme),
+   FOREIGN KEY(id_org) REFERENCES organization(id),
+   FOREIGN KEY(id_theme) REFERENCES Theme(id)
 );
 
 CREATE TABLE follow(
-   id INT,
-   id_1 INT,
+   id_user INT,
+   id_org INT,
    subscribe BOOLEAN,
-   PRIMARY KEY(id, id_1),
-   FOREIGN KEY(id) REFERENCES users(id),
-   FOREIGN KEY(id_1) REFERENCES organization(id)
+   PRIMARY KEY(id_user, id_org),
+   FOREIGN KEY(id_user) REFERENCES users(id),
+   FOREIGN KEY(id_org) REFERENCES organization(id)
 );
 
 CREATE TABLE own(
-   id INT,
-   id_1 INT,
-   PRIMARY KEY(id, id_1),
-   FOREIGN KEY(id) REFERENCES users(id),
-   FOREIGN KEY(id_1) REFERENCES organization(id)
+   id_user INT,
+   id_org INT,
+   PRIMARY KEY(id_user, id_org),
+   FOREIGN KEY(id_user) REFERENCES users(id),
+   FOREIGN KEY(id_org) REFERENCES organization(id)
 );
