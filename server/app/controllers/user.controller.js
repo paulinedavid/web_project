@@ -13,9 +13,6 @@ exports.create = (req, res) => {
     });
   }
 
-  console.log("body :")
-  console.log(req.body)
-
   // Create a User
   const user = new User({
     name: req.body.name,
@@ -23,7 +20,6 @@ exports.create = (req, res) => {
     password: req.body.password
   });
 
-  console.log(user);
 
   // Save the user in the database
   User.create(user, (err, data) => {
@@ -62,10 +58,10 @@ exports.login = (req, res) => {
         });
       }
     else {
-      const token = jwt.sign({ email: req.body.email_user }, "mastercampmdp");
+      const token = jwt.sign({ email: req.body.mail }, "mastercampmdp");
       console.log(token);
       console.log("Login successful !");
-      res.json({ token: token , email_user: req.body.email_user, pseudo: data.pseudo});
+      res.json({ token: token , mail: req.body.mail, name: data.name});
     }
   });
 };
