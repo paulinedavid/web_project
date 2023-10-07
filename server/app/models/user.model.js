@@ -95,7 +95,7 @@ User.login = (req, result) => {
 };
 
 User.exists = (req, result) => {
-  const email = req.body.email;
+  const email = req.body.mail;
 
   sql.query("SELECT * FROM users WHERE mail = ?", [email], (err, rows) => {
     if (err) {
@@ -118,13 +118,13 @@ User.exists = (req, result) => {
 
 User.change_password = (req, result) => {
   console.log(req.body);
-  const email = req.body.email;
+  const email = req.body.mail;
   const oldpassword = req.body.oldpassword;
   const newpassword = req.body.newpassword;
   console.log(oldpassword);
 
   sql.query(
-    "SELECT * FROM users WHERE email_user = ?",
+    "SELECT * FROM users WHERE mail = ?",
     [email],
     (err, rows) => {
       if (err) {
@@ -142,7 +142,7 @@ User.change_password = (req, result) => {
 
       const user = rows[0];
 
-      bcrypt.compare(oldpassword, user.mdp, (err, isMatch) => {
+      bcrypt.compare(oldpassword, user.password, (err, isMatch) => {
         if (err) {
           console.log("error: ", err);
           result(err, null);
@@ -157,7 +157,7 @@ User.change_password = (req, result) => {
               return;
             } else {
               sql.query(
-                "UPDATE users SET mdp = ? WHERE email_user = ?",
+                "UPDATE users SET password = ? WHERE mail = ?",
                 [hashedNewPassword, email],
                 (err, rows) => {
                   if (err) {
@@ -181,33 +181,6 @@ User.change_password = (req, result) => {
   );
 };
 
-User.isAdmin = (req, result) => {
-  const email = req.body.email_user;
-  sql.query(
-    "select admin from users where email_user = ?",
-    [email],
-    (err, rows) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      } else {
-        console.log("rows", rows[0].admin);
-        if (rows[0].admin === 0) {
-          console.log("not admin", rows[0].admin);
-          result(null, false);
-        } else if (rows[0].admin === 1) {
-          console.log("admin", rows[0].admin);
-          result(null, true);
-        } else {
-          console.log("error database admin: ", err);
-          result(err, null);
-          return;
-        }
-      }
-    }
-  );
-
   // sql.query(
   //   "select * from Admin where email_admin = ?",
   //   [email],
@@ -228,11 +201,11 @@ User.isAdmin = (req, result) => {
   //       return;
   //     }
   //   })
-};
+
 
 User.get = (userInfo, result) => {
   sql.query(
-    "SELECT * FROM users WHERE email_user = ?",
+    "SELECT * FROM users WHERE mail = ?",
     [userInfo.email_user],
     (err, rows) => {
       if (err) {
@@ -243,7 +216,7 @@ User.get = (userInfo, result) => {
           result(null, null);
         } else {
           const user = rows[0];
-          result(null, { email_user: user.email_user, pseudo: user.pseudo });
+          result(null, { mail: user.mail, name: user.name });
         }
       }
     }

@@ -58,7 +58,7 @@ exports.login = (req, res) => {
         });
       }
     else {
-      const token = jwt.sign({ email: req.body.mail }, "mastercampmdp");
+      const token = jwt.sign({ email: req.body.mail }, "togethearthmdp");
       console.log(token);
       console.log("Login successful !");
       res.json({ token: token , mail: req.body.mail, name: data.name});

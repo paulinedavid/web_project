@@ -15,7 +15,7 @@
             <form @submit.prevent action="" method="post">
               <div class="loginInputBox">
                 <input
-                  v-model="email_user"
+                  v-model="mail"
                   type="text"
                   name="txtEmail"
                   placeholder="Email"
@@ -66,21 +66,24 @@ export default {
   name: "LoginPage",
   data() {
     return {
-      email_user: "",
+      mail: "",
       password: "",
       message: "",
-      addressServer: localStorage.getItem("addressServer"),
+      addressServer: "http://localhost:8080",
     };
   },
   methods: {
     login() {
+      console.log("login")
       this.message = "";
       const userData = {
-        email_user: this.email_user,
-        mdp: this.password,
+        mail: this.mail,
+        password: this.password,
       };
+      console.log(userData)
       axios
-        .post(this.addressServer+"/api/auth/login", userData)
+        // .post(this.addressServer+"/auth/login", userData)
+        .post("http://localhost:8080/auth/login", userData)
         .then((response) => {
           if (response.status === 200) {
             localStorage.setItem("userData", JSON.stringify(response.data));
@@ -90,40 +93,11 @@ export default {
             throw new Error(JSON.stringify(response.data));
           }
         }).then((data) => {
-
           const token = data.token;
           localStorage.setItem("token", token);
         })
         .then(() => {
-          axios
-            .post(this.addressServer+"/api/auth/isAdmin", {email_user: this.email_user})
-            .then((response_admin) => {
-              if(response_admin.status === 200){
-                let admin = response_admin.data.isAdmin;
-                let userData = JSON.parse(localStorage.getItem("userData"))
-                userData.admin = admin
-                
-                if(admin === true){
-                  localStorage.setItem("isAdmin", true)
-                  this.$router.push("/catalog-admin-page");
-                }
-                else{
-                  localStorage.setItem("isAdmin", false)
-                  this.$router.push("/catalog-page");
-                }
-                localStorage.setItem("userData", JSON.stringify(userData))
-                axios
-                .post(this.addressServer+"/api/livre/addReco", {email_user: this.email_user})
-                .then((response_recomendation) =>{
-                  console.log("recomendation",response_recomendation)
-                });
-
-              }
-              else{
-                throw new Error(JSON.stringify(response_admin.data));
-              }
-            })
-              
+          this.$router.push("/catalog-page");
           })
         .catch((error) => {
           let errorMessage;
