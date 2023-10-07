@@ -3,7 +3,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import AddBookPage from "@/views/AddBookPage.vue";
 import BookInfoPage from "@/views/BookInfoPage.vue";
-// import CatalogPageAdmin from "@/views/CatalogPage_Admin.vue";
+import CatalogPageAdmin from "@/views/CatalogPage_Admin.vue";
 import GameInfoPage from "@/views/GameInfoPage.vue";
 import ForgotPwd from "@/views/ForgotPwd.vue";
 import HelloWorld from "@/views/HelloWorld.vue";
@@ -11,7 +11,7 @@ import HelpPage from "@/views/HelpPage.vue";
 import LandingPage from "@/views/LandingPage.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
-// import RequestForm from "@/views/RequestForm.vue"
+import AssoInfoPage from "@/views/AssoInfoPage.vue"
 import ResetPassword from "@/views/ResetPassword.vue";
 import ResetPwd from "@/views/ResetPwd.vue";
 import ProfilePage from "@/views/UserProfilePage.vue";
@@ -43,11 +43,11 @@ const routes = [
   //   name: "CatalogPageRecs",
   //   component: CatalogPageAdmin,
   // },
-  // {
-  //   path: "/catalog-admin-page",
-  //   name: "CatalogPageAdmin",
-  //   component: CatalogPageAdmin,
-  // },
+  {
+    path: "/catalog-admin-page",
+    name: "CatalogPageAdmin",
+    component: CatalogPageAdmin,
+  },
   {
     path: "/game-info-page",
     name: "GameInfoPage",
@@ -84,11 +84,11 @@ const routes = [
     name: "RegisterPage",
     component: Register,
   },
-  // {
-  //   path: "/request-page",
-  //   name: "requestPage",
-  //   component: RequestForm,
-  // },
+  {
+    path: "/asso-info-page",
+    name: "AssoInfoPage",
+    component: AssoInfoPage,
+  },
   {
     path: "/reset-password-page",
     name: "ResetPasswordPage",

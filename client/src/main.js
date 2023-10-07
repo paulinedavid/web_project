@@ -19,6 +19,8 @@ import { faHeartCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { faBookmark } from '@fortawesome/free-regular-svg-icons'
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBell } from '@fortawesome/free-regular-svg-icons'
+import { faHandshake } from '@fortawesome/free-regular-svg-icons'
 
 import VScrollLock from 'v-scroll-lock'
 
@@ -26,6 +28,6 @@ import VScrollLock from 'v-scroll-lock'
 localStorage.setItem('addressServer', 'http://129.151.226.75:8080')
 console.log('addressServer: ' + localStorage.getItem('addressServer'))
 /* add icons to the library */
-library.add(faGoogle, faLinkedinIn, faGithub, faUserLarge, faArrowUp, faMagnifyingGlass, faAngleLeft, faAngleRight, faPlus, faHeart, faHeartSolid, faHeartCirclePlus, faBookmark, faBookmarkSolid, faBars)
+library.add(faGoogle, faLinkedinIn, faGithub, faUserLarge, faArrowUp, faMagnifyingGlass, faAngleLeft, faAngleRight, faPlus, faHeart, faHeartSolid, faHeartCirclePlus, faBookmark, faBookmarkSolid, faBars, faBell, faHandshake)
 
 createApp(App).use(router).use(router).use(VScrollLock).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
