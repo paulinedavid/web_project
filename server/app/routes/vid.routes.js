@@ -5,5 +5,9 @@ module.exports = app => {
 
     router.post("/upload", vid.upload);
 
+    router.post("/create", vid.create);
+
+    router.get("/filtered",vid.getFiltered);
+
     app.use('/vid', router);
 }

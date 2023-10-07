@@ -1,15 +1,18 @@
 const express = require("express");
 
-// Import busboy, used to stream large files to the server.
 const busboy = require('connect-busboy');
 
+const cors = require('cors');
+
 const app = express();
+
+app.use(cors());
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(busboy({
-    highWaterMark: 2 * 1024 * 1024, // Set 2MiB buffer
-})); // Insert the busboy middleware
+    highWaterMark: 2 * 1024 * 1024, // Définition d'un buffer de 2MiB
+})); // Insertion du middleware busboy
 
 app.route('/').get((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
@@ -26,8 +29,12 @@ app.route('/auth/test').get((req, res) => {
 
 require('./app/routes/vid.routes.js')(app);
 require('./app/routes/user.routes.js')(app);
+require('./app/routes/theme.routes.js')(app);
 
+// Définition du port d'écoute
 const PORT = 8080;
+
+// Lancement du serveur
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });

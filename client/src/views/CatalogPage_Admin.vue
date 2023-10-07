@@ -48,28 +48,28 @@
                 </div>
                 <div class="cat-Navbar-container">
                     <div class="cat-Navbar" >
-                        <button class="choose-cat-Btn" v-for = "category in categories" :key = "category" >
-                            {{ category }}
+                        <button class="choose-cat-Btn" v-for = "theme in themes" :key = "theme.id" >
+                            {{ theme.name }}
                         </button>
                     </div>
                 </div>
-                <div class="vid-categories-cont" @scroll="onScroll" v-for = "category in categories" :key = "category">
+                <div class="vid-categories-cont" @scroll="onScroll" v-for = "theme in themes" :key = "theme.id">
                     <div class="cat-vids-label">
-                        {{category}}
+                        {{theme.name}}
                     </div>
                     <div class="hor-scroll-wrap">
                         <div class="hor-scroll">
                             <ul class="item-grid">
-                                <li v-for = "i in 10" :key="i">
+                                <li v-for = "video in videos[theme.id]" :key="video.id">
                                     <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
                                     <div class="mini-vid-desc">
                                         <div class="mini-vid-name">
-                                            Really cool video
+                                            {{video.name}}
                                         </div>
                                         <div class="mini-vid-author">
                                             <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
                                             <div class="mini-vid-author-info">
-                                                Belvie asso
+                                                {{video.organization}}
                                             </div>
                                         </div>
                                     </div>
@@ -109,6 +109,7 @@
 <script>
 import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
+import axios from "axios";
 export default {
     name: "CatalogPageAdmin",
     components: {
@@ -118,7 +119,9 @@ export default {
 
     data(){
         return{
-            categories:["Animal Cruelty","Ecology","War crimes","Illness Awareness","Fight against cancer","Childhood violence","Domestic Assault","Climate change","Natural Catastrophy support"]
+            themes:[],
+            videos:{}
+
         }
     },
     mounted() {
@@ -142,6 +145,49 @@ export default {
         };
         window.addEventListener("scroll", myScrollFunc);
         window.addEventListener("scroll", myScrollFunc1);
+        this.getThemes();
+        
+    },
+    methods: {
+        onScroll() {
+            console.log("scrolling");
+        },
+
+        getThemes() {
+            console.log("getThemes");
+            fetch(`${localStorage.getItem("addressServer")}/theme/all`)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error("Network response was not ok.");
+                    }
+                })
+                .then((data) => {
+                    this.themes = data;
+                    this.themes.forEach(theme => {
+                        this.getFiltered(theme);
+                    })
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+
+
+
+        getFiltered(theme) {
+            //console.log("getfiltered "+JSON.stringify(theme))
+            axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{theme:theme,searchbar:""}})
+                .then(response => {
+                    this.videos[theme.id] = response.data;
+                    console.log("videos  "+JSON.stringify(this.videos))
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+        
     },
 
 
