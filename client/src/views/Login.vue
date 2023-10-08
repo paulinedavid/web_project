@@ -105,7 +105,7 @@ export default {
             errorMessage = JSON.parse(error.message);
           } catch {
             errorMessage = {
-              message: "An error occurred while processing your request.",
+              message: "An error occurred.",
             };
           }
           if (

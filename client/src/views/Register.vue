@@ -23,7 +23,7 @@
               </div>
               <div class="loginInputBox">
                 <input
-                  v-model="email"
+                  v-model="mail"
                   type="text"
                   placeholder="Email"
                   name="txtEmail"
@@ -31,7 +31,7 @@
               </div>
               <div class="loginInputBox">
                 <input
-                  v-model="reemail"
+                  v-model="remail"
                   type="text"
                   placeholder="Verify Email"
                   name="txtConfirmationEmail"
@@ -90,28 +90,29 @@ export default {
   data() {
     return {
       name: "",
-      email: "",
-      reemail: "",
+      mail: "",
+      remail: "",
       password: "",
       matching: true,
       message: "",
-      addressServer: localStorage.getItem('addressServer')
+      // addressServer: localStorage.getItem('addressServer')
+      addressServer: "http://localhost:8080"
     };
   },
   methods: {
     register() {
       this.matching = true;
       this.message = "";
-      if (this.email === this.reemail) {
-        fetch(this.addressServer+"/api/auth/register", {
+      if (this.mail === this.remail) {
+        fetch("http://localhost:8080/auth/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            pseudo: this.name,
-            email_user: this.email,
-            mdp: this.password,
+            name: this.name,
+            mail: this.mail,
+            password: this.password,
           }),
         })
           .then((response) => {
@@ -133,7 +134,7 @@ export default {
               errorMessage = JSON.parse(error.message);
             } catch {
               errorMessage = {
-                message: "An error occurred while processing your request.",
+                message: "An error occurred.",
               };
             }
 
