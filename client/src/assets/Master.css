@@ -77,6 +77,492 @@
 }
 
 
+/*--------------------------------------------------------------------------------------------------*/
+
+/*-------------------------------Landing Page---------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------------------------*/
+
+/*-------------------landing page container-----------------*/
+
+
+/*-------------------------------------Top of the page Logo---------------------------------------*/
+
+.VueLogo {
+  width: 210px;
+  height: 210px;
+  margin: 0px;
+  margin-bottom: 50px;
+  justify-self: start;
+}
+
+@media (min-width: 1200px) {
+  .VueLogo {
+    margin-left: 40px;
+  }
+}
+
+
+
+ /*--------------------------Database Message-------------------------------------------*/
+
+ .message{
+  color : rgb(255, 0, 0);
+  margin-top : 15px;
+  text-align : center;
+  margin-bottom: 40px;
+  margin-top: -20px;
+}
+
+.message1{
+  color : #13db4c;
+  margin-top : 15px;
+  text-align : center;
+}
+
+.Landing-page-container {
+  overflow: hidden;
+}
+
+  /*------------------login & register header----------------*/
+  
+  .header-landing-container {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  
+  .header-landing-container div {
+    display: flex;
+    justify-content:flex-end;
+  }
+  
+  @media (min-width: 1100px) {
+    .header-landing-container div {
+      justify-content: space-between;
+      /* align-items:stretch; */
+    }
+  }
+  
+  @media (max-width: 1100px) {
+    .header-landing-container div {
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+  
+
+/*---------------------------Login and Register buttons-----------------------------*/
+  
+  /* router-link{
+    color:inherit;
+    text-decoration: none;
+  } */
+  
+  .LogRegBtnLink {
+    margin: 40px;
+    margin-bottom: 50px;
+    border-bottom: 0.4px solid var(--color);
+    border-right: 0.4px solid var(--color);
+    font-size: 1.3em;
+    width: 230px;
+    height: 60px;
+    border-radius: 15px;
+    padding: 17px 25px;
+    font-weight: 500;
+    background: var(--background);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 15px 0px rgba(226, 226, 226, 0.5),
+      7px 8px 18px -5px var(--color), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease-in-out;
+    z-index: 1;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px var(--shadow);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  
+  .LogRegBtnLink:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background-color: rgba(192, 135, 214, 0.1);
+    border-radius: 15px;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+      7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .LogRegBtnLink:hover:after {
+    left: 0;
+    width: 100%;
+  }
+  .LogRegBtnLink:active {
+    top: 4px;
+  }
+  
+  .LogRegBtnLink:hover {
+    font-size: x-large;
+  }
+  
+  @media (min-width: 1300px) {
+    .LogRegBtnLink {
+      font-size: larger;
+    }
+  }
+
+  /*----------------Prompt at top of screen-------------------*/
+  
+  .WelcomePrompt {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .Landing-banner-container {
+    width: 100%;
+    align-items: baseline;
+    background: linear-gradient(
+      55deg,
+      #EBE0A6,
+      #95BF74,
+      #659B5E,
+      #556F44,
+      #283F3B
+    );
+    position: relative;
+    box-shadow: 0px -20px 256px 28px rgba(255, 255, 255, 0.778) inset;
+  }
+  
+  .Landing-banner-container:before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(
+      55deg,
+      #EBE0A6,
+      #95BF74,
+      #659B5E,
+      #556F44,
+      #283F3B
+    );
+    transform: translate3d(20px, 10px, 20px) scale(1.5);
+    filter: blur(120px);
+    opacity: var(0.9);
+    transition: opacity 0.3s;
+    border-radius: inherit;
+  }
+  
+  .Landing-banner-container::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    border-radius: inherit;
+  }
+  .Landing-banner {
+    margin-top: 4%;
+    margin-bottom: 5%;
+    width: 98%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+  
+  @media (max-width: 1200px) {
+    .Landing-banner {
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+  
+  .Landing-banner-text {
+    margin-top: 4%;
+    margin-left: 8%;
+    display: flex;
+    justify-content: left;
+    align-items: baseline;
+    flex-direction: column;
+  }
+  
+  @media (max-width: 1200px) {
+    .Landing-banner-text {
+      margin-top: 9%;
+      margin-bottom: 9%;
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+  
+  .Slogan {
+    text-shadow: 1px 1px 0 #579352;
+    color: rgb(255, 255, 255);
+    font-size: x-large;
+    font-weight: 600;
+    margin-left: 0%;
+  }
+  
+  /*---------------Page Title*---------------*/
+  
+  .TimeToDo {
+    text-shadow: 3px 2px 0 #579352;
+    /* color: rgb(53, 50, 50); */
+    color: rgba(255, 255, 255, 0.851);
+    font-size: 7em;
+    font-family: serif;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  
+  /*---------------Short welcome prompt-----------*/
+  
+  .WelcomePrompt p {
+    text-align: center;
+    margin-top: 15%;
+    color: rgba(8, 8, 8, 0.699);
+    font-size: x-large;
+    font-weight: 600;
+  }
+  
+  @media (max-width: 1100px) {
+    .WelcomePrompt p {
+      margin-top: 20%;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .WelcomePrompt p {
+      font-size: medium;
+    }
+  }
+
+  .Landing-png{
+    width: 710px;
+    height: 410px;
+    margin: 0px;
+    opacity: 0.8;
+  }
+
+  /*-----------------------Buttons leading to Regisration, in page--------------*/
+  
+  .TryOutBtn {
+    box-sizing: border-box;
+  }
+  
+  .TryOutBtnLink:active {
+    top: 4px;
+  }
+  
+  .TryOutBtnLink {
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 1px #579352;
+    text-decoration: none;
+    text-transform: uppercase;
+  
+    margin-bottom: 12%;
+    border-color: transparent;
+    border-top: 0.4px solid rgba(207, 199, 199, 0.674);
+    border-right: 0.4px solid rgba(207, 199, 199, 0.674);
+    font-size: 1.2em;
+    width: 40vmin;
+    height: fit-content;
+    border-radius: 15px;
+    padding: 17px 25px;
+    font-weight: 600;
+    background: #7ab672;
+    cursor: pointer;
+    position: relative;
+    box-shadow: inset 2px 2px 15px 0px rgba(194, 194, 194, 0.151),
+      7px 8px 18px -5px rgba(251, 247, 247, 0.5),
+      4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    text-align: center;
+  }
+  
+  .TryOutBtnLink:hover {
+    font-size: 1.4em;
+    text-shadow: 2px 1px #6d4757;
+    color: #7ab672;
+    background: rgba(243, 224, 248, 0.5);
+    box-shadow: inset 2px 2px 5px 0px rgba(33, 32, 32, 0.345),
+      7px 8px 18px -5px rgba(251, 247, 247, 0.5),
+      4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+  }
+  
+  @media (max-width: 680px) {
+    .TryOutBtnLink {
+      font-size: medium;
+    }
+  
+    .TryOutBtnLink:hover {
+      font-size: medium;
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .TryOutBtnLink {
+      font-stretch: condensed;
+    }
+  }
+  
+
+  
+  /*----------------------Bloc containing presentation text and image-------------------*/
+  
+  .VocabPrez {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 9%;
+  }
+  
+  @media (max-width: 1200px) {
+    .VocabPrez {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+
+  
+  /*------------------------Description text-----------------------*/
+  
+  .VocabDescription {
+    float: right;
+    font-size: 2.6vmin;
+    margin-right: 2%;
+    margin-left: 5%;
+    margin-top: 2%;
+  }
+  
+  .VocabH1 {
+    text-shadow: 2px 1.5px 0 rgba(47, 47, 47, 0.442);
+    color: #95BF74;
+  }
+  
+  .TestH1 {
+    text-shadow: 2px 1.5px 0 rgba(47, 47, 47, 0.442);
+    color: #659B5E;
+  }
+  
+  .VocabDescription p {
+    color: rgba(74, 73, 73, 0.658);
+  }
+  
+  .VocabDescription h1{
+    margin: 7%;
+    background: transparent;
+  }
+
+  .VocabDescription p{
+    margin: 7%;
+    background: transparent;
+  }
+
+  
+  /*------------------------Description image-----------------------*/
+  
+  .Vocabdemo {
+    width: 50%;
+    height: auto;
+    margin-bottom: 5%;
+    margin-left: 4%;
+    margin-right: 3%;
+    border-radius: 15px;
+    box-shadow: -1.8vw 1.2vw 4vw rgba(16, 1, 7, 0.366);
+  }
+  
+  @media (max-width: 1200px) {
+    .Vocabdemo {
+      width: 90%;
+      margin-left: 4%;
+    }
+  }
+  
+  
+  /*------------------------Same Description elements for middle element (inverted elements)-----------------------*/
+  
+  .ExoPrez {
+    margin-bottom: 9%;
+    color: rgb(215, 236, 30);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 2.6vmin;
+  }
+  
+  @media (max-width: 1200px) {
+    .ExoPrez {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }
+  
+  .ExoDescription {
+    float: right;
+    margin-left: 2%;
+    margin-right: 5%;
+    margin-top: 2%;
+  }
+  
+  @media (max-width: 1200px) {
+    .ExoDescription {
+      float: left;
+      margin-left: 7%;
+      margin-right: 5%;
+      margin-top: 2%;
+    }
+  }
+  
+  .ExoDescription h1 {
+    margin: 7%;
+    text-shadow: 2px 1.5px 0 rgba(47, 47, 47, 0.442);
+    /* color: rgb(244, 240, 20); */
+    color: #EBE0A6;
+  }
+  
+  .ExoDescription p {
+    margin: 7%;
+    color: rgba(74, 73, 73, 0.658);
+  }
+  
+  /*------------------------------Last Prompt------------------------*/
+  
+  .WelcomePrompt h1 {
+    margin-bottom: 5%;
+  }
+  
+  .WelcomeEnd {
+    box-shadow: inset 0 -11em 150px -70px #84c677dc, 0 5px 4px -2px rgba(74, 74, 74, 0.711),
+      7px 8px 18px -18px rgba(38, 38, 38, 0.5), 0 74px 56px -13px #84c6778a,
+      inset 0 -1em 150px 70px #ffffffaf;
+  }
+  
+  @media (max-width: 1200px) {
+    .WelcomeEnd {
+      box-shadow: inset 0 -8em 90px -70px #84c677dc, 0 5px 4px -2px gray,
+        7px 8px 18px -18px rgba(38, 38, 38, 0.5), 0 74px 56px -13px #84c6778a;
+    }
+  }
+
+  
 
 /*-------------------------------------------------------------------------------*/
 
