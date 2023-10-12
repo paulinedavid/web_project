@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <p>
-                    Always wanted to have an endless library directly behind your screen ?<br /><br />This is the place for
+                    Always wanted to leave an indelible mark on the world ?<br /><br />This is the place for
                     you
                 </p>
                 

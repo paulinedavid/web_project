@@ -10,7 +10,7 @@
                 <div class="loginBox" style="justify-content: flex-start;">
                     <div class="img-forgot-container">
                     <img src="../assets/Forgot.png" alt="Calendar people" class="forgot-img"></div>
-                    <div class="loginContainer">
+                    <div class="loginContainer fgContainer">
                         <div class="loginForm">
                             <h2>Reset your Password</h2>
                             <p class="forgotPswdPrompt">Please enter your <bold>Email Address</bold> to receive the
