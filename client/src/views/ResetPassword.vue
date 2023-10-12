@@ -83,7 +83,7 @@ export default {
     if (!this.token) {
       this.goodToken = false;
     }
-    const route = this.addressServer+`/api/auth/verif_token?token=${this.token}`;
+    const route = this.addressServer+`/auth/verif_token?token=${this.token}`;
     fetch(route, {
       method: "GET",
     })
@@ -110,7 +110,7 @@ export default {
         };
         const jsonData = JSON.stringify(data);
 
-        fetch(this.addressServer+"/api/auth/reset_password", {
+        fetch(this.addressServer+"/auth/reset_password", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

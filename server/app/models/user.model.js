@@ -95,9 +95,9 @@ User.login = (req, result) => {
 };
 
 User.exists = (req, result) => {
-  const email = req.body.mail;
+  const mail = req.body.mail;
 
-  sql.query("SELECT * FROM users WHERE mail = ?", [email], (err, rows) => {
+  sql.query("SELECT * FROM users WHERE mail = ?", [mail], (err, rows) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

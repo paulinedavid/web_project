@@ -5,6 +5,42 @@ var jwt = require('jsonwebtoken'); // Importation de la librairie pour générer
 const Email = require("../models/email.model.js");
 const sql = require("../models/db.js"); 
 
+exports.register = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty !"
+    });
+  }
+
+  // Create a User
+  const user = new User({
+    name: req.body.name,
+    mail: req.body.mail,
+    password: req.body.password
+  });
+
+
+  // Save the user in the database
+  User.create(user, (err, data) => {
+    if (err)
+      if (err === "Email already exists") {
+        return res.status(409).json({ message: err });
+      } else {
+        res.status(500).send({
+          message: err.message || "Some error ",
+        });
+      }
+    else {
+      res.json({
+        message: "User added successfully",
+        mail: user.mail,
+        name: user.name,
+      });
+    }
+  });
+};
+
 exports.create = (req, res) => {
   // Validate request
   if (!req.body) {
@@ -73,7 +109,7 @@ exports.forgot_password = (req, res) => {
     });
   }
 
-  console.log(req.body.email);
+  console.log(req.body.mail);
 
   User.exists(req, (err, result) => {
     if (err) {
@@ -90,7 +126,7 @@ exports.forgot_password = (req, res) => {
       console.log("User exists ! Sending mail...");
 
       const payload = {
-        email: req.body.email,
+        mail: req.body.mail,
       };
     
       const secretKey = 'mastercampmdp'; // secret key to encrypt the token
@@ -104,8 +140,8 @@ exports.forgot_password = (req, res) => {
       const resetLink = `http://129.151.226.75:8081/reset-password-page?token=${token}`;
 
       const email = new Email({
-        to: req.body.email,
-        subject: "Reset Password Book Master",
+        to: req.body.mail,
+        subject: "Reset Password Togethearth",
         template: "email-reset-password",
         context: {
           link: resetLink
@@ -117,7 +153,7 @@ exports.forgot_password = (req, res) => {
         }]
       });
       
-      sql.query("INSERT INTO reset_tokens (token, email_user) VALUES (?,?)", [token, req.body.email], (error,results)=>{
+      sql.query("INSERT INTO reset_tokens (token, email_user) VALUES (?,?)", [token, req.body.mail], (error,results)=>{
         if (error) {
           console.error("Error storing token in the database:", error);
           res.status(500).json({ message: "An error occurred while storing the token!" });
