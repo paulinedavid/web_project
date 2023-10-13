@@ -5,7 +5,7 @@ module.exports = app =>{
 
     router.post("/register", users.register);
 
-    router.post("/registerconfirmed", users.create);
+    router.get("/registerconfirmed", users.create);
 
     router.post('/login',users.login);
 

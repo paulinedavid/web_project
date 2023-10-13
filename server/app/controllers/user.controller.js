@@ -3,78 +3,119 @@ const bcrypt = require("bcrypt");
 const emailController = require("./email.controller.js");
 var jwt = require('jsonwebtoken'); // Importation de la librairie pour générer les jwt
 const Email = require("../models/email.model.js");
-const sql = require("../models/db.js"); 
+const sql = require("../models/db.js");
 
 exports.register = (req, res) => {
-  // Validate request
-  if (!req.body) {
+  if(!req.body) {
     res.status(400).send({
-      message: "Content can not be empty !"
+      message: "Content can not be empty !",
     });
   }
 
-  // Create a User
-  const user = new User({
-    name: req.body.name,
-    mail: req.body.mail,
-    password: req.body.password
-  });
+  console.log(req.body.mail);
 
+  User.exists(req, (err, result) => {
+    if (err){
 
-  // Save the user in the database
-  User.create(user, (err, data) => {
-    if (err)
-      if (err === "Email already exists") {
-        return res.status(409).json({ message: err });
+      const payload = {
+        name: req.body.name,
+        mail: req.body.mail,
+        password: req.body.password
+      };
+
+    const secretKey = 'mastercampmdp'; // secret key to encrypt the token
+
+    const options = {
+      expiresIn: '1 hour', // Set the token expiration time
+    };
+
+    const token = jwt.sign(payload, secretKey, options);
+
+    //const resetLink = `http://129.151.226.75:8081/reset-password-page?token=${token}`;
+    const resetLink = `http://localhost:8081/register-page?token=${token}`;
+
+    const email = new Email({
+      to: req.body.mail,
+      subject: "Welcome to Togethearth",
+      template: "email-body-create-user",
+      context: {
+        link: resetLink
+      },
+      attachments: [{
+        filename: "LogoJour.png",
+        path: "LogoJour.png",
+        cid: "image_cid"
+      }]
+    });
+
+    Email.send(email, (result) => {
+      if (!result) {
+        // Error occurred during sending the email
+        console.error("Error sending email:", error);
+        res.status(500).json({ message: "An error occurred while sending the email!" });
       } else {
-        res.status(500).send({
-          message: err.message || "Some error ",
-        });
+        // Email sent successfully
+        console.log("Email sent successfully:", result);
+        const decoded = this.verifyResetToken(token);
+        if (!decoded) {
+          console.log("failed to decode");
+        } else {
+          console.log(decoded);
+        }
+        console.log(token);
+        res.status(200).json({ message: "Email was sent." });
       }
-    else {
-      res.json({
-        message: "User added successfully",
-        mail: user.mail,
-        name: user.name,
-      });
+    });
+  } 
+  else {
+    return res.status(409).json({ message: "Email address already used." });
     }
   });
 };
 
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body) {
+  if (!req.query) {
     res.status(400).send({
       message: "Content can not be empty !"
     });
   }
 
-  // Create a User
-  const user = new User({
-    name: req.body.name,
-    mail: req.body.mail,
-    password: req.body.password
-  });
-
-
-  // Save the user in the database
-  User.create(user, (err, data) => {
-    if (err)
-      if (err === "Email already exists") {
-        return res.status(409).json({ message: err });
-      } else {
-        res.status(500).send({
-          message: err.message || "Some error ",
+  const token = req.query.token;
+  const decoded = this.verifyResetToken(token);
+  console.log(decoded)
+  
+  if(decoded){
+    // Create a user
+    const user = new User({
+      name: decoded.name,
+      mail: decoded.mail,
+      password: decoded.password
+    });
+  
+    console.log("User created !");
+    console.log(user);
+  
+  
+    // Save the user in the database
+    User.create(user, (err, data) => {
+      if (err)
+        if (err === "Email already exists") {
+          return res.status(409).json({ message: err });
+        } else {
+          res.status(500).send({
+            message: err.message || "Some error ",
+          });
+        }
+      else {
+        res.json({
+          message: "User added successfully",
+          mail: user.mail,
+          name: user.name,
         });
       }
-    else {
-      res.json({
-        message: "User added successfully",
-        mail: user.mail,
-        name: user.name,
-      });
-    }
-  });
+    });
+  }
 };
 
 exports.login = (req, res) => {
@@ -97,7 +138,7 @@ exports.login = (req, res) => {
       const token = jwt.sign({ email: req.body.mail }, "togethearthmdp");
       console.log(token);
       console.log("Login successful !");
-      res.json({ token: token , mail: req.body.mail, name: data.name});
+      res.json({ token: token, mail: req.body.mail, name: data.name });
     }
   });
 };
@@ -121,22 +162,22 @@ exports.forgot_password = (req, res) => {
         });
       }
     }
-    else{
+    else {
 
       console.log("User exists ! Sending mail...");
 
       const payload = {
         mail: req.body.mail,
       };
-    
+
       const secretKey = 'mastercampmdp'; // secret key to encrypt the token
-    
+
       const options = {
         expiresIn: '1 hour', // Set the token expiration time
       };
-    
+
       const token = jwt.sign(payload, secretKey, options);
-    
+
       //const resetLink = `http://129.151.226.75:8081/reset-password-page?token=${token}`;
       const resetLink = `http://localhost:8081/reset-password-page?token=${token}`;
 
@@ -153,15 +194,15 @@ exports.forgot_password = (req, res) => {
           cid: "image_cid"
         }]
       });
-      
-      sql.query("INSERT INTO reset_tokens (token, email_user) VALUES (?,?)", [token, req.body.mail], (error,results)=>{
+
+      sql.query("INSERT INTO reset_tokens (token, email_user) VALUES (?,?)", [token, req.body.mail], (error, results) => {
         if (error) {
           console.error("Error storing token in the database:", error);
           res.status(500).json({ message: "An error occurred while storing the token!" });
         } else {
           // Token stored successfully
           console.log("Token stored successfully in the database.");
-          
+
           Email.send(email, (result) => {
             if (!result) {
               // Error occurred during sending the email
@@ -171,9 +212,9 @@ exports.forgot_password = (req, res) => {
               // Email sent successfully
               console.log("Email sent successfully:", result);
               const decoded = this.verifyResetToken(token);
-              if(!decoded){
+              if (!decoded) {
                 console.log("failed to decode");
-              }else{
+              } else {
                 console.log(decoded);
               }
               console.log(token);
@@ -183,18 +224,18 @@ exports.forgot_password = (req, res) => {
 
         }
       });
-      
+
     }
   });
 
 };
 
-  
 
-exports.verif_token = (req,res) => {
+
+exports.verif_token = (req, res) => {
   console.log(req.query);
   const token = req.query.token;
-  console.log("mytoken ",token);
+  console.log("mytoken ", token);
   const decoded = this.verifyResetToken(token);
   console.log("here");
   if (!decoded) {
@@ -207,7 +248,7 @@ exports.verif_token = (req,res) => {
   }
   // Token is valid, render the password reset page
   console.log(decoded);
-  res.json({ mail : decoded.mail });
+  res.json({ mail: decoded.mail });
 }
 
 exports.verifyResetToken = (token) => {
@@ -231,7 +272,7 @@ exports.extract_email = (req, res) => {
     console.log("failed");
     return res.status(400).json({ error: 'Invalid or expired reset token' });
   }
-  res.json({ email : decoded.email });
+  res.json({ email: decoded.email });
 }
 
 
@@ -251,7 +292,7 @@ exports.reset_password = (req, res) => {
       return;
     } else {
       const hashedmdp = hashedPassword;
-      sql.query("UPDATE users SET password = ? WHERE mail = ?", [hashedmdp, req.body.mail], (err, data)=> {
+      sql.query("UPDATE users SET password = ? WHERE mail = ?", [hashedmdp, req.body.mail], (err, data) => {
         if (err)
           if (err === "User not found") {
             return res.status(409).json({ message: err });
@@ -278,7 +319,7 @@ exports.change_password = (req, res) => {
     });
   }
 
-  User.change_password(req, (err,data) => {
+  User.change_password(req, (err, data) => {
     if (err)
       if (err === "Wrong password") {
         return res.status(409).json({ message: err });

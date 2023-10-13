@@ -95,9 +95,32 @@ export default {
       password: "",
       matching: true,
       message: "",
+      token : "",
       // addressServer: localStorage.getItem('addressServer')
       addressServer: "http://localhost:8080"
     };
+  },
+  mounted() {
+    this.token = this.$route.query.token;
+    if(this.token){
+      const route = this.addressServer+`/auth/registerconfirmed?token=${this.token}`;
+    fetch(route, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("AN error occurred : try again");
+        }
+      })
+      .then(() => {
+        this.$router.push("/login-page");
+      })
+      .catch((error) => {
+        this.message = error.message;
+      });
+    }
   },
   methods: {
     register() {
@@ -125,7 +148,8 @@ export default {
             }
           })
           .then(() => {
-            this.$router.push("/login-page");
+            // this.$router.push("/login-page");
+            this.message = "Email sent !";
           })
           .catch((error) => {
             console.error(error);
