@@ -137,7 +137,8 @@ exports.forgot_password = (req, res) => {
     
       const token = jwt.sign(payload, secretKey, options);
     
-      const resetLink = `http://129.151.226.75:8081/reset-password-page?token=${token}`;
+      //const resetLink = `http://129.151.226.75:8081/reset-password-page?token=${token}`;
+      const resetLink = `http://localhost:8081/reset-password-page?token=${token}`;
 
       const email = new Email({
         to: req.body.mail,
@@ -169,9 +170,17 @@ exports.forgot_password = (req, res) => {
             } else {
               // Email sent successfully
               console.log("Email sent successfully:", result);
+              const decoded = this.verifyResetToken(token);
+              if(!decoded){
+                console.log("failed to decode");
+              }else{
+                console.log(decoded);
+              }
+              console.log(token);
               res.status(200).json({ message: "Email was sent." });
             }
           });
+
         }
       });
       
@@ -183,6 +192,7 @@ exports.forgot_password = (req, res) => {
   
 
 exports.verif_token = (req,res) => {
+  console.log(req.query);
   const token = req.query.token;
   console.log("mytoken ",token);
   const decoded = this.verifyResetToken(token);
@@ -191,12 +201,13 @@ exports.verif_token = (req,res) => {
     // Token verification failed, handle accordingly (e.g., show error page)
     console.log("failed");
     // return res.status(400).json({ error: 'Invalid or expired reset token' });
-    const redirectLink = `http://129.151.226.75:8081/reset-password`;
+    // const redirectLink = `http://129.151.226.75:8081/reset-password`;
+    const redirectLink = `http://localhost:8081/reset-password`;
     res.redirect(redirectLink);
   }
   // Token is valid, render the password reset page
   console.log(decoded);
-  res.json({ email : decoded.email });
+  res.json({ mail : decoded.mail });
 }
 
 exports.verifyResetToken = (token) => {
@@ -231,16 +242,16 @@ exports.reset_password = (req, res) => {
     });
   }
 
-  console.log(req.body.email);
+  console.log(req.body.mail);
 
-  bcrypt.hash(req.body.mdp, 10, (err, hashedPassword) => {
+  bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     } else {
       const hashedmdp = hashedPassword;
-      sql.query("UPDATE User SET mdp = ? WHERE email_user = ?", [hashedmdp, req.body.email], (err, data)=> {
+      sql.query("UPDATE users SET password = ? WHERE mail = ?", [hashedmdp, req.body.mail], (err, data)=> {
         if (err)
           if (err === "User not found") {
             return res.status(409).json({ message: err });
@@ -251,7 +262,7 @@ exports.reset_password = (req, res) => {
           }
         else {
           console.log("successful !")
-          console.log(req.body.mdp);
+          console.log(req.body.password);
           res.json({ message: "Password updated successfully" });
         }
       });

@@ -73,13 +73,14 @@ export default {
       renewpassword: "",
       matching: true,
       goodToken: true,
-      email: "",
+      mail: "",
       message: "",
-      addressServer: localStorage.getItem('addressServer')
+      // addressServer: localStorage.getItem('addressServer')
+      addressServer : "http://localhost:8080"
     };
   },
   mounted() {
-    this.token = localStorage.getItem("token");
+    this.token = this.$route.query.token;
     if (!this.token) {
       this.goodToken = false;
     }
@@ -95,7 +96,7 @@ export default {
         }
       })
       .then((data) => {
-        this.email = data.email;
+        this.mail = data.mail;
       })
       .catch((error) => {
         this.message = error.message;
@@ -105,8 +106,8 @@ export default {
     reset() {
       if (this.newpassword === this.renewpassword) {
         const data = {
-          email: this.email,
-          mdp: this.newpassword,
+          mail: this.mail,
+          password: this.newpassword,
         };
         const jsonData = JSON.stringify(data);
 
