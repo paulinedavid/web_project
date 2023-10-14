@@ -845,13 +845,13 @@
     /* opacity : 0.9; */
   }
   
-  /* @media (max-width: 1400px) {
+  @media (max-width: 1400px) {
     .login-img {
       /* margin-top: 8%;
-      margin-bottom: 10%; 
+      margin-bottom: 10%; */
       margin-left: 10%;
     }
-  } */
+  }
   
   input[type="time"]::-webkit-calendar-picker-indicator {
       filter: invert(1);
@@ -955,18 +955,11 @@
   /* box-shadow: 0 5px 45px rgba(241, 241, 241, 0.83); */
 }
 
-@media (max-width:1400px) {
-  .register-img{
-      width: 100%;
-    }
-}
-
-/* @media (min-width:1100px) {
+@media (min-width:1100px) {
   .register-img{
       margin-left: 10%;
     }
-} */
-
+}
 
 
 /*-------------------------------------------------------------------------------*/
@@ -1061,16 +1054,6 @@
   .forgot-img {
     width: 65%;
     opacity : 0.9;
-  }
-
-  .fgContainer{
-    margin-right: 144px;
-  }
-
-  @media (max-width: 1400px) {
-    .fgContainer {
-      margin-right: 0px;
-    }
   }
   
 /*--------------------------------------------------------------------------------------------------*/
