@@ -23,7 +23,7 @@
               </div>
               <div class="loginInputBox">
                 <input
-                  v-model="email"
+                  v-model="mail"
                   type="text"
                   placeholder="Email"
                   name="txtEmail"
@@ -31,7 +31,7 @@
               </div>
               <div class="loginInputBox">
                 <input
-                  v-model="reemail"
+                  v-model="remail"
                   type="text"
                   placeholder="Verify Email"
                   name="txtConfirmationEmail"
@@ -90,28 +90,52 @@ export default {
   data() {
     return {
       name: "",
-      email: "",
-      reemail: "",
+      mail: "",
+      remail: "",
       password: "",
       matching: true,
       message: "",
+      token : "",
       addressServer: localStorage.getItem('addressServer')
+      //addressServer: "http://localhost:8080"
     };
+  },
+  mounted() {
+    this.token = this.$route.query.token;
+    if(this.token){
+      const route = this.addressServer+`/auth/registerconfirmed?token=${this.token}`;
+    fetch(route, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("AN error occurred : try again");
+        }
+      })
+      .then(() => {
+        this.$router.push("/login-page");
+      })
+      .catch((error) => {
+        this.message = error.message;
+      });
+    }
   },
   methods: {
     register() {
       this.matching = true;
       this.message = "";
-      if (this.email === this.reemail) {
-        fetch(this.addressServer+"/api/auth/register", {
+      if (this.mail === this.remail) {
+        fetch("http://localhost:8080/auth/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            pseudo: this.name,
-            email_user: this.email,
-            mdp: this.password,
+            name: this.name,
+            mail: this.mail,
+            password: this.password,
           }),
         })
           .then((response) => {
@@ -124,7 +148,8 @@ export default {
             }
           })
           .then(() => {
-            this.$router.push("/login-page");
+            // this.$router.push("/login-page");
+            this.message = "Email sent !";
           })
           .catch((error) => {
             console.error(error);
@@ -133,7 +158,7 @@ export default {
               errorMessage = JSON.parse(error.message);
             } catch {
               errorMessage = {
-                message: "An error occurred while processing your request.",
+                message: "An error occurred.",
               };
             }
 

@@ -192,7 +192,7 @@ export default {
                 ],
             };
 
-            axios.post(this.addressServer + "/api/email/send", mailOptions)
+            axios.post(this.addressServer + "/email/send", mailOptions)
                 .then((response) => {
                     console.log(response)
                 })

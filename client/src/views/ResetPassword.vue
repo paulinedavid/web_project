@@ -73,17 +73,18 @@ export default {
       renewpassword: "",
       matching: true,
       goodToken: true,
-      email: "",
+      mail: "",
       message: "",
-      addressServer: localStorage.getItem('addressServer')
+      // addressServer: localStorage.getItem('addressServer')
+      addressServer : "http://localhost:8080"
     };
   },
   mounted() {
-    this.token = localStorage.getItem("token");
+    this.token = this.$route.query.token;
     if (!this.token) {
       this.goodToken = false;
     }
-    const route = this.addressServer+`/api/auth/verif_token?token=${this.token}`;
+    const route = this.addressServer+`/auth/verif_token?token=${this.token}`;
     fetch(route, {
       method: "GET",
     })
@@ -95,7 +96,7 @@ export default {
         }
       })
       .then((data) => {
-        this.email = data.email;
+        this.mail = data.mail;
       })
       .catch((error) => {
         this.message = error.message;
@@ -105,12 +106,12 @@ export default {
     reset() {
       if (this.newpassword === this.renewpassword) {
         const data = {
-          email: this.email,
-          mdp: this.newpassword,
+          mail: this.mail,
+          password: this.newpassword,
         };
         const jsonData = JSON.stringify(data);
 
-        fetch(this.addressServer+"/api/auth/reset_password", {
+        fetch(this.addressServer+"/auth/reset_password", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

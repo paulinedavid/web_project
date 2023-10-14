@@ -10,14 +10,14 @@
                 <div class="loginBox" style="justify-content: flex-start;">
                     <div class="img-forgot-container">
                     <img src="../assets/Forgot.png" alt="Calendar people" class="forgot-img"></div>
-                    <div class="loginContainer">
+                    <div class="loginContainer fgContainer">
                         <div class="loginForm">
                             <h2>Reset your Password</h2>
                             <p class="forgotPswdPrompt">Please enter your <bold>Email Address</bold> to receive the
                                 password-reset link </p>
                             <form @submit.prevent action="" method="post">
                                 <div class="loginInputBox">
-                                    <input  v-model = "email" type="text" placeholder="Email Address" name="email">
+                                    <input  v-model = "mail" type="text" placeholder="Email Address" name="email">
                                 </div>
                                 <div class = "message" style="margin-top: 40px;" >{{message}}</div>
                                 <div class="loginInputBox">
@@ -42,20 +42,21 @@
         name: 'ForgotPwdPage',
         data(){
           return{
-            email: "",
+            mail: "",
             message : "",
-            addressServer: localStorage.getItem('addressServer')
+            // addressServer: localStorage.getItem('addressServer')
+            addressServer: "http://localhost:8080"
           }
         },
         methods:{
           send(){
-            fetch(this.addressServer+"/api/auth/forgot_password", 
+            fetch(this.addressServer+"/auth/forgot_password", 
             {method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 
             },
-            body: JSON.stringify({email:this.email})})
+            body: JSON.stringify({mail:this.mail})})
             .then((response)=>{       
               if (response.ok) {
                 this.message = 'Email Sent Successfully';

@@ -1,11 +1,18 @@
 const express = require("express");
-
-const busboy = require('connect-busboy');
-
 const cors = require('cors');
+
+// Import busboy, used to stream large files to the server.
+const busboy = require('connect-busboy');
 
 const app = express();
 
+const corsOptions ={
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+  }
+
+//app.use(cors(corsOptions));
 app.use(cors());
 
 app.use(express.urlencoded({extended: true}));
@@ -31,10 +38,8 @@ require('./app/routes/vid.routes.js')(app);
 require('./app/routes/user.routes.js')(app);
 require('./app/routes/theme.routes.js')(app);
 
-// Définition du port d'écoute
 const PORT = 8080;
 
-// Lancement du serveur
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
