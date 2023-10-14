@@ -23,10 +23,10 @@
             <div class="search-and-book-container">
                 <div class="search-container">
                     <div class="search-bar-container" id="first-searchy-bar">
-                        <form action="">
-                            <input type="text" placeholder="Search.." name="search">
+                        <!-- <form action=""> -->
+                            <input type="text" placeholder="Search.." name="search" v-model="searchbar" @change="getThemes">
                             <div><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></div>
-                        </form>
+                        <!-- </form> -->
                     </div>
                     <div class="lib-button-container">
                         <div><font-awesome-icon icon="fa-regular fa-handshake" style="font-size: 21px; margin-right: 15px;"/></div>
@@ -34,10 +34,10 @@
                 </div>
                 <div class="search-container search-container-fixe hide" id="search-container-fixe">
                     <div class="search-bar-container">
-                        <form action="">
-                            <input type="text" placeholder="Search.." name="search">
+                        <!-- <form action=""> -->
+                            <input type="text" placeholder="Search.." name="search" v-model="searchbar" @change="getThemes">
                             <div><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></div>
-                        </form>
+                        <!-- </form> -->
                     </div>
                     <div class="lib-button-container">
                         <div class="dropdown">
@@ -60,20 +60,20 @@
                     <div class="hor-scroll-wrap">
                         <div class="hor-scroll">
                             <ul class="item-grid">
-                                <li v-for = "video in videos[theme.id]" :key="video.id">
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            {{video.name}}
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                {{video.organization}}
+                                <RouterLink  v-for = "video in videos[theme.id]" :key="video.id" :to="{ path: 'video-page', query: { video_id: video.id }}">
+                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
+                                        <div class="mini-vid-desc">
+                                            <div class="mini-vid-name">
+                                                {{video.name}}
                                             </div>
-                                        </div>
-                                    </div>
-                                </li>
+                                            <div class="mini-vid-author">
+                                                <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                                <div class="mini-vid-author-info">
+                                                    {{video.organization}}
+                                                </div>
+                                            </div>
+                                        </div>  
+                                </RouterLink>
                             </ul>
                         </div>
                     </div>
@@ -120,7 +120,8 @@ export default {
     data(){
         return{
             themes:[],
-            videos:{}
+            videos:{},
+            searchbar:"",
 
         }
     },
@@ -146,6 +147,8 @@ export default {
         window.addEventListener("scroll", myScrollFunc);
         window.addEventListener("scroll", myScrollFunc1);
         this.getThemes();
+        this.getOrganizationById(3);
+        this.getFilteredOrganization([1,2,3,4,5,6]);
         
     },
     methods: {
@@ -166,7 +169,7 @@ export default {
                 .then((data) => {
                     this.themes = data;
                     this.themes.forEach(theme => {
-                        this.getFiltered(theme);
+                        this.getFilteredVideo(theme);
                     })
                 })
                 .catch((error) => {
@@ -174,22 +177,39 @@ export default {
                 });
         },
 
-
-
-        getFiltered(theme) {
+        getFilteredVideo(theme) {
             //console.log("getfiltered "+JSON.stringify(theme))
-            axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{theme:theme,searchbar:""}})
+            axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{themes:[theme],name:this.searchbar}})
                 .then(response => {
                     this.videos[theme.id] = response.data;
-                    console.log("videos  "+JSON.stringify(this.videos))
+                    // console.log("videos  "+JSON.stringify(this.videos))
                 })
                 .catch(error => {
                     console.log(error);
                 })
-        }
-        
-    },
+        },
 
+        getOrganizationById(id) {
+            axios.get(`${localStorage.getItem("addressServer")}/org/id`,{params:{org_id:id}})
+                .then(response => {
+                    var organization = response.data;
+                    console.log("Organization  "+JSON.stringify(organization))
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+        },
 
+        getFilteredOrganization(themes){
+            axios.get(`${localStorage.getItem("addressServer")}/org/filtered`,{params:{theme:themes,name:this.searchbar}})
+                .then(response => {
+                    var organizations = response.data;
+                    console.log("Organizations  "+JSON.stringify(organizations))
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+        },
+    }
 }
 </script>

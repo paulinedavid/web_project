@@ -16,7 +16,7 @@ CREATE TABLE organization(
    banner TEXT,
    description TEXT,
    id_pined_video INT,
-   nb_menbres INT,
+   nb_membres INT,
    PRIMARY KEY(id),
    UNIQUE(mail)
 );
@@ -61,7 +61,7 @@ CREATE TABLE video_theme(
    FOREIGN KEY(id_theme) REFERENCES Theme(id)
 );
 
-CREATE TABLE asso_theme(
+CREATE TABLE organization_theme(
    id_org INT,
    id_theme VARCHAR(50),
    PRIMARY KEY(id_org, id_theme),

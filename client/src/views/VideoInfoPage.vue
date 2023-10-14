@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/catalog-page" class="to-page-nav">Book catalog</router-link>
+                    <router-link to="/catalog-page" class="to-page-nav">Video catalog</router-link>
                     <router-link to="/catalog-library-page" class="to-page-nav">My Library</router-link>
                     <router-link to="/catalog-recs-page" class="to-page-nav">Recommendations</router-link>
                 </div>
@@ -35,7 +35,7 @@
                 <div class="Titre-desc-container"></div>
                 <div class="Book-info-specs-container">
                     <div class="book-title-info">
-                        Super Video avec un Super Titre
+                        {{video.name}}
                         <!-- <div class="rate">
                         <input type="radio" id="star5" name="rate" value="5" />
                         <label for="star5" title="Must read - 5">5 stars</label> -->
@@ -52,10 +52,10 @@
                     <div class="Asso-pic-name">
                         <img class="comment-avatar" src="../assets/UserWrite.png" alt="User Write img">
                         <div class="book-author-info">
-                            Belvie asso
+                            {{ video.organization.name }}
                         </div>
-                        <button class="visit-page-btn">Visit Page</button>
-                        <button class="donate-btn">Donate</button>
+                        <button class="visit-page-btn" @click="redirectToExternalSite(video.organization.url_site);">Visit Page</button>
+                        <button class="donate-btn" @click="redirectToExternalSite(video.organization.url_gofounding);">Donate</button>
                     </div>
                     <div class="date-and-language-info">
                         2023
@@ -70,16 +70,7 @@
                     </div> -->
                 </div>
                 <div class="summary-container">
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
-                    massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam
-                    felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede
-                    justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a,
-                    venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.
-                    Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu,
-                    consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
-                    Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi
-                    vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus
-                    eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. </div>
+                    {{ video.description }} </div>
                 <!-- <div class="save-share-info">
                     <div>
                         <router-link to="/book-read-page" class="LogRegBtnLink"
@@ -111,16 +102,19 @@
                 <div class="hor-scroll-wrap" >
                     <div class="hor-scroll" >
                         <ul class="item-grid" >
-                            <li v-for="i in 10" :key="i">
-                                <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                            
+                            <li v-for="v in other_videos" :key="v.id">
+                                <routerLink :to="{ path: 'video-page', query: { video_id: v.id }}" @click="getVideo(v.id)">
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                </routerLink>
                                 <div class="mini-vid-desc">
                                     <div class="mini-vid-name">
-                                        Really cool video
+                                        {{v.name}}
                                     </div>
                                     <div class="mini-vid-author">
                                         <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
                                         <div class="mini-vid-author-info">
-                                            Belvie asso
+                                            {{v.organization}}
                                         </div>
                                     </div>
                                 </div>
@@ -215,13 +209,24 @@
 import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
 import UserAvatar from "../assets/User.png"
+import axios from "axios";
 export default {
     name: "BookInfoPage",
     components: {
         DarkLightMode,
         UserMenu
     },
+    data(){
+        return{
+            video:{name:"",organization:"",description:""},
+            other_videos:[]
+
+        }
+
+    },
     mounted() {
+        const urlParams = new URLSearchParams(window.location.search);
+
         var thisID = document.getElementById("TopBtn");
         var myScrollFunc = function () {
             var y = window.scrollY;
@@ -242,22 +247,25 @@ export default {
 
         function template(data) {
             commentList.insertAdjacentHTML("beforeend", `
-  <div class="comment flex items-start justify-start">
-      <img class="comment-avatar" :src="avatar" />
-      <div class="flex-1">
-        <h3 class="comment-author1">${data.author}</h3>
-        <p class="comment-body">${data.comment}</p>
-      </div>
-    </div>
-  </div>`);
+            <div class="comment flex items-start justify-start">
+                <img class="comment-avatar" :src="avatar" />
+                <div class="flex-1">
+                    <h3 class="comment-author1">${data.author}</h3>
+                    <p class="comment-body">${data.comment}</p>
+                </div>
+                </div>
+            </div>`);
         }
 
         function appendComment(event) {
 
             const data = {
+
                 avatar: UserAvatar,
                 author: commentAuthor.value,
                 comment: commentInput.value,
+                
+
             };
 
             event.preventDefault();
@@ -291,6 +299,8 @@ export default {
         }
 
         this.setContainerScroll();
+        this.getVideo(parseInt(urlParams.get('video_id')));
+        
     },
     methods: {
         OpenDeleteTask(id) {
@@ -325,7 +335,38 @@ export default {
         onScroll() {
             this.setContainerScroll();
         },
-    },
+
+        redirectToExternalSite(externalSiteUrl) {
+            window.open(externalSiteUrl, '_blank');
+        },
+        
+        getVideo(video_id) {
+            console.log(JSON.stringify(video_id))
+            axios.get(`${localStorage.getItem("addressServer")}/vid/id`,{params:{video_id:video_id}})
+                .then(response => {
+                    this.video = response.data;
+                    this.getOtherVideos()
+                    //console.log("Video  "+JSON.stringify(this.video))
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+
+        },
+        
+        getOtherVideos() {
+            console.log(JSON.stringify(this.video))
+            axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{id_org:this.video.id_org}})
+                .then(response => {
+                    this.other_videos = response.data;
+                    console.log("videos  "+JSON.stringify(this.videos))
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+    }
+    
 
 }
 </script>

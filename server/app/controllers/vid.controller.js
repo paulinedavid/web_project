@@ -5,7 +5,8 @@ const { spawn } = require('node:child_process');
 const vidUploadPath = path.join(__dirname, '../../vid/');
 fs.ensureDir(vidUploadPath);
 
-const Video = require("../models/video.model.js")
+const Video = require("../models/video.model.js");
+const Organization = require('../models/org.model.js');
 
 exports.upload = (req, res, next) => {
     req.pipe(req.busboy); // Pipe the request through busboy
@@ -188,21 +189,120 @@ exports.create = (req, res, next) => {
 }
 
 exports.getFiltered = (req, res) => {
-    const theme = req.query.theme;
-    //console.log(req.query)
-    const filterQuerry = "SELECT video.id, video.name, video.description, id_theme, organization.name AS organization FROM video JOIN video_theme ON video.id = id_video JOIN organization ON id_org = organization.id WHERE id_theme = " + theme.id
+    if (!req.query){
+        res.status(400).send({
+            message: "Content can not be empty !"
+        });
+    }
+    else{
+        var filters = req.query;
+        console.log("getFiltered: filters: "+JSON.stringify(filters  ))
+        var filterQuery = "SELECT video.*, organization.name AS organization FROM video JOIN organization WHERE video.id_org = organization.id ";
+        // var filter = false;
+        if(filters.name){
+            filterQuery += "AND name LIKE '%"+filters.name+"%' ";
+            // filter = true;
+        }
+        if(filters.id_org){
+            // if(filter){
+            //     filterQuery += "AND ";
+            // }
+            // else{
+            //     filterQuery += "WHERE ";
+            // }
+            filterQuery += "AND id_org = "+filters.id_org;
+            // filter = true;
 
-    Video.getFiltered(filterQuerry, (err, data) => {
+        }
+        if(filters.themes){
+            // if(filter){
+            //     filterQuery += "AND ";
+            // }
+            // else{
+            //     filterQuery += "WHERE ";
+            // }
+            filterQuery += "AND id IN (SELECT id_video FROM video_theme WHERE id_theme IN ( "
+            filters.themes.forEach(theme => {
+                filterQuery += theme.id + ",";
+            });
+            filterQuery = filterQuery.slice(0,-1);
+            filterQuery += "))";
+            // filter = true;
+        }
+        console.log(filterQuery);
+        Video.getFiltered(filterQuery, (err, data) => {
+            if (err)
+                res.status(500).send({
+                    message: err.message || "Some error occured while retrieving books"
+                });
+            else {
+                res.send(data);
+                //console.log("data", data);
+                return
+            
+            }
+
+        });
+    }
+}
+
+exports.getAll = (req, res) => {
+    Video.getAll((err, data) => {
         if (err)
             res.status(500).send({
                 message: err.message || "Some error occured while retrieving books"
             });
-        else {
-            res.send(data);
-            console.log("data", data);
-            return
-           
-        }
-
+        else res.send(data);
     });
+}
+
+exports.findById = (req, res) => {
+    if (!req.query){
+        console.log("Content can not be empty !")
+        res.status(400).send({
+            message: "Content can not be empty !"
+        });
+    }
+    else if (!req.query.video_id){
+        var error = JSON.stringify(req.query)+" Wrong format. Required : {video_id:}"
+        console.log(error)
+        res.status(400).send({
+            message: error
+        });
+    }
+    else{
+        Video.findById(req.query.video_id, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: "Video not found with id " + req.query.videoId
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error retrieving video with id " + req.query.videoId
+                    });
+                }
+            } else {
+                var video = data;
+                Organization.findById(video.id_org, (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.status(404).send({
+                                message: "Organization not found with id " + video.id_org
+                            });
+                        } else {
+                            res.status(500).send({
+                                message: "Error retrieving organization with id " + video.id_org
+                            });
+                        }
+                    } else {
+                        video.organization = data;
+                        console.log("video:",video)
+                        res.send(video);
+                    }
+                });
+            }
+
+        });
+    }
 }
