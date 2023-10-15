@@ -129,6 +129,11 @@
                     vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus
                     eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.
                 </div>
+                <div class="donate-asso-btn">
+                    <button class="choose-cat-Btn">
+                        Join the cause
+                    </button>
+                </div>
             </div>
 
             <div class="vid-categories-cont" @scroll="onScroll">

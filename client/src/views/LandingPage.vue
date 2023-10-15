@@ -1,7 +1,11 @@
 <template>
     <body>
         <div class="Landing-page-container">
-            <header>
+
+            <a id="top"></a>
+            <div class="WelcomePrompt">
+                <div class="Landing-banner-container">
+                    <header>
                 <div class="header-landing-container">
                 <div class="header-container">
                     <!-- <div class="header-image">
@@ -16,10 +20,6 @@
                 </div>
             </div>
             </header>
-
-            <a id="top"></a>
-            <div class="WelcomePrompt">
-                <div class="Landing-banner-container">
                     <div class="Landing-banner">
                         <div class="Landing-banner-text">
                             <h2 class="Slogan">Your actions can make a difference</h2>
@@ -29,7 +29,7 @@
                             <h2 class="Slogan">Lets change the world together</h2>
                         </div>
                         <div>
-                            <img src="../assets/LangingPage.png" alt="Landing-png" class="Landing-png" />
+                            <img src="../assets/elephant_landing.jpeg" alt="Landing-png" class="Landing-png" />
                         </div>
                     </div>
                 </div>
