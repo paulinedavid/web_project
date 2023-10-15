@@ -37,7 +37,7 @@ exports.getFiltered = (req,res) => {
     }
     else{
         var filters = req.query;
-        console.log(filters);
+        //console.log(filters);
         var filterQuery = "SELECT game.*, organization.name AS organization FROM game JOIN organization WHERE game.id_org = organization.id  ";
         if(filters.name){
             filterQuery += "AND game.name LIKE '%"+filters.name+"%' ";
@@ -62,7 +62,8 @@ exports.getFiltered = (req,res) => {
                 return;
             }
             else{
-                console.log(data)
+                console.log("Game.getFiltered")
+                //console.log(data)
                 res.send(data);
                 return
             } 
@@ -113,7 +114,7 @@ exports.findById = (req, res) => {
                         }
                     } else {
                         game.organization = data;
-                        console.log("game found controller");
+                        console.log("Game.findById");
                         res.send(game);
                     }
                 });

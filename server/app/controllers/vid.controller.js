@@ -196,7 +196,7 @@ exports.getFiltered = (req, res) => {
     }
     else{
         var filters = req.query;
-        console.log("getFiltered: filters: "+JSON.stringify(filters  ))
+        //console.log("getFiltered: filters: "+JSON.stringify(filters  ))
         var filterQuery = "SELECT video.*, organization.name AS organization FROM video JOIN organization WHERE video.id_org = organization.id ";
         if(filters.name){
             filterQuery += "AND video.name LIKE '%"+filters.name+"%' ";
@@ -213,13 +213,14 @@ exports.getFiltered = (req, res) => {
             filterQuery = filterQuery.slice(0,-1);
             filterQuery += "))";
         }
-        console.log(filterQuery);
+        //console.log(filterQuery);
         Video.getFiltered(filterQuery, (err, data) => {
             if (err)
                 res.status(500).send({
                     message: err.message || "Some error occured while retrieving books"
                 });
             else {
+                console.log("Video.getFiltered")
                 res.send(data);
                 //console.log("data", data);
                 return
@@ -236,7 +237,10 @@ exports.getAll = (req, res) => {
             res.status(500).send({
                 message: err.message || "Some error occured while retrieving books"
             });
-        else res.send(data);
+        else {
+            console.log("Video.getAll")
+            res.send(data);
+        }
     });
 }
 
@@ -282,11 +286,11 @@ exports.findById = (req, res) => {
                     } else {
                         video.organization = data;
                         //console.log("video:",video)
+                        console.log("Video.findById");
                         res.send(video);
                     }
                 });
             }
-
         });
     }
 }

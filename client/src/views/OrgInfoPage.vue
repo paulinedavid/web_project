@@ -12,9 +12,9 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/video-catalog-page" class="to-page-nav">Videos</router-link>
-                    <router-link to="/game-catalog-page" class="to-page-nav">Game</router-link>
-                    <router-link to="/organization-catalog-page" class="to-page-nav">Organization</router-link>
+                    <router-link to="/video-catalog-page" class="to-page-nav" >Videos</router-link>
+                    <router-link to="/game-catalog-page" class="to-page-nav" >Games</router-link>
+                    <router-link to="/organization-catalog-page" class="to-page-nav" >Organizations</router-link>
                 </div>
                 <UserMenu></UserMenu>
                 <div class="light">

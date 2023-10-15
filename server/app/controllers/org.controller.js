@@ -76,13 +76,16 @@ exports.getFiltered = (req,res) => {
             filter = true;
         }
 
-        console.log("Query: "+filterQuery)
+        //console.log("Query: "+filterQuery)
         Organization.getFiltered(filterQuery, (err, data) => {
             if (err)
                 res.status(500).send({
                     message: err.message || "Some error occured while getting the organizations"
                 });
-            else res.send(data);
+            else {
+                console.log("organization.getFiltered")
+                res.send(data)
+            };
         });
         
     }
@@ -94,7 +97,10 @@ exports.getAll = (req,res) => {
             res.status(500).send({
                 message: err.message || "Some error occured while getting the organizations"
             });
-        else res.send(data);
+        else {
+            console.log("Organization.getAll")
+            res.send(data);
+        }
     });
 }
 exports.findById = (req,res) => {
@@ -125,7 +131,10 @@ exports.findById = (req,res) => {
                         message: "Error retrieving organization with id " + org_id
                     });
                 }
-            } else res.send(data);console.log("coucou");
+            } else{
+                console.log("Organization.findById")
+                res.send(data);
+            } 
         });
     }
 }

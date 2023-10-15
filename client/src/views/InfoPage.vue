@@ -13,12 +13,10 @@
                         <div class="logo-nav"></div>
                     </div>
                 </div>
-                <div class="Navbar">
-                    
-                    <router-link v-if="item_type==='video'" to="/video-catalog-page" class="to-page-nav">Video catalog</router-link>
-                    <router-link v-if="item_type==='game'" to="/game-catalog-page" class="to-page-nav">Game catalog</router-link>
-                    <router-link to="/catalog-library-page" class="to-page-nav">My Library</router-link>
-                    <router-link to="/catalog-recs-page" class="to-page-nav">Recommendations</router-link>
+                <div class="Navbar"> 
+                    <router-link to="/video-catalog-page" class="to-page-nav" >Videos</router-link>
+                    <router-link to="/game-catalog-page" class="to-page-nav" >Games</router-link>
+                    <router-link to="/organization-catalog-page" class="to-page-nav" >Organizations</router-link>
                 </div>
                 <UserMenu></UserMenu>
                 <div class="light">
@@ -348,7 +346,7 @@ export default {
         onScroll() {
             this.setContainerScroll();
         },
-        
+
         scrollTop(){
             console.log("scrollTop")
             window.scrollTo({top: 0, behavior: 'smooth'});

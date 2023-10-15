@@ -85,7 +85,7 @@ Game.findById = (GameId,result) => {
                     return;
                 }else{
                     game.themes = resThemes;
-                    console.log("Game FindById: ",game);
+                    //console.log("Game FindById: ",game);
                     result(null, game);
                     return;
                 }
@@ -106,7 +106,7 @@ Game.getAll = result => {
             result(null, err);
             return;
         }
-        console.log("game: ", res);
+        //console.log("game: ", res);
         result(null, res);
     });
 };

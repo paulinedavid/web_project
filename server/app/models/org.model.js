@@ -50,7 +50,7 @@ Organization.create = (newOrg, result) => {
     });
 };
 Organization.findById = (orgID, result) => {
-    console.log(orgID);
+    //console.log(orgID);
     sql.query(`SELECT * FROM organization WHERE id = ${orgID}`, (err, res) => {
         if(err){
             console.log("error: ", err);
@@ -74,7 +74,7 @@ Organization.findById = (orgID, result) => {
                         }
                         else{
                             organization.owners = resOwners;
-                            console.log("Organization FindById: ",organization);
+                            //console.log("Organization FindById: ",organization);
                             result(null, organization);
                             return;
                         }
