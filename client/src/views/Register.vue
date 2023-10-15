@@ -127,7 +127,7 @@ export default {
       this.matching = true;
       this.message = "";
       if (this.mail === this.remail) {
-        fetch("http://localhost:8080/auth/register", {
+        fetch(this.addressServer+"/auth/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

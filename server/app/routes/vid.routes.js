@@ -9,5 +9,9 @@ module.exports = app => {
 
     router.get("/filtered",vid.getFiltered);
 
+    router.get("/all",vid.getAll);
+
+    router.get("/id",vid.findById)
+
     app.use('/vid', router);
 }

@@ -1,7 +1,5 @@
 const sql = require("./db.js");
 
-
-
 // constructeur et structure de l'objet Video
 const Video = function (video) {
   this.id = video.id;
@@ -9,6 +7,7 @@ const Video = function (video) {
   this.description = video.description;
   this.themes = video.themes;
   this.id_org = video.id_org;
+  this.organization = video.organization;
 };
 
 // fonction pour créer une nouvelle video
@@ -37,9 +36,9 @@ Video.create = (newVideo, result) => {
 };
 
 // fonction pour récupérer les videos par filtre
-Video.getFiltered = (filterQuerry, result) => {
-  //console.log(filterQuerry);
-  sql.query(filterQuerry, (err, resVideos) => {
+Video.getFiltered = (filterQuery, result) => {
+  //console.log(filterQuery);
+  sql.query(filterQuery, (err, resVideos) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -59,19 +58,26 @@ Video.getFiltered = (filterQuerry, result) => {
             video.themes.push(theme);
           });
           myVideos.push(video);
-          if (myVideos.length == resVideos.length) {
-            
-            result(null, myVideos);
-            //console.log(JSON.stringify(myVideos))
-          }
         })
       });
     }
-    else {
-      result(null, resVideos);
+    result(null, resVideos);
+  });
+}
+
+Video.findById = (VideoId,result) => {
+  sql.query(`SELECT * FROM video WHERE id = ${VideoId}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return; 
     }
-
-
+    if (res.length) {
+      //console.log("found video: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+    result({ kind: "not_found" }, null);
   });
 }
 

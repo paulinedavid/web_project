@@ -12,9 +12,9 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/catalog-page" class="to-page-nav">Videos</router-link>
-                    <router-link to="/catalog-library-page" class="to-page-nav">Games</router-link>
-                    <router-link to="/catalog-recs-page" class="to-page-nav">Organizations</router-link>
+                    <router-link to="/video-catalog-page" class="to-page-nav" >Videos</router-link>
+                    <router-link to="/game-catalog-page" class="to-page-nav" >Games</router-link>
+                    <router-link to="/organization-catalog-page" class="to-page-nav" >Organizations</router-link>
                 </div>
                 <UserMenu></UserMenu>
                 <div class="light">
@@ -47,7 +47,7 @@
                     
                 </div>
                 <div class="asso-name">
-                        Belvie Asso
+                        {{ organization.name }}
                     </div></div>
                 <div class="follow-container">
                     <div class="follow-icon"><button class="join-asso-Btn">
@@ -55,7 +55,7 @@
                         <font-awesome-icon icon="fa-regular fa-handshake" style="font-size: 21px; margin-right: 15px;"/>
                         Join
                         </button></div>
-                    <div class="follow-number">154263</div>
+                    <div class="follow-number">{{ organization.nb_membres }}</div>
                     <div class="follow-member">Members</div>
                 </div>
             </div>
@@ -68,15 +68,17 @@
                         <div class="hor-scroll">
                             <ul class="item-grid1">
                                 <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-pinned-pic">
+                                    <router-link :to="{ path: 'video-info-page', query: { video_id: pined_video.id }}">
+                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-pinned-pic">
+                                    </router-link>
                                     <div class="mini-vid-desc">
                                         <div class="mini-vid-name">
-                                            Really cool video
+                                            {{ pined_video.name }}
                                         </div>
                                         <div class="mini-vid-author">
                                             <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
                                             <div class="mini-vid-author-info">
-                                                Belvie asso
+                                                {{ pined_video.organization.name }}
                                             </div>
                                         </div>
                                     </div>
@@ -94,15 +96,17 @@
                         <div class="hor-scroll">
                             <ul class="item-grid1">
                                 <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-pinned-pic">
+                                    <router-link :to="{ path: 'game-info-page', query: { game_id: pined_game.id }}">
+                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-pinned-pic">
+                                    </router-link>
                                     <div class="mini-vid-desc">
                                         <div class="mini-vid-name">
-                                            Really cool game
+                                            {{ pined_game.name }}
                                         </div>
                                         <div class="mini-vid-author">
                                             <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
                                             <div class="mini-vid-author-info">
-                                                Belvie asso
+                                                {{ pined_game.organization.name }}
                                             </div>
                                         </div>
                                     </div>
@@ -118,16 +122,12 @@
                     Our Mission...
                 </div>
                 <div class="asso-summary-container">
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
-                    massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam
-                    felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede
-                    justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a,
-                    venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.
-                    Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu,
-                    consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
-                    Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi
-                    vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus
-                    eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.
+                    {{ organization.description }}
+                </div>
+                <div class="donate-asso-btn">
+                    <button class="choose-cat-Btn">
+                        Join the cause
+                    </button>
                 </div>
             </div>
 
@@ -138,16 +138,18 @@
                 <div class="hor-scroll-wrap">
                     <div class="hor-scroll">
                         <ul class="item-grid">
-                            <li v-for="i in 10" :key= i >
-                                <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                            <li v-for="video in other_videos" :key= video.id >
+                                <router-link :to="{ path: 'video-info-page', query: { video_id: video.id }}">
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                </router-link>
                                 <div class="mini-vid-desc">
                                     <div class="mini-vid-name">
-                                        Really cool video
+                                        {{video.name}}
                                     </div>
                                     <div class="mini-vid-author">
                                         <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
                                         <div class="mini-vid-author-info">
-                                            Belvie asso
+                                            {{video.organization}}
                                         </div>
                                     </div>
                                 </div>
@@ -165,16 +167,18 @@
                 <div class="hor-scroll-wrap">
                     <div class="hor-scroll">
                         <ul class="item-grid">
-                            <li v-for="i in 10" :key= i >
-                                <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                            <li v-for="game in other_games" :key= game.id >
+                                <router-link :to="{ path: 'game-info-page', query: { game_id: game.id }}">
+                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                </router-link>
                                 <div class="mini-vid-desc">
                                     <div class="mini-vid-name">
-                                        Really cool game
+                                        {{ game.name }}
                                     </div>
                                     <div class="mini-vid-author">
                                         <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
                                         <div class="mini-vid-author-info">
-                                            Belvie asso
+                                            {{ game.organization }}
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +190,8 @@
 
         </div>
 
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
+        <button id="TopBtn"  class="fa fa-angle-double-up hide" style="font-size: 24px" @click="scrollTop"><font-awesome-icon
+                icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></button>
         <footer style="margin-top: 40px;">
             <div class="content-footer">
                 <div class="top">
@@ -216,11 +221,108 @@
 
 import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
+import axios from "axios";
 export default {
     name: "CatalogPageAdmin",
     components: {
         DarkLightMode,
         UserMenu
     },
+    data() {
+        return {
+            organization:{name:"name", description:"description", nb_membres:1000 },
+            pined_video:{name:"video_name",organization:"video_organization"},
+            other_videos:[],
+            pined_game:{name:"game_name",organization:"game_organization"},
+            other_games:[],
+        }
+    },
+    methods: {
+        scrollTop(){
+            console.log("scrollTop")
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        },
+        getOrganization(org_id){
+            axios.get(`${localStorage.getItem("addressServer")}/org/id`,{params:{org_id:org_id}})
+                .then(response => {
+                    this.organization = response.data;
+                    console.log("Organization  "+JSON.stringify(this.organization))
+                    this.getPinedVideo()
+                    this.getOtherVideos()
+                    this.getPinedGame()
+                    this.getOtherGames()
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+        },
+
+        getPinedVideo() {
+            console.log(JSON.stringify(this.organization.id_pined_video))
+            axios.get(`${localStorage.getItem("addressServer")}/vid/id`,{params:{video_id:this.organization.id_pined_video}})
+                .then(response => {
+                    this.pined_video = response.data;
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+
+        },
+        getOtherVideos() {
+            console.log(JSON.stringify(this.video))
+            axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{id_org:this.organization.id}})
+                .then(response => {
+                    this.other_videos = response.data;
+                    console.log("videos  "+JSON.stringify(this.videos))
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+
+        getPinedGame() {
+            console.log(JSON.stringify(this.organization.id_pined_game))
+            axios.get(`${localStorage.getItem("addressServer")}/game/id`,{params:{game_id:this.organization.id_pined_game}})
+                .then(response => {
+                    this.pined_game = response.data;
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+
+        },
+
+        getOtherGames() {
+            console.log(JSON.stringify(this.game))
+            axios.get(`${localStorage.getItem("addressServer")}/game/filtered`,{params:{id_org:this.organization.id}})
+                .then(response => {
+                    this.other_games = response.data;
+                    console.log("games  "+JSON.stringify(this.games))
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+
+        
+
+    },
+    mounted() {
+
+        var thisID = document.getElementById("TopBtn");
+        var myScrollFunc = function () {
+            var y = window.scrollY;
+            if (y >= 300) {
+                thisID.className = "fa fa-angle-double-up show";
+            } else {
+                thisID.className = "fa fa-angle-double-up hide";
+            }
+        };
+        window.addEventListener("scroll", myScrollFunc);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        this.getOrganization(parseInt(urlParams.get('org_id')))
+    },
+
 }
 </script>

@@ -32,7 +32,8 @@ Theme.getAll = result => {
             console.log("error: ", err);
             result(null, err);
         }
-        console.log("Themes: ", res);
+        //console.log("Themes: ", res);
+        console.log("Theme.getAll")
         result(null, res);
     });
 };
