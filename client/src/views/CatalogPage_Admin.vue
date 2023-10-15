@@ -8,9 +8,9 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/catalog-page" class="to-page-nav">Videos</router-link>
-                    <router-link to="/catalog-library-page" class="to-page-nav">Games</router-link>
-                    <router-link to="/catalog-recs-page" class="to-page-nav">Organizations</router-link>
+                    <router-link to="/video-catalog-page" class="to-page-nav" @click="getThemes">Videos</router-link>
+                    <router-link to="/game-catalog-page" class="to-page-nav" @click="getThemes">Games</router-link>
+                    <router-link to="/organization-catalog-page" class="to-page-nav" @click="getThemes">Organizations</router-link>
                 </div>
                 <UserMenu></UserMenu>
                 <div class="light">
@@ -48,40 +48,57 @@
                 </div>
                 <div class="cat-Navbar-container">
                     <div class="cat-Navbar" >
-                        <button class="choose-cat-Btn" v-for = "theme in themes" :key = "theme.id" >
+                        <div class="choose-cat-Btn" v-for = "theme in filteredThemes" :key = "theme.id" @click="scrollToComponent('video_cont-'+theme.id)" >
                             {{ theme.name }}
-                        </button>
+                        </div>
                     </div>
                 </div>
-                <div class="vid-categories-cont" @scroll="onScroll" v-for = "theme in themes" :key = "theme.id">
+
+                <div class="vid-categories-cont" @scroll="onScroll" :id="'video_cont-'+theme.id" v-for = "theme in filteredThemes" :key = "theme.id"  >
                     <div class="cat-vids-label">
                         {{theme.name}}
                     </div>
                     <div class="hor-scroll-wrap">
                         <div class="hor-scroll">
                             <ul class="item-grid">
-                                <RouterLink  v-for = "video in videos[theme.id]" :key="video.id" :to="{ path: 'video-page', query: { video_id: video.id }}">
+                                <li  v-for = "item in items[theme.id]" :key="item.id" >
+                                    <RouterLink v-if="page==='video'" :to="{ path: 'video-info-page', query: { video_id: item.id }}">
                                         <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
-                                        <div class="mini-vid-desc">
-                                            <div class="mini-vid-name">
-                                                {{video.name}}
+                                    </RouterLink>
+                                    <RouterLink v-if="page==='game'" :to="{ path: 'game-info-page', query: { game_id: item.id }}">
+                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
+                                    </RouterLink>
+                                    <RouterLink v-if="page==='organization'" :to="{ path: 'organization-info-page', query: { org_id: item.id }}">
+                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
+                                    </RouterLink>
+                                    <div v-if="page!=='organization'" class="mini-vid-desc">
+                                        <div class="mini-vid-name">
+                                            {{item.name}}
+                                        </div>
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="mini-vid-author-info">
+                                                {{item.organization}}
                                             </div>
-                                            <div class="mini-vid-author">
-                                                <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                                <div class="mini-vid-author-info">
-                                                    {{video.organization}}
-                                                </div>
+                                        </div>
+                                    </div> 
+                                    <div v-if="page==='organization'" class="mini-vid-desc">
+                                        <div class="mini-vid-author">
+                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
+                                            <div class="book-author-info">
+                                                {{item.name}}
                                             </div>
-                                        </div>  
-                                </RouterLink>
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon
-                icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
+        <button id="TopBtn"  class="fa fa-angle-double-up hide" style="font-size: 24px" @click="scrollTop"><font-awesome-icon
+                icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></button>
         <footer style="margin-top: 40px;">
             <div class="content-footer">
                 <div class="top">
@@ -120,8 +137,9 @@ export default {
     data(){
         return{
             themes:[],
-            videos:{},
+            items:{},
             searchbar:"",
+            page:null,
 
         }
     },
@@ -147,13 +165,29 @@ export default {
         window.addEventListener("scroll", myScrollFunc);
         window.addEventListener("scroll", myScrollFunc1);
         this.getThemes();
-        this.getOrganizationById(3);
-        this.getFilteredOrganization([1,2,3,4,5,6]);
         
+    },
+    computed: {
+        filteredThemes() {
+            return this.themes.filter(theme => this.items[theme.id] && this.items[theme.id].length > 0);
+        }
     },
     methods: {
         onScroll() {
             console.log("scrolling");
+        },
+        
+        scrollToComponent(idComponent) {
+            const component = document.getElementById(idComponent);
+            console.log('scrool to '+idComponent)
+            if (component) {
+                component.scrollIntoView({ behavior: 'smooth' });
+            }
+        },
+
+        scrollTop(){
+            console.log("scrollTop")
+            window.scrollTo({top: 0, behavior: 'smooth'});
         },
 
         getThemes() {
@@ -168,9 +202,24 @@ export default {
                 })
                 .then((data) => {
                     this.themes = data;
-                    this.themes.forEach(theme => {
+                    if(this.$route.path == "/game-catalog-page"){
+                        this.page="game"
+                        this.themes.forEach(theme => {
+                        this.getFilteredGame(theme);
+                        })
+                    } 
+                    else if(this.$route.path == "/video-catalog-page"){
+                        this.page="video"
+                        this.themes.forEach(theme => {
                         this.getFilteredVideo(theme);
-                    })
+                        })
+                    }
+                    else if(this.$route.path == "/organization-catalog-page"){
+                        this.page="organization"
+                        this.themes.forEach(theme => {
+                        this.getFilteredOrganization(theme);
+                        })
+                    }
                 })
                 .catch((error) => {
                     console.error(error);
@@ -181,30 +230,30 @@ export default {
             //console.log("getfiltered "+JSON.stringify(theme))
             axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{themes:[theme],name:this.searchbar}})
                 .then(response => {
-                    this.videos[theme.id] = response.data;
-                    // console.log("videos  "+JSON.stringify(this.videos))
+                    this.items[theme.id] = response.data;
+                    //console.log("videos  "+JSON.stringify(this.videos))
                 })
                 .catch(error => {
                     console.log(error);
                 })
         },
 
-        getOrganizationById(id) {
-            axios.get(`${localStorage.getItem("addressServer")}/org/id`,{params:{org_id:id}})
+        getFilteredGame(theme) {
+            axios.get(`${localStorage.getItem("addressServer")}/game/filtered`,{params:{themes:[theme],name:this.searchbar}})
                 .then(response => {
-                    var organization = response.data;
-                    console.log("Organization  "+JSON.stringify(organization))
+                    this.items[theme.id] = response.data;
+                    //console.log("Games  "+JSON.stringify(this.items))
                 })
                 .catch(error => {
                     console.log(error.message);
                 })
         },
 
-        getFilteredOrganization(themes){
-            axios.get(`${localStorage.getItem("addressServer")}/org/filtered`,{params:{theme:themes,name:this.searchbar}})
+        getFilteredOrganization(theme){
+            axios.get(`${localStorage.getItem("addressServer")}/org/filtered`,{params:{themes:[theme],name:this.searchbar}})
                 .then(response => {
-                    var organizations = response.data;
-                    console.log("Organizations  "+JSON.stringify(organizations))
+                    this.items[theme.id] = response.data;
+                    //console.log("Organizations  "+JSON.stringify(this.items))
                 })
                 .catch(error => {
                     console.log(error.message);

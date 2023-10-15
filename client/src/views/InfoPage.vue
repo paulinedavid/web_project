@@ -14,7 +14,9 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/catalog-page" class="to-page-nav">Video catalog</router-link>
+                    
+                    <router-link v-if="item_type==='video'" to="/video-catalog-page" class="to-page-nav">Video catalog</router-link>
+                    <router-link v-if="item_type==='game'" to="/game-catalog-page" class="to-page-nav">Game catalog</router-link>
                     <router-link to="/catalog-library-page" class="to-page-nav">My Library</router-link>
                     <router-link to="/catalog-recs-page" class="to-page-nav">Recommendations</router-link>
                 </div>
@@ -35,7 +37,7 @@
                 <div class="Titre-desc-container"></div>
                 <div class="Book-info-specs-container">
                     <div class="book-title-info">
-                        {{video.name}}
+                        {{item.name}}
                         <!-- <div class="rate">
                         <input type="radio" id="star5" name="rate" value="5" />
                         <label for="star5" title="Must read - 5">5 stars</label> -->
@@ -52,10 +54,10 @@
                     <div class="Asso-pic-name">
                         <img class="comment-avatar" src="../assets/UserWrite.png" alt="User Write img">
                         <div class="book-author-info">
-                            {{ video.organization.name }}
+                            {{ item.organization.name }}
                         </div>
-                        <button class="visit-page-btn" @click="redirectToExternalSite(video.organization.url_site);">Visit Page</button>
-                        <button class="donate-btn" @click="redirectToExternalSite(video.organization.url_gofounding);">Donate</button>
+                        <router-link class="visit-page-btn" :to="{ path: 'organization-info-page', query: { org_id: item.organization.id }}" >Visit Page</router-link>
+                        <button class="donate-btn" @click="redirectToExternalSite(item.organization.url_gofounding);">Donate</button>
                     </div>
                     <div class="date-and-language-info">
                         2023
@@ -70,7 +72,7 @@
                     </div> -->
                 </div>
                 <div class="summary-container">
-                    {{ video.description }} </div>
+                    {{ item.description }} </div>
                 <!-- <div class="save-share-info">
                     <div>
                         <router-link to="/book-read-page" class="LogRegBtnLink"
@@ -103,18 +105,18 @@
                     <div class="hor-scroll" >
                         <ul class="item-grid" >
                             
-                            <li v-for="v in other_videos" :key="v.id">
-                                <routerLink :to="{ path: 'video-page', query: { video_id: v.id }}" @click="getVideo(v.id)">
+                            <li v-for="i in other_items" :key="i.id">
+                                <router-link :to="item_type === 'video' ? { path: 'video-info-page', query: { video_id: i.id } } : { path: 'game-info-page', query: { game_id: i.id } }" @click="getItem(i.id)">
                                     <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                </routerLink>
+                                </router-link>
                                 <div class="mini-vid-desc">
                                     <div class="mini-vid-name">
-                                        {{v.name}}
+                                        {{i.name}}
                                     </div>
                                     <div class="mini-vid-author">
                                         <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
                                         <div class="mini-vid-author-info">
-                                            {{v.organization}}
+                                            {{i.organization}}
                                         </div>
                                     </div>
                                 </div>
@@ -178,8 +180,8 @@
                 </div>
             </div>
         </div>
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon
-                icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
+        <button id="TopBtn"  class="fa fa-angle-double-up hide" style="font-size: 24px" @click="scrollTop"><font-awesome-icon
+                icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></button>
         <footer>
             <div class="content-footer">
                 <div class="top">
@@ -218,8 +220,9 @@ export default {
     },
     data(){
         return{
-            video:{name:"",organization:"",description:""},
-            other_videos:[]
+            item_type:null,
+            item:{name:"",organization:"",description:""},
+            other_items:[]
 
         }
 
@@ -299,7 +302,17 @@ export default {
         }
 
         this.setContainerScroll();
-        this.getVideo(parseInt(urlParams.get('video_id')));
+        var itemId = null
+        if (urlParams.get('video_id')){
+            this.item_type = "video"
+            itemId = parseInt(urlParams.get('video_id'));
+        }
+        else if (urlParams.get('game_id')){
+            this.item_type = "game"
+            itemId = parseInt(urlParams.get('game_id'));
+        }
+        this.getItem(itemId)
+        
         
     },
     methods: {
@@ -335,16 +348,34 @@ export default {
         onScroll() {
             this.setContainerScroll();
         },
+        
+        scrollTop(){
+            console.log("scrollTop")
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        },
 
         redirectToExternalSite(externalSiteUrl) {
             window.open(externalSiteUrl, '_blank');
         },
+
+        getItem(item_id){
+            if (this.item_type == null){
+                console.log("item type is null")
+                return
+            }
+            else if (this.item_type == "video"){
+                this.getVideo(item_id)
+            }
+            else if (this.item_type == "game"){
+                this.getGame(item_id)
+            }
+        },
         
         getVideo(video_id) {
-            console.log(JSON.stringify(video_id))
+            //console.log(JSON.stringify(video_id))
             axios.get(`${localStorage.getItem("addressServer")}/vid/id`,{params:{video_id:video_id}})
                 .then(response => {
-                    this.video = response.data;
+                    this.item = response.data;
                     this.getOtherVideos()
                     //console.log("Video  "+JSON.stringify(this.video))
                 })
@@ -355,16 +386,41 @@ export default {
         },
         
         getOtherVideos() {
-            console.log(JSON.stringify(this.video))
-            axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{id_org:this.video.id_org}})
+            //console.log(JSON.stringify(this.video))
+            axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{id_org:this.item.id_org}})
                 .then(response => {
-                    this.other_videos = response.data;
-                    console.log("videos  "+JSON.stringify(this.videos))
+                    this.other_items = response.data;
+                    //console.log("videos  "+JSON.stringify(this.items))
                 })
                 .catch(error => {
                     console.log(error);
                 })
         },
+        getGame(game_id) {
+            //console.log(JSON.stringify(game_id))
+            axios.get(`${localStorage.getItem("addressServer")}/game/id`,{params:{game_id:game_id}})
+                .then(response => {
+                    this.item = response.data;
+                    this.getOtherGames()
+                    //console.log("Game  "+JSON.stringify(this.game))
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+
+        },
+        getOtherGames(){
+            console.log(JSON.stringify(this.game))
+            axios.get(`${localStorage.getItem("addressServer")}/game/filtered`,{params:{id_org:this.item.id_org}})
+                .then(response => {
+                    this.other_items = response.data;
+                    //console.log("games  "+JSON.stringify(this.items))
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+
     }
     
 

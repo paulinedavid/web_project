@@ -10,13 +10,14 @@ const Organization = function (organization){
     this.banner = organization.banner;
     this.description = organization.description;
     this.id_pined_video = organization.id_pined_video;
-    this.nb_membres;
+    this.id_pined_game = organization.id_pined_game;
+    this.nb_membres = organization.nb_membres;
     this.themes = organization.themes;
     this.owners = organization.owners;
 };
 
 Organization.create = (newOrg, result) => {
-    sql.query("INSERT INTO organization (name, mail, url_site, url_gofounding, banner, description, id_pined_video, nb_membres) VALUES (?,?,?,?,?,?,?,?)", [newOrg.name, newOrg.mail, newOrg.url_site, newOrg.url_gofounding, newOrg.banner, newOrg.description, newOrg.id_pined_video, newOrg.nb_membres],(err, res) => {
+    sql.query("INSERT INTO organization (name, mail, url_site, url_gofounding, banner, description, id_pined_video, id_pined_game, nb_membres) VALUES (?,?,?,?,?,?,?,?,?)", [newOrg.name, newOrg.mail, newOrg.url_site, newOrg.url_gofounding, newOrg.banner, newOrg.description, newOrg.id_pined_video, newOrg.id_pined_video, newOrg.nb_membres],(err, res) => {
         if(err){
             console.log("error: ", err);
             result(err, null);
@@ -56,29 +57,36 @@ Organization.findById = (orgID, result) => {
             result(err, null);
             return;
         }
-        if(res.length){
+        else if(res.length){
             const organization = new Organization(res[0]);
             sql.query("SELECT name FROM organization_theme JOIN Theme ON organization_theme.id_theme = Theme.id WHERE id_org = ?", [orgID], (err, resThemes) => {
                 if(err){
                     console.log("error: ", err);
                     result(err, null);
                     return;
+                }else{
+                    organization.themes = resThemes;
+                    sql.query("SELECT id_user FROM own WHERE id_org = ?", [orgID], (err, resOwners) => {
+                        if(err){
+                            console.log("error: ", err);
+                            result(err, null);
+                            return;
+                        }
+                        else{
+                            organization.owners = resOwners;
+                            console.log("Organization FindById: ",organization);
+                            result(null, organization);
+                            return;
+                        }
+                    });
                 }
-                organization.themes = resThemes;
-                sql.query("SELECT id_user FROM own WHERE id_org = ?", [orgID], (err, resOwners) => {
-                    if(err){
-                        console.log("error: ", err);
-                        result(err, null);
-                        return;
-                    }
-                    organization.owners = resOwners;
-                });
             });
-            console.log(organization);
-            result(null, organization);
+        }
+        else{
+            console.log("Organization not found");
+            result({kind: "not_found"}, null);
             return;
         }
-        result({kind: "not_found"}, null);
     });
 }
 

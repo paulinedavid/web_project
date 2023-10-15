@@ -198,36 +198,20 @@ exports.getFiltered = (req, res) => {
         var filters = req.query;
         console.log("getFiltered: filters: "+JSON.stringify(filters  ))
         var filterQuery = "SELECT video.*, organization.name AS organization FROM video JOIN organization WHERE video.id_org = organization.id ";
-        // var filter = false;
         if(filters.name){
-            filterQuery += "AND name LIKE '%"+filters.name+"%' ";
-            // filter = true;
+            filterQuery += "AND video.name LIKE '%"+filters.name+"%' ";
         }
         if(filters.id_org){
-            // if(filter){
-            //     filterQuery += "AND ";
-            // }
-            // else{
-            //     filterQuery += "WHERE ";
-            // }
             filterQuery += "AND id_org = "+filters.id_org;
-            // filter = true;
 
         }
         if(filters.themes){
-            // if(filter){
-            //     filterQuery += "AND ";
-            // }
-            // else{
-            //     filterQuery += "WHERE ";
-            // }
-            filterQuery += "AND id IN (SELECT id_video FROM video_theme WHERE id_theme IN ( "
+            filterQuery += "AND video.id IN (SELECT id_video FROM video_theme WHERE id_theme IN ( "
             filters.themes.forEach(theme => {
                 filterQuery += theme.id + ",";
             });
             filterQuery = filterQuery.slice(0,-1);
             filterQuery += "))";
-            // filter = true;
         }
         console.log(filterQuery);
         Video.getFiltered(filterQuery, (err, data) => {
@@ -297,7 +281,7 @@ exports.findById = (req, res) => {
                         }
                     } else {
                         video.organization = data;
-                        console.log("video:",video)
+                        //console.log("video:",video)
                         res.send(video);
                     }
                 });

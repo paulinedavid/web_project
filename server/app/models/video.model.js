@@ -58,16 +58,10 @@ Video.getFiltered = (filterQuery, result) => {
             video.themes.push(theme);
           });
           myVideos.push(video);
-          if (myVideos.length == resVideos.length) {
-            result(null, myVideos);
-            //console.log(JSON.stringify(myVideos))
-          }
         })
       });
     }
-    else {
-      result(null, resVideos);
-    }
+    result(null, resVideos);
   });
 }
 
@@ -79,7 +73,7 @@ Video.findById = (VideoId,result) => {
       return; 
     }
     if (res.length) {
-      console.log("found video: ", res[0]);
+      //console.log("found video: ", res[0]);
       result(null, res[0]);
       return;
     }

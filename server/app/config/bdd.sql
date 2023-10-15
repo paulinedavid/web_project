@@ -16,6 +16,7 @@ CREATE TABLE organization(
    banner TEXT,
    description TEXT,
    id_pined_video INT,
+   id_pined_game INT,
    nb_membres INT,
    PRIMARY KEY(id),
    UNIQUE(mail)

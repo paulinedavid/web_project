@@ -39,6 +39,7 @@ require('./app/routes/vid.routes.js')(app);
 require('./app/routes/user.routes.js')(app);
 require('./app/routes/theme.routes.js')(app);
 require('./app/routes/org.routes.js')(app);
+require('./app/routes/game.routes')(app);
 
 
 const PORT = 8080;
