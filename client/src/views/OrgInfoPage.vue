@@ -315,9 +315,6 @@ export default {
         };
         window.addEventListener("scroll", myScrollFunc);
 
-
-
-        console.log("mounted");
         const urlParams = new URLSearchParams(window.location.search);
         this.getOrganization(parseInt(urlParams.get('org_id')))
     },
