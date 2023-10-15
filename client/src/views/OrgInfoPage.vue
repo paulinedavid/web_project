@@ -124,6 +124,11 @@
                 <div class="asso-summary-container">
                     {{ organization.description }}
                 </div>
+                <div class="donate-asso-btn">
+                    <button class="choose-cat-Btn">
+                        Join the cause
+                    </button>
+                </div>
             </div>
 
             <div class="vid-categories-cont" @scroll="onScroll">
