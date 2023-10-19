@@ -36,7 +36,8 @@
                 information <br /><br />
                 The mandatory fields are marked by a * <br /><br />
               </p>
-              <form action="#" method="post" @submit.prevent="handleSend">
+              <!--<form :action="addressServer + '/vid/upload'" method="post" @submit.prevent="handleSend">-->
+              <!--<form action="#" method="post" @submit.prevent="handleSend">-->
                 <div class="Form-question">
                   <p class="CharacterLimitMessage" style="color: red" v-if="bookAlreadyExists">
                     Video already stored in the database.
@@ -47,14 +48,20 @@
                     </p>
                   </label>
                   <div class="AddBookInput" style="margin-top:15px;">
+                    <!--<button class="Form-File-Btn" style="margin-right: 5px; margin-bottom: 8px"-->
+                    <!--  @click="$refs.epubfileupload.click()">-->
                     <button class="Form-File-Btn" style="margin-right: 5px; margin-bottom: 8px"
-                      @click="$refs.epubfileupload.click()">
+                      @click="$refs.videoFile.click()">
                       Click here
                     </button>
-                    <input type="file" id="epubfile-upload" ref="epubfileupload" name="file-upload" class="loginInputBox"
-                      placeholder="Upload a screenshot of the issue." @change="handleEpubFileChange"
+                    <!--<input type="file" id="epubfile-upload" ref="epubfileupload" name="file-upload" class="loginInputBox"-->
+                    <!--  placeholder="Upload a screenshot of the issue." @change="handleEpubFileChange"-->
+                    <!--  style="display: none" />-->
+                    <input type="file" id="videoFile" ref="videoFile" name="videoFile" class="loginInputBox"
+                      placeholder="Please select a video to upload." @change="handleVideoFileChange"
                       style="display: none" />
-                    {{ labelTextEpub }}
+                    <!--{{ labelTextEpub }}-->
+                    {{ labelTextVideo }}
                   </div>
                 </div>
                 <p class="Form-question">
@@ -155,17 +162,20 @@
                     v-if="notComplete">
                     Please fill all the fields with a * !
                   </p>
+                  <p class="CharacterLimitMessage" style="text-align: center; font-weight: bold">
+                    {{ labelStatus }}
+                  </p>
                   <p class="CharacterLimitMessage" style="text-align: center; font-weight: bold" v-if="sent">
                     Video successfully added !
                   </p>
 
-                  <input type="submit" value="Submit Information" name="btnUpdate" />
+                  <input type="submit" value="Submit Information" name="btnUpdate" @click="handleSend()" />
                 </div>
                 <p class="Form-forgotPswd">
                   Done here ?
                   <router-link to="/fgpassword-page">Go back</router-link>
                 </p>
-              </form>
+              <!--</form>-->
             </div>
           </div>
         </div>
@@ -200,6 +210,7 @@
 <script>
 import UserMenu from "../components/UserMenu.vue";
 // import DarkLightMode from "../components/DarkLightMode.vue";
+import axios from 'axios';
 export default {
   name: "EntryFormPage2",
   components: {
@@ -221,7 +232,8 @@ export default {
       error: false,
       selectedFileEpub: null,
       selectedFileCover: null,
-      labelTextEpub: "No file selected",
+//      labelTextEpub: "No file selected",
+      labelTextVideo: "No file selected",
       labelTextCover: "No file selected",
       resumeExceedsLimit: false,
       bookAlreadyExists: false,
@@ -229,6 +241,9 @@ export default {
       genres: [],
       nbGenre: 1,
       addressServer: localStorage.getItem('addressServer'),
+      videoFile: '',
+      uploadPercentage: 0,
+      labelStatus: ''
     };
   },
   mounted() {
@@ -257,6 +272,43 @@ export default {
         });
     },
     handleSend() {
+      // TODO: Check if the fields have been completed!
+
+      console.log("Sending video...");
+      console.log("Sending file " + this.file.name);
+
+      let formData = new FormData();
+      formData.append('file', this.file);
+      formData.append('video_name', this.titre);
+      // ...
+
+      axios.post(this.addressServer + '/vid/upload',
+                 formData,
+                 {
+                   headers: {
+                    'Content-Type': 'multipart/form-data'
+                   },
+                   onUploadProgress: function(progressEvent) {
+                     this.uploadPercentage = parseInt(Math.round((progressEvent.loaded / progressEvent.total) * 100));
+                     console.log(this.uploadPercentage + '%');
+                     this.labelStatus = `Uploading... ${this.uploadPercentage}%`;
+
+                     if (this.uploadPercentage === 100) {
+                       this.labelStatus = "Working magic...";
+                     }
+                   }.bind(this)
+                 }
+      ).then(function() {
+        this.labelStatus = '';
+        this.sent = true;
+        console.log("File was uploaded!");
+      }.bind(this)).catch(function(e) {
+        this.labelStatus = "An error occurred while uploading the video!";
+        console.error("File was not uploaded!");
+        console.error(e);
+      }.bind(this));
+    },
+    handleSendOld() {
       console.log(this.name, this.email, this.summary, this.details, this.link);
       // const fdata = new FormData();
       console.log(this.selectedGenres);
@@ -342,6 +394,20 @@ export default {
           // Handle any errors that occur during the fetch request
         });
 
+    },
+    handleVideoFileChange(event) {
+      this.file = event.target.files[0];
+
+      if (this.file) {
+//        this.selectedFileEpub = file; // Useful???
+        if (this.file.name.length > 35)
+          this.labelTextVideo = this.file.name.substring(0, 35) + "...";
+        else
+          this.labelTextVideo = this.file.name;
+      } else {
+//        this.selectedFileEpub = null; // Useful ??
+        this.labelTextVideo = "No file selected.";
+      }
     },
     handleEpubFileChange(event) {
       const file = event.target.files[0];

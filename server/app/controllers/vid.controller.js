@@ -154,7 +154,6 @@ exports.upload = (req, res, next) => {
                             console.log("Finished generating WebVTT file!");
 
                             res.status(200).end();
-                            return;
                         });
                     });
                 })
