@@ -285,7 +285,7 @@ exports.extract_email = (req, res) => {
   res.json({ email: decoded.email });
 }
 
-const verifyuserToken = (token) => {
+exports.verifyuserToken = (token) => {
   try {
     const secretKey = 'togethearthmdp';
     const decoded = jwt.verify(token, secretKey);
