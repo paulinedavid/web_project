@@ -135,7 +135,7 @@ exports.login = (req, res) => {
         });
       }
     else {
-      const token = jwt.sign({ email: req.body.mail }, "togethearthmdp");
+      const token = jwt.sign({ mail: req.body.mail }, "togethearthmdp");
       console.log(token);
       console.log("Login successful !");
       res.json({ token: token, mail: req.body.mail, name: data.name });
@@ -261,6 +261,16 @@ exports.verifyResetToken = (token) => {
   }
 };
 
+exports.verifyUserToken = (token) => {
+  try {
+    const secretKey = 'togethearthmdp';
+    const decoded = jwt.verify(token, secretKey);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
+
 
 exports.extract_email = (req, res) => {
   const token = req.query.token;
@@ -273,6 +283,50 @@ exports.extract_email = (req, res) => {
     return res.status(400).json({ error: 'Invalid or expired reset token' });
   }
   res.json({ email: decoded.email });
+}
+
+const verifyuserToken = (token) => {
+  try {
+    const secretKey = 'togethearthmdp';
+    const decoded = jwt.verify(token, secretKey);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
+
+exports.get_mail_name = (req, res) => {
+  const token = req.query.token;
+  console.log(token);
+  const decoded = verifyuserToken(token);
+  console.log("here");
+  if (!decoded) {
+    // Token verification failed, handle accordingly (e.g., show error page)
+    console.log("failed");
+    return res.status(400).json({ error: 'Invalid or expired reset token' });
+  }
+  
+  console.log(decoded);
+
+  const mail = decoded.mail;
+
+  console.log(mail);
+  
+  // Call User.get with the extracted email
+  User.get({ mail: mail }, (err, userData) => {
+    if (err) {
+      // Handle the error (e.g., return an error response)
+      return res.status(500).json({ error: 'An error occurred while fetching user data' });
+    }
+
+    if (!userData) {
+      // Handle the case where the user was not found (e.g., return a 404 response)
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // User data found, send the email and name in the response
+    return res.json({ mail: userData.mail, name: userData.name });
+  });
 }
 
 
@@ -337,23 +391,23 @@ exports.change_password = (req, res) => {
 }
 
 exports.updateProfile = (req, res) => {
-  if (req.body.email_user_old === undefined || (req.body.email_user === undefined && req.body.pseudo === undefined)) {
+  if (req.body.mail_old === undefined || (req.body.mail === undefined && req.body.name === undefined)) {
     res.status(400).json({ message: "Body cannot be empty!" });
     return;
   }
 
   // Pas d'erreur, on modifie les données
-  var email_user = req.body.email_user;
-  var email_user_query = "";
-  var pseudo = req.body.pseudo;
-  var pseudo_query = "";
-  var email_user_old = req.body.email_user_old;
+  var mail = req.body.mail;
+  var mail_query = "";
+  var name = req.body.name;
+  var name_query = "";
+  var mail_old = req.body.mail_old;
   var query_args = []
   var args = []
 
-  if (email_user !== undefined && email_user.trim() != "") {
-    email_user_query = "email_user = ?";
-    query_args.push(email_user_query);
+  if (mail !== undefined && mail.trim() != "") {
+    mail_query = "email_user = ?";
+    query_args.push(mail_query);
     args.push(email_user);
   }
   if (pseudo !== undefined && pseudo.trim() != "") {
@@ -364,7 +418,7 @@ exports.updateProfile = (req, res) => {
 
   args.push(email_user_old);
 
-  var query = "UPDATE User SET " + query_args.join(', ') + " WHERE email_user = ?";
+  var query = "UPDATE User SET " + query_args.join(', ') + " WHERE mail = ?";
   console.log(query);
   console.log(args);
 

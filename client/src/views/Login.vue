@@ -95,7 +95,9 @@ export default {
           }
         }).then((data) => {
           const token = data.token;
+          console.log(token);
           localStorage.setItem("token", token);
+          console.log(localStorage.getItem("token"));
         })
         .then(() => {
           this.$router.push("/video-catalog-page");

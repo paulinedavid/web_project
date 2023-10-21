@@ -206,7 +206,7 @@ User.change_password = (req, result) => {
 User.get = (userInfo, result) => {
   sql.query(
     "SELECT * FROM users WHERE mail = ?",
-    [userInfo.email_user],
+    [userInfo.mail],
     (err, rows) => {
       if (err) {
         console.log("Error: ", err);
