@@ -99,103 +99,100 @@ import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
   name: 'ProfilePage',
-  //   data() {
-  //     return {
-  //       txtFName: '',
-  //       txtEmail: '',
-  //       message: '',
-  //       placeholderFName: 'First name',
-  //       placeholderEmail: 'Email Address',
-  //       name: "",
-  //       email: "",
-  //       summary: "",
-  //       details: "",
-  //       link: "",
-  //       sent: false,
-  //       error: false,
-  //       selectedFile: null,
-  //       labelText: "No file selected",
-  //       isAdmin: false,
-  //       userData: null,
-  //       addressServer: localStorage.getItem('addressServer')
-  //     };
+    data() {
+      return {
+        txtFName: '',
+        txtEmail: '',
+        message: '',
+        placeholderFName: 'First name',
+        placeholderEmail: 'Email Address',
+        sent: false,
+        error: false,
+        userData: null,
+        //addressServer: localStorage.getItem('addressServer')
+        addressServer: "http://localhost:8080"
+      };
 
-  //   },
+    },
   components: {
     DarkLightMode,
     UserMenu
   },
-  //   methods: {
-  //     updateInformation() {
-  //       fetch(this.addressServer + "/api/auth/updateProfile", {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         },
-  //         body: JSON.stringify({ email_user_old: this.userData.email_user, email_user: this.txtEmail, pseudo: this.txtFName })
-  //       })
-  //         .then(response => {
-  //           if (response.ok) {
-  //             this.message = 'Information updated';
-  //           } else {
-  //             throw new Error('Error updating information');
-  //           }
+    methods: {
+      updateInformation() {
+        fetch(this.addressServer + "/api/auth/updateProfile", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email_user_old: this.userData.email_user, email_user: this.txtEmail, pseudo: this.txtFName })
+        })
+          .then(response => {
+            if (response.ok) {
+              this.message = 'Information updated';
+            } else {
+              throw new Error('Error updating information');
+            }
 
-  //           return response.json();
-  //         })
-  //         .then(data => {
-  //           console.log('Response:', data);
+            return response.json();
+          })
+          .then(data => {
+            console.log('Response:', data);
 
-  //           // Mise à jour de la variable locale (dans le navigateur) userData
+            // Mise à jour de la variable locale (dans le navigateur) userData
 
-  //           const newUserData = {
-  //             token: this.userData.token,
-  //             email_user: (data.userData.email_user != "") ? data.userData.email_user : this.txtEmail,
-  //             pseudo: (data.userData.pseudo != undefined) ? data.userData.pseudo : this.txtFName
-  //           };
+            const newUserData = {
+              token: this.userData.token,
+              email_user: (data.userData.email_user != "") ? data.userData.email_user : this.txtEmail,
+              pseudo: (data.userData.pseudo != undefined) ? data.userData.pseudo : this.txtFName
+            };
 
-  //           console.log(newUserData);
+            console.log(newUserData);
 
-  //           localStorage.setItem("userData", JSON.stringify(newUserData));
-  //         })
-  //         .catch(error => {
-  //           console.log('Error:', error);
-  //         });
-  //     },
-  //     handleFileChange(event) {
-  //       const file = event.target.files[0];
-  //       if (file) {
-  //         this.selectedFile = file;
-  //         this.labelText = file.name;
-  //       } else {
-  //         this.selectedFile = null;
-  //         this.labelText = "No file selected";
-  //       }
-  //     }
-  //   },
-  //   mounted() {
-  //     // Récupérer les informations de l'utilisateur
-  //     var userData = JSON.parse(localStorage.getItem("userData"));
-  //     if (userData === null) {
-  //       // L'utilisateur n'est pas connecté, on le redirige vers la page de connexion
-  //       this.$router.push("/login-page");
-  //       return;
-  //     }
+            localStorage.setItem("userData", JSON.stringify(newUserData));
+          })
+          .catch(error => {
+            console.log('Error:', error);
+          });
+      },
+      handleFileChange(event) {
+        const file = event.target.files[0];
+        if (file) {
+          this.selectedFile = file;
+          this.labelText = file.name;
+        } else {
+          this.selectedFile = null;
+          this.labelText = "No file selected";
+        }
+      }
+    },
+    mounted() {
+      var token = localStorage.getItem("token");
+      console.log(token);
+      if (token === null) {
+        // L'utilisateur n'est pas connecté, on le redirige vers la page de connexion
+        this.$router.push("/login-page");
+        return;
+      }
 
-  //     // L'utilisateur est connecté, on a ses infos.
-  //     this.userData = userData;
+      // L'utilisateur est connecté, on a ses infos.
+      this.token = token;
+      const url = this.addressServer + "/auth/get_mail_name?token=" + token;
 
-  //     // Remplir les champs avec les données
-  //     this.txtFName = userData.pseudo;
-  //     this.txtEmail = userData.email_user;
-  //     this.placeholderFName = userData.pseudo;
-  //     this.placeholderEmail = userData.email_user;
-
-  //     // Vérifier si l'utilisateur est admin
-  //     if (localStorage.getItem("isAdmin") == "true") {
-  //       this.isAdmin = true
-  //     }
-  //   },
+      fetch(url, {method: 'GET',})
+        .then(response => response.json())
+        .then(data => {
+          this.userData = data; // Assuming the response contains email and name
+          this.txtFName = data.name;
+          this.txtEmail = data.mail;
+          this.placeholderFName = data.name;
+          this.placeholderEmail = data.mail;
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          // Handle the error (e.g., show an error message)
+        });
+    },
 };
 </script>
 
