@@ -406,33 +406,33 @@ exports.updateProfile = (req, res) => {
   var args = []
 
   if (mail !== undefined && mail.trim() != "") {
-    mail_query = "email_user = ?";
+    mail_query = "mail = ?";
     query_args.push(mail_query);
-    args.push(email_user);
+    args.push(mail);
   }
-  if (pseudo !== undefined && pseudo.trim() != "") {
-    pseudo_query = "pseudo = ?";
-    query_args.push(pseudo_query);
-    args.push(pseudo);
+  if (name !== undefined && name.trim() != "") {
+    name_query = "name = ?";
+    query_args.push(name_query);
+    args.push(name);
   }
 
-  args.push(email_user_old);
+  args.push(mail_old);
 
-  var query = "UPDATE User SET " + query_args.join(', ') + " WHERE mail = ?";
+  var query = "UPDATE users SET " + query_args.join(', ') + " WHERE mail = ?";
   console.log(query);
   console.log(args);
 
-  sql.execute(query, args, (err, result) => {
+  sql.execute(query,args, (err, result) => {
     if (err) {
+      console.log("didn't work");
+      console.log(err);
       res.status(500).send({ message: err });
       return;
     }
 
-    newUserData = {}
-    if (query_args.includes(email_user_query)) newUserData['email_user'] = email_user
-    if (query_args.includes(pseudo)) newUserData['pseudo'] = pseudo
+    const token = jwt.sign({ mail: mail }, "togethearthmdp");
 
-    res.status(200).json({ message: "Updated user!", userData: newUserData });
+    res.status(200).json({ message: "Updated user!", token: token });
   })
 };
 
