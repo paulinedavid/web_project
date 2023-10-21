@@ -206,7 +206,11 @@ User.change_password = (req, result) => {
 User.get = (userInfo, result) => {
   sql.query(
     "SELECT * FROM users WHERE mail = ?",
+<<<<<<< HEAD
     [userInfo.email_user],
+=======
+    [userInfo.mail],
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
     (err, rows) => {
       if (err) {
         console.log("Error: ", err);

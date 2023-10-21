@@ -17,6 +17,11 @@ module.exports = app =>{
 
     router.get('/extract_mail' , users.extract_email);
 
+<<<<<<< HEAD
+=======
+    router.get('/get_mail_name' , users.get_mail_name);
+
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
     router.post('/change_password', users.change_password);
     
     router.post('/isAdmin', users.isAdmin);

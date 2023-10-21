@@ -1,22 +1,16 @@
 <template>
     <body>
-
-
         <header>
             <div class="headernav">
                 <div class="header-container">
                     <div class="header-image">
-                        <!-- <img alt="Vue logo" src="../assets/LogoDay.png" class="VueLogo" style="    width: 177px;
-    height: 167px;
-    margin: 0px;
-    margin-bottom: 50px; margin-left: 37px;" /> -->
                         <div class="logo-nav"></div>
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/catalog-page" class="to-page-nav">Videos</router-link>
-                    <router-link to="/catalog-library-page" class="to-page-nav">Games</router-link>
-                    <router-link to="/catalog-recs-page" class="to-page-nav">Organizations</router-link>
+                    <router-link to="/video-catalog-page" class="to-page-nav" @click="getThemes">Videos</router-link>
+                    <router-link to="/game-catalog-page" class="to-page-nav" @click="getThemes">Games</router-link>
+                    <router-link to="/organization-catalog-page" class="to-page-nav" @click="getThemes">Organizations</router-link>
                 </div>
                 <UserMenu></UserMenu>
                 <div class="light">
@@ -26,150 +20,24 @@
         </header>
         <a id="top"></a>
         <div class="catalog-page">
-            <!-- <div class="filterblock-container">
-                <div class="filter-title-container1">
-                    <p class="filter-main-Title">Filters</p>
-                </div>
-                <div class="filter-container1">
-
-                    <div class="filters-list">
-                        <ul>
-
-                            <li class="filters-list-li">
-                                <div class="filter-title">
-                                    Genre
-                                </div>
-                                <div class="filters">
-                                    <label class="task-container">Action
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">Horror
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">Romance
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">Sci-fi
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </li>
-                            <li class="filters-list-li">
-                                <div class="filter-title">
-                                    Language
-                                </div>
-                                <div class="filters">
-                                    <label class="task-container">English
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">French
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">Arabic
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">German
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </li>
-                            <li class="filters-list-li">
-
-
-                                <div class="filter-title">
-                                    Number of pages
-                                </div>
-                                <div class="filters">
-                                    <label class="task-container"> Under 100
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">100 ~ 500
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">500 ~ 1000
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container"> Over 1000
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </li>
-                            <li class="filters-list-li">
-                                <div class="filter-title">
-                                    Parution year
-                                </div>
-                                <div class="filters">
-                                    <label class="task-container">Before 1980
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">1980 ~ 2000
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">2000 ~ 2010
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">2010 ~ 2020
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="task-container">After 2020
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div> -->
             <div class="search-and-book-container">
                 <div class="search-container">
                     <div class="search-bar-container" id="first-searchy-bar">
-                        <form action="">
-                            <input type="text" placeholder="Search.." name="search">
+                        <!-- <form action=""> -->
+                            <input type="text" placeholder="Search.." name="search" v-model="searchbar" @change="getThemes">
                             <div><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></div>
-                        </form>
+                        <!-- </form> -->
                     </div>
                     <div class="lib-button-container">
-                        <div>                        <font-awesome-icon icon="fa-regular fa-handshake" style="font-size: 21px; margin-right: 15px;"/></div>
+                        <div><font-awesome-icon icon="fa-regular fa-handshake" style="font-size: 21px; margin-right: 15px;"/></div>
                     </div>
-                    <!-- <div class="page-turner">
-                        <p class="page">Page</p>
-                        <font-awesome-icon icon="fa-solid fa-angle-left" class="arrow-left-calendar"
-                            @click="ChangeWeek(-1)" />
-                        <div class="custom-select">
-                            <select>
-                                <option value="0">1</option>
-                                <option value="1">2</option>
-                                <option value="2">3</option>
-                                <option value="3">4</option>
-                            </select>
-                        </div>
-                        <font-awesome-icon icon="fa-solid fa-angle-right" class="arrow-left-calendar"
-                            @click="ChangeWeek(+1)" />
-                    </div> -->
                 </div>
                 <div class="search-container search-container-fixe hide" id="search-container-fixe">
                     <div class="search-bar-container">
-                        <form action="">
-                            <input type="text" placeholder="Search.." name="search">
+                        <!-- <form action=""> -->
+                            <input type="text" placeholder="Search.." name="search" v-model="searchbar" @change="getThemes">
                             <div><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></div>
-                        </form>
+                        <!-- </form> -->
                     </div>
                     <div class="lib-button-container">
                         <div class="dropdown">
@@ -177,453 +45,60 @@
                            
                         </div>
                     </div>
-                    <!-- <div class="page-turner">
-                        <p class="page">Page</p>
-                        <font-awesome-icon icon="fa-solid fa-angle-left" class="arrow-left-calendar"
-                            @click="ChangeWeek(-1)" />
-                        <div class="custom-select">
-                            <select>
-                                <option value="0">1</option>
-                                <option value="1">2</option>
-                                <option value="2">3</option>
-                                <option value="3">4</option>
-                            </select>
-                        </div>
-                        <font-awesome-icon icon="fa-solid fa-angle-right" class="arrow-left-calendar"
-                            @click="ChangeWeek(+1)" />
-                    </div> -->
                 </div>
                 <div class="cat-Navbar-container">
-                    <div class="cat-Navbar">
-                        <button class="choose-cat-Btn">
-                            Animal Cruelty
-                        </button>
-                        <button class="choose-cat-Btn">
-                            Ecology
-                        </button>
-                        <button class="choose-cat-Btn">
-                            War crimes
-                        </button>
-                        <button class="choose-cat-Btn">
-                            Illness Awareness
-                        </button>
-                        <button class="choose-cat-Btn">
-                            Fight against cancer
-                        </button>
-                        <button class="choose-cat-Btn">
-                            Childhood violence
-                        </button>
-                        <button class="choose-cat-Btn">
-                            Domestic Assault
-                        </button>
-                        <button class="choose-cat-Btn">
-                            Climate change
-                        </button>
-                        <button class="choose-cat-Btn">
-                            Natural Catastrophy support
-                        </button>
+                    <div class="cat-Navbar" >
+                        <div class="choose-cat-Btn" v-for = "theme in filteredThemes" :key = "theme.id" @click="scrollToComponent('video_cont-'+theme.id)" >
+                            {{ theme.name }}
+                        </div>
                     </div>
                 </div>
 
-                <div class="vid-categories-cont" @scroll="onScroll">
+                <div class="vid-categories-cont" @scroll="onScroll" :id="'video_cont-'+theme.id" v-for = "theme in filteredThemes" :key = "theme.id"  >
                     <div class="cat-vids-label">
-                        Animal Cruelty
+                        {{theme.name}}
                     </div>
-                    <div class="hor-scroll-wrap">
+                    <div :class="page!='organization'?'hor-scroll-wrap':'hor-scroll-wrap assoc-categories-cont'">
                         <div class="hor-scroll">
                             <ul class="item-grid">
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
+                                <li  v-for = "item in items[theme.id]" :key="item.id" >
+                                    <RouterLink v-if="page==='video'" :to="{ path: 'video-info-page', query: { video_id: item.id }}">
+                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
+                                    </RouterLink>
+                                    <RouterLink v-if="page==='game'" :to="{ path: 'game-info-page', query: { game_id: item.id }}">
+                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
+                                    </RouterLink>
+                                    <RouterLink v-if="page==='organization'" :to="{ path: 'organization-info-page', query: { org_id: item.id }}">
+                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
+                                    </RouterLink>
+                                    <div v-if="page!=='organization'" class="mini-vid-desc">
                                         <div class="mini-vid-name">
-                                            Really cool video
+                                            {{item.name}}
                                         </div>
                                         <div class="mini-vid-author">
                                             <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
                                             <div class="mini-vid-author-info">
-                                                Belvie asso
+                                                {{item.organization}}
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
+                                    </div> 
+                                    <div v-if="page==='organization'" class="mini-vid-desc">
                                         <div class="mini-vid-author">
                                             <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
+                                            <div class="book-author-info">
+                                                {{item.name}}
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
-
                         </div>
                     </div>
                 </div>
-
-
-                <div class="vid-categories-cont" @scroll="onScroll">
-                    <div class="cat-vids-label">
-                        Ecology
-                    </div>
-                    <div class="hor-scroll-wrap">
-                        <div class="hor-scroll">
-                            <ul class="item-grid">
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-name">
-                                            Really cool video
-                                        </div>
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="mini-vid-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="vid-categories-cont" @scroll="onScroll">
-                    <div class="cat-vids-label">
-                        Associations @arthur
-                    </div>
-                    <div class="hor-scroll-wrap assoc-categories-cont">
-                        <div class="hor-scroll">
-                            <ul class="item-grid">
-                                <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="book-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                 <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="book-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                 <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="book-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                 <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="book-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                 <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="book-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                 <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="book-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                 <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="book-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                 <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="book-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                 <li>
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
-                                    <div class="mini-vid-desc">
-                                        <div class="mini-vid-author">
-                                            <img class="mini-vid-avatar" src="../assets/UserWrite.png" alt="User Write img">
-                                            <div class="book-author-info">
-                                                Belvie asso
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
             </div>
-
         </div>
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon
-                icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
+        <button id="TopBtn"  class="fa fa-angle-double-up hide" style="font-size: 24px" @click="scrollTop"><font-awesome-icon
+                icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></button>
         <footer style="margin-top: 40px;">
             <div class="content-footer">
                 <div class="top">
@@ -651,11 +126,22 @@
 <script>
 import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
+import axios from "axios";
 export default {
     name: "CatalogPageAdmin",
     components: {
         DarkLightMode,
         UserMenu
+    },
+
+    data(){
+        return{
+            themes:[],
+            items:{},
+            searchbar:"",
+            page:null,
+
+        }
     },
     mounted() {
         var thisID = document.getElementById("TopBtn");
@@ -678,8 +164,101 @@ export default {
         };
         window.addEventListener("scroll", myScrollFunc);
         window.addEventListener("scroll", myScrollFunc1);
+        this.getThemes();
+        
     },
+    computed: {
+        filteredThemes() {
+            return this.themes.filter(theme => this.items[theme.id] && this.items[theme.id].length > 0);
+        }
+    },
+    methods: {
+        onScroll() {
+            console.log("scrolling");
+        },
+        
+        scrollToComponent(idComponent) {
+            const component = document.getElementById(idComponent);
+            console.log('scrool to '+idComponent)
+            if (component) {
+                component.scrollIntoView({ behavior: 'smooth' });
+            }
+        },
 
+        scrollTop(){
+            console.log("scrollTop")
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        },
 
+        getThemes() {
+            console.log("getThemes");
+            fetch(`${localStorage.getItem("addressServer")}/theme/all`)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error("Network response was not ok.");
+                    }
+                })
+                .then((data) => {
+                    this.themes = data;
+                    if(this.$route.path == "/game-catalog-page"){
+                        this.page="game"
+                        this.themes.forEach(theme => {
+                        this.getFilteredGame(theme);
+                        })
+                    } 
+                    else if(this.$route.path == "/video-catalog-page"){
+                        this.page="video"
+                        this.themes.forEach(theme => {
+                        this.getFilteredVideo(theme);
+                        })
+                    }
+                    else if(this.$route.path == "/organization-catalog-page"){
+                        this.page="organization"
+                        this.themes.forEach(theme => {
+                        this.getFilteredOrganization(theme);
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+
+        getFilteredVideo(theme) {
+            //console.log("getfiltered "+JSON.stringify(theme))
+            axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{themes:[theme],name:this.searchbar}})
+                .then(response => {
+                    this.items[theme.id] = response.data;
+                    //console.log("videos  "+JSON.stringify(this.videos))
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+
+        getFilteredGame(theme) {
+            axios.get(`${localStorage.getItem("addressServer")}/game/filtered`,{params:{themes:[theme],name:this.searchbar}})
+                .then(response => {
+                    this.items[theme.id] = response.data;
+                    //console.log("Games  "+JSON.stringify(this.items))
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+        },
+
+        getFilteredOrganization(theme){
+            axios.get(`${localStorage.getItem("addressServer")}/org/filtered`,{params:{themes:[theme],name:this.searchbar}})
+                .then(response => {
+                    this.items[theme.id] = response.data;
+                    //console.log("Organizations  "+JSON.stringify(this.items))
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+        },
+    }
 }
 </script>

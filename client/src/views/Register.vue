@@ -96,8 +96,13 @@ export default {
       matching: true,
       message: "",
       token : "",
+<<<<<<< HEAD
       // addressServer: localStorage.getItem('addressServer')
       addressServer: "http://localhost:8080"
+=======
+      addressServer: localStorage.getItem('addressServer')
+      //addressServer: "http://localhost:8080"
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
     };
   },
   mounted() {
@@ -127,7 +132,11 @@ export default {
       this.matching = true;
       this.message = "";
       if (this.mail === this.remail) {
+<<<<<<< HEAD
         fetch("http://localhost:8080/auth/register", {
+=======
+        fetch(this.addressServer+"/auth/register", {
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
           method: "POST",
           headers: {
             "Content-Type": "application/json",

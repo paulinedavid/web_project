@@ -16,7 +16,12 @@ CREATE TABLE organization(
    banner TEXT,
    description TEXT,
    id_pined_video INT,
+<<<<<<< HEAD
    nb_menbres INT,
+=======
+   id_pined_game INT,
+   nb_membres INT,
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
    PRIMARY KEY(id),
    UNIQUE(mail)
 );
@@ -61,7 +66,11 @@ CREATE TABLE video_theme(
    FOREIGN KEY(id_theme) REFERENCES Theme(id)
 );
 
+<<<<<<< HEAD
 CREATE TABLE asso_theme(
+=======
+CREATE TABLE organization_theme(
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
    id_org INT,
    id_theme VARCHAR(50),
    PRIMARY KEY(id_org, id_theme),

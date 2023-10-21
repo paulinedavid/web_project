@@ -69,7 +69,8 @@ export default {
       mail: "",
       password: "",
       message: "",
-      addressServer: "http://localhost:8080",
+      //addressServer: "http://localhost:8080",
+      addressServer: localStorage.getItem('addressServer'),
     };
   },
   methods: {
@@ -82,8 +83,8 @@ export default {
       };
       console.log(userData)
       axios
-        // .post(this.addressServer+"/auth/login", userData)
-        .post("http://localhost:8080/auth/login", userData)
+        .post(this.addressServer+"/auth/login", userData)
+        //.post("http://localhost:8080/auth/login", userData)
         .then((response) => {
           if (response.status === 200) {
             localStorage.setItem("userData", JSON.stringify(response.data));
@@ -94,10 +95,12 @@ export default {
           }
         }).then((data) => {
           const token = data.token;
+          console.log(token);
           localStorage.setItem("token", token);
+          console.log(localStorage.getItem("token"));
         })
         .then(() => {
-          this.$router.push("/catalog-page");
+          this.$router.push("/video-catalog-page");
           })
         .catch((error) => {
           let errorMessage;

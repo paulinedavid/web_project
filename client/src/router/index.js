@@ -2,16 +2,15 @@
 // export default router
 import { createWebHistory, createRouter } from "vue-router";
 import AddBookPage from "@/views/AddBookPage.vue";
-import BookInfoPage from "@/views/BookInfoPage.vue";
+import InfoPage from "@/views/InfoPage.vue";
 import CatalogPageAdmin from "@/views/CatalogPage_Admin.vue";
-import GameInfoPage from "@/views/GameInfoPage.vue";
 import ForgotPwd from "@/views/ForgotPwd.vue";
 import HelloWorld from "@/views/HelloWorld.vue";
 import HelpPage from "@/views/HelpPage.vue";
 import LandingPage from "@/views/LandingPage.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
-import AssoInfoPage from "@/views/AssoInfoPage.vue"
+import OrgInfoPage from "@/views/OrgInfoPage.vue"
 import ResetPassword from "@/views/ResetPassword.vue";
 import ResetPwd from "@/views/ResetPwd.vue";
 import ProfilePage from "@/views/UserProfilePage.vue";
@@ -24,36 +23,35 @@ const routes = [
     component: AddBookPage,
   },
   {
-    path: "/book-page",
-    name: "BookInfoPag",
-    component: BookInfoPage
-  },
-  // {
-  //   path: "/catalog-page",
-  //   name: "CatalogPage",
-  //   component: CatalogPageAdmin,
-  // },
-  // {
-  //   path: "/catalog-library-page",
-  //   name: "CatalogLibraryPage",
-  //   component: CatalogPageAdmin,
-  // },
-  // {
-  //   path: "/catalog-recs-page",
-  //   name: "CatalogPageRecs",
-  //   component: CatalogPageAdmin,
-  // },
-  {
-    path: "/catalog-admin-page",
-    name: "CatalogPageAdmin",
-    component: CatalogPageAdmin,
+    path: "/video-info-page",
+    name: "InfoPag",
+    component: InfoPage
   },
   {
     path: "/game-info-page",
     name: "GameInfoPage",
-    component: GameInfoPage,
+    component: InfoPage,
   },
-
+  {
+    path: "/organization-info-page",
+    name: "OrgInfoPage",
+    component: OrgInfoPage,
+  },
+  {
+    path: "/video-catalog-page",
+    name: "VideoCatalogPage",
+    component: CatalogPageAdmin,
+  },
+  {
+    path: "/game-catalog-page",
+    name: "GameCatalogPage",
+    component: CatalogPageAdmin,
+  },
+  {
+    path: "/organization-catalog-page",
+    name: "OrganizationCatalogPageAdmin",
+    component: CatalogPageAdmin,
+  },
   {
     path: "/fgpassword-page",
     name: "ForgotPwdPage",
@@ -83,11 +81,6 @@ const routes = [
     path: "/register-page",
     name: "RegisterPage",
     component: Register,
-  },
-  {
-    path: "/asso-info-page",
-    name: "AssoInfoPage",
-    component: AssoInfoPage,
   },
   {
     path: "/reset-password-page",

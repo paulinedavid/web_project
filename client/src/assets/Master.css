@@ -149,7 +149,11 @@
     .header-landing-container div {
       justify-content: center;
       align-items: center;
+<<<<<<< HEAD
       flex-direction: column;
+=======
+      /* flex-direction: column; */
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
     }
   }
   
@@ -227,6 +231,10 @@
     align-items: center;
     flex-direction: column;
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
   .Landing-banner-container {
     width: 100%;
     align-items: baseline;
@@ -239,7 +247,17 @@
       #283F3B
     );
     position: relative;
+<<<<<<< HEAD
     box-shadow: 0px -20px 256px 28px rgba(255, 255, 255, 0.778) inset;
+=======
+    /* content: url(elephant_landing.jpeg); */
+    background-image: url(elephant_landing_crop1.png);
+    height: 988px; /* You must set a specified height */
+    background-position:center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+    box-shadow: 0px -20px 256px 28px rgba(97, 104, 90, 0.778) inset;
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
   }
   
   .Landing-banner-container:before {
@@ -250,18 +268,32 @@
     right: 0;
     bottom: 0;
     left: 0;
+<<<<<<< HEAD
     background: linear-gradient(
+=======
+    /* background: linear-gradient(
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
       55deg,
       #EBE0A6,
       #95BF74,
       #659B5E,
       #556F44,
       #283F3B
+<<<<<<< HEAD
     );
     transform: translate3d(20px, 10px, 20px) scale(1.5);
     filter: blur(120px);
     opacity: var(0.9);
     transition: opacity 0.3s;
+=======
+    ); */
+    background-color: #0a160c;
+    transform: translate3d(20px, -161px, 20px) scale(1.5);
+    filter: blur(70px);
+    opacity: var(0.9);
+    transition: opacity 0.3s;
+    /* background-image: url(elephant_landing_crop1.jpeg); */
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
     border-radius: inherit;
   }
   
@@ -282,7 +314,12 @@
     width: 98%;
     display: flex;
     justify-content: space-between;
+<<<<<<< HEAD
     flex-direction: row;
+=======
+    flex-direction: column;
+    align-items: center;
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
   }
   
   @media (max-width: 1200px) {
@@ -294,7 +331,11 @@
   
   .Landing-banner-text {
     margin-top: 4%;
+<<<<<<< HEAD
     margin-left: 8%;
+=======
+    /* margin-left: 2%; */
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
     display: flex;
     justify-content: left;
     align-items: baseline;
@@ -317,6 +358,15 @@
     font-weight: 600;
     margin-left: 0%;
   }
+<<<<<<< HEAD
+=======
+
+  @media (min-width: 1200px) {
+    .Slogan:last-child {
+      align-self: flex-end;
+    }
+  }
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
   
   /*---------------Page Title*---------------*/
   
@@ -330,6 +380,35 @@
     font-weight: 700;
   }
   
+<<<<<<< HEAD
+=======
+  @media (max-width: 1800px){
+    .TimeToDo {
+      font-size: 150px;
+    }
+
+    .Landing-banner-text{
+      margin-left: 5%;
+    }
+  }
+
+  @media (min-width: 1800px){
+    .TimeToDo {
+      font-size: 200px;
+    }
+  }
+  
+  @media (max-width: 1200px){
+    .TimeToDo {
+      font-size: 100px;
+    }
+
+    .Landing-banner-text{
+      margin-left: 0%;
+    }
+  }
+
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
   /*---------------Short welcome prompt-----------*/
   
   .WelcomePrompt p {
@@ -356,7 +435,11 @@
     width: 710px;
     height: 410px;
     margin: 0px;
+<<<<<<< HEAD
     opacity: 0.8;
+=======
+    opacity: 0;
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
   }
 
   /*-----------------------Buttons leading to Regisration, in page--------------*/
@@ -399,7 +482,11 @@
     font-size: 1.4em;
     text-shadow: 2px 1px #6d4757;
     color: #7ab672;
+<<<<<<< HEAD
     background: rgba(243, 224, 248, 0.5);
+=======
+    background: rgba(224, 248, 228, 0.5);
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
     box-shadow: inset 2px 2px 5px 0px rgba(33, 32, 32, 0.345),
       7px 8px 18px -5px rgba(251, 247, 247, 0.5),
       4px 4px 5px 0px rgba(0, 0, 0, 0.1);
@@ -3523,7 +3610,7 @@ body.dark .asso-summary-label{
   /* margin-left: 143px; */
   /* margin-left: 143px; */
   margin-top: 20px;
-  margin-bottom: 50px ;
+  /* margin-bottom: 50px ; */
   padding: 30px;
   /* border: 1px solid rgba(134, 132, 132, 0.382); */
   border-radius: 30px;
@@ -3533,6 +3620,11 @@ body.dark .asso-summary-label{
 body.dark .asso-summary-container{   
   /* border: 1px solid #e9edef85; */
   color: #e9edefbd;
+}
+
+.donate-asso-btn{
+  margin-top: -1%;
+  margin-left: -1%;
 }
 
 .follow-number{

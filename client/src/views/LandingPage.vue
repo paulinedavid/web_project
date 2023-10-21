@@ -1,6 +1,7 @@
 <template>
     <body>
         <div class="Landing-page-container">
+<<<<<<< HEAD
             <header>
                 <div class="header-landing-container">
                 <div class="header-container">
@@ -16,10 +17,27 @@
                 </div>
             </div>
             </header>
+=======
+>>>>>>> 3d2ffefcdd977053c70535fa64b53719fa780fc7
 
             <a id="top"></a>
             <div class="WelcomePrompt">
                 <div class="Landing-banner-container">
+                    <header>
+                <div class="header-landing-container">
+                <div class="header-container">
+                    <!-- <div class="header-image">
+                        <div class="logo-nav"></div>
+                    </div> -->
+                    <div>
+                        <router-link to="/login-page" class="LogRegBtnLink"
+                            style="--shadow: #39ff16; --color: #91f29cad; --background: #dbf2918d;">Login</router-link>
+                        <router-link to="/register-page" class="LogRegBtnLink"
+                            style="--shadow: #39ff16; --color: #91f29cad; --background: #dbf2918d;">Register</router-link>
+                    </div>
+                </div>
+            </div>
+            </header>
                     <div class="Landing-banner">
                         <div class="Landing-banner-text">
                             <h2 class="Slogan">Your actions can make a difference</h2>
@@ -29,7 +47,7 @@
                             <h2 class="Slogan">Lets change the world together</h2>
                         </div>
                         <div>
-                            <img src="../assets/LangingPage.png" alt="Landing-png" class="Landing-png" />
+                            <img src="../assets/elephant_landing.jpeg" alt="Landing-png" class="Landing-png" />
                         </div>
                     </div>
                 </div>
