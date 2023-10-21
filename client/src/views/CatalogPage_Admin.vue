@@ -58,7 +58,7 @@
                     <div class="cat-vids-label">
                         {{theme.name}}
                     </div>
-                    <div class="hor-scroll-wrap">
+                    <div :class="page!='organization'?'hor-scroll-wrap':'hor-scroll-wrap assoc-categories-cont'">
                         <div class="hor-scroll">
                             <ul class="item-grid">
                                 <li  v-for = "item in items[theme.id]" :key="item.id" >
