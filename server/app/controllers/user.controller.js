@@ -451,3 +451,65 @@ exports.isAdmin = (req, res) => {
     }
   });
 };
+
+
+exports.send_notif = (req,res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content cannot be empty!"
+    });
+  }
+  
+  sql.query("SELECT id_user FROM follow WHERE id_org = ?", [req.body.id_org], (err, data) => {
+    if (err)
+      if (err === "User not found") {
+        return res.status(409).json({ message: err });
+      } else {
+        res.status(500).send({
+          message: err.message || "Some error ",
+        });
+      }
+    else {
+      console.log("successful !");
+      data.forEach(id_user => {
+        sql.query("SELECT mail FROM users WHERE id_user = ?", [id_user], (err,data)=> {
+          if(err){
+            if (err === "User not found") {
+              return res.status(409).json({ message: err });
+            } else {
+              res.status(500).send({
+                message: err.message || "Some error ",
+              });
+            }
+          }else{
+            const email = new Email({
+              to: data.mail,
+              subject: "New notification Togethearth",
+              template: "email-body-notif",
+              context: {
+                name : req.body.name,
+                link: req.body.link
+              },
+              attachments: [{
+                filename: "LogoJour.png",
+                path: "LogoJour.png",
+                cid: "image_cid"
+              }]
+            });
+            Email.send(email, (result) => {
+              if (!result) {
+                // Error occurred during sending the email
+                console.error("Error sending email:", error);
+                res.status(500).json({ message: "An error occurred while sending the email!" });
+              } else {
+                // Email sent successfully
+                console.log("Email sent successfully:", result);
+                res.status(200).json({ message: "Email was sent." });
+              }
+            });
+          }
+        })
+      });
+    }
+  });
+};
