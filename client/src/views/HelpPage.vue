@@ -34,7 +34,7 @@
                 <h1 class="modal-Title">Contact Support</h1>
                 <p class="help-prompt">For any problem with your account, security concerns, or questions about our policy,
                     we're happy to help !</p>
-                <form action="" class="help-form" @submit.prevent="formSubmit" enctype="multipart/form-data">
+                <form action="" class="help-form" @submit.prevent="formSubmit">
                     <div class="all-questions">
                         <div class="help-question">
                             <label for="fname" class="help-label">Your Name * </label>
@@ -61,19 +61,6 @@
                             <label for="fname" class="help-label">Page Link </label>
                             <input type="text" id="fname" name="fname" class="help-input"
                                 placeholder="Paste the link to where the issue is happening." v-model="txtLink"><br>
-                        </div>
-                        <div class="help-question">
-                            <label for="file-upload" class="help-label">Upload Screenshot</label>
-                            <div class="help-input">
-                                <button class="Create-planning-Btn" style="margin-right: 15px;"
-                                    @click="$refs.fileupload.click()">Click here</button>
-                                <input type="file" id="file-upload" ref="fileupload" name="file-upload" class="help-input"
-                                    placeholder="Upload a screenshot of the issue." @change="handleFileChange"
-                                    style="display:none">
-                                {{ labelText }}
-                            </div>
-
-                            <br>
                         </div>
                         <div class="help-question" style="height: 40px;">
                             <p class="help-prompt" v-if="sent" style="color: green"> Help Request sent !</p>
@@ -175,18 +162,6 @@ export default {
 
         },
         sendMail() {
-            const formData = new FormData();
-
-            console.log(this.selectedFile)
-
-            if (this.selectedFile) {
-                console.log("here")
-                formData.append('file-upload', this.selectedFile, this.selectedFile.name);
-                console.log(formData)
-            }
-
-            console.log(formData)
-
             let mailOptions = {
                 to: 'masterbookefrei@gmail.com',
                 subject: 'Demande de support',
@@ -206,8 +181,6 @@ export default {
                     },
                 ],
             };
-
-            formData.append('mailOptions', JSON.stringify(mailOptions));
 
             fetch(this.addressServer + "/email/send", {
           method: 'POST',
