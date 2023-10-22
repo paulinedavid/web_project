@@ -34,7 +34,7 @@
                 <h1 class="modal-Title">Contact Support</h1>
                 <p class="help-prompt">For any problem with your account, security concerns, or questions about our policy,
                     we're happy to help !</p>
-                <form action="" class="help-form" @submit.prevent="formSubmit">
+                <form action="" class="help-form" @submit.prevent="formSubmit" enctype="multipart/form-data">
                     <div class="all-questions">
                         <div class="help-question">
                             <label for="fname" class="help-label">Your Name * </label>
@@ -75,13 +75,13 @@
 
                             <br>
                         </div>
-                        <button @click="sendMail" type="submit" class="submit-help-btn" id="UpdateBtn">
-                            Send
-                        </button>
                         <div class="help-question" style="height: 40px;">
                             <p class="help-prompt" v-if="sent" style="color: green"> Help Request sent !</p>
                             <p class="help-prompt" v-if="error" style="color: red"> Please fill every field with a * !</p>
                         </div>
+                        <button @click="sendMail" type="submit" class="submit-help-btn" id="UpdateBtn">
+                            Send
+                        </button>
                     </div>
                 </form>
                 <p class="help-prompt">Thank you for your feedback !</p>
@@ -117,8 +117,6 @@
 <script>
 import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
-import axios from "axios";
-let imageContent = null;
 export default {
     name: "HelpPage",
     components: {
@@ -132,6 +130,8 @@ export default {
             txtSummary: "",
             txtDetails: "",
             txtLink: "",
+            message:"",
+            formData:"",
             sent: false,
             error: false,
             selectedFile: null,
@@ -157,11 +157,15 @@ export default {
             if (file) {
                 this.selectedFile = file;
                 this.labelText = file.name;
-                const reader = new FileReader();
-                reader.onloaded = () => {
-                    imageContent = reader.result;
-                    console.log("image Content", imageContent)
-                }
+
+                // console.log(file.name);
+                // const reader = new FileReader();
+                // console.log(reader)
+                // reader.onload = () =>  {
+                //     console.log("here");
+                //     imageContent = reader.result;
+                //     console.log("image Content", imageContent)
+                // }
 
             } else {
                 this.selectedFile = null;
@@ -171,6 +175,18 @@ export default {
 
         },
         sendMail() {
+            const formData = new FormData();
+
+            console.log(this.selectedFile)
+
+            if (this.selectedFile) {
+                console.log("here")
+                formData.append('file-upload', this.selectedFile, this.selectedFile.name);
+                console.log(formData)
+            }
+
+            console.log(formData)
+
             let mailOptions = {
                 to: 'masterbookefrei@gmail.com',
                 subject: 'Demande de support',
@@ -181,7 +197,6 @@ export default {
                     summary: this.txtSummary,
                     details: this.txtDetails,
                     link: this.txtLink,
-                    img: imageContent
                 },
                 attachments: [
                     {
@@ -192,10 +207,29 @@ export default {
                 ],
             };
 
-            axios.post(this.addressServer + "/email/send", mailOptions)
-                .then((response) => {
-                    console.log(response)
-                })
+            formData.append('mailOptions', JSON.stringify(mailOptions));
+
+            fetch(this.addressServer + "/email/send", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(mailOptions)
+        })
+          .then(response => {
+            if (response.ok) {
+              this.message = 'Email sent';
+            } else {
+              throw new Error('Error sending the email');
+            }
+            this.sent=true;
+
+            return response.json();
+          })
+          .catch(error => {
+            console.log('Error:', error);
+          });
+
 
 
         }
