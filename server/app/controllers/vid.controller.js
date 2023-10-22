@@ -8,6 +8,8 @@ fs.ensureDir(vidUploadPath);
 const Video = require("../models/video.model.js");
 const Organization = require('../models/org.model.js');
 
+const zeroPad = (num, places) => String(num).padStart(places, '0');
+
 exports.upload = (req, res, next) => {
     let temp_vidId = "tmp_" + Date.now().toString(36);
 
@@ -17,6 +19,8 @@ exports.upload = (req, res, next) => {
     let fields = {};
     let id = null;
 
+    let img_w, img_h, number_of_thumbs, sqrt;
+
     let finishNewVideo = () => {
         if (uploadFinished && treatmentFinished) {
             console.log("Saving new video to database...");
@@ -25,7 +29,52 @@ exports.upload = (req, res, next) => {
             fs.rename(path.join(vidUploadPath, `${temp_vidId}.mp4`), path.join(vidUploadPath, `${id}.mp4`));
             fs.rename(path.join(vidUploadPath, `${temp_vidId}.png`), path.join(vidUploadPath, `${id}.png`));
             fs.rename(path.join(vidUploadPath, `${temp_vidId}_sprite.png`), path.join(vidUploadPath, `${id}_sprite.png`));
-            fs.rename(path.join(vidUploadPath, `${temp_vidId}_thumbs.vtt`), path.join(vidUploadPath, `${id}_thumbs.vtt`));
+
+            // Generate WebVTT file
+            const VTTFilePath = path.join(vidUploadPath, `${id}_thumbs.vtt`);
+            fs.writeFileSync(VTTFilePath, 'WEBVTT\n', { flag: 'a' }, err => {
+                if (err) {
+                    console.error(err);
+                }
+            });
+
+            let x = 0, y = 0;
+
+            let sec = 0, min = 0, hrs = 0;
+            for (let i = 0; i < number_of_thumbs; i++) {
+                let next_hrs = hrs, next_min = min, next_sec = sec + 1;
+
+                // Increment by one second
+                if (next_sec >= 60) {
+                    next_sec = 0;
+                    next_min = min + 1;
+                }
+                if (next_min >= 60) {
+                    next_min = 0;
+                    next_hrs = hrs + 1;
+                }
+
+                // Append the lines to the file
+                fs.appendFileSync(VTTFilePath, `\n${i + 1}\n${zeroPad(hrs, 2)}:${zeroPad(min, 2)}:${zeroPad(sec, 2)}.000 --> ${zeroPad(next_hrs, 2)}:${zeroPad(next_min, 2)}:${zeroPad(next_sec, 2)}.000\n${id}_sprite.png#xywh=${x},${y},${img_w},${img_h}\n`, err => {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
+
+                // Update x and y positions
+                x += img_w;
+                if (x > (sqrt - 1) * img_w) {
+                    x = 0;
+                    y += img_h;
+                }
+
+                // Update seconds, minutes and hours
+                hrs = next_hrs;
+                min = next_min;
+                sec = next_sec;
+            }
+
+            console.log("Finished generating WebVTT file!");
 
             console.log("Everything is done!");
             res.status(200).end();
@@ -82,7 +131,7 @@ exports.upload = (req, res, next) => {
                     // Step 3: Compress the thumbs
 
                     console.log("Compressing thumbs...");
-                    const compress_thumbs = spawn('mogrify', ['-geometry', '100x', path.join(vidUploadPath, `${temp_vidId}/`) + '*']);
+                    const compress_thumbs = spawn('mogrify', ['-geometry', '256x', path.join(vidUploadPath, `${temp_vidId}/`) + '*']);
 
                     compress_thumbs.stdout.on('data', (data) => {
                         console.log(`stdout: ${data}`);
@@ -119,9 +168,9 @@ exports.upload = (req, res, next) => {
 
                             // Step 5: Generate spritemap containing all thumbs.
                             // Count number of files
-                            let number_of_thumbs = fs.readdirSync(path.join(vidUploadPath, `${temp_vidId}/`)).length;
+                            number_of_thumbs = fs.readdirSync(path.join(vidUploadPath, `${temp_vidId}/`)).length;
 
-                            let sqrt = Math.ceil(Math.sqrt(number_of_thumbs));
+                            sqrt = Math.ceil(Math.sqrt(number_of_thumbs));
                             let spritemap_dimensions = `${sqrt}x${sqrt}`;
 
                             let generate_spritemap = spawn("montage", [path.join(vidUploadPath, `${temp_vidId}/*.png`), '-tile', spritemap_dimensions, '-geometry', image_geometry, path.join(vidUploadPath, `${temp_vidId}_sprite.png`)]);
@@ -141,52 +190,10 @@ exports.upload = (req, res, next) => {
                                 fs.rmSync(path.join(vidUploadPath, `${temp_vidId}/`), { recursive: true, force: true });
 
                                 // Step 6: Generate WebVTT file
-                                const VTTFilePath = path.join(vidUploadPath, `${temp_vidId}_thumbs.vtt`);
-                                fs.writeFileSync(VTTFilePath, 'WEBVTT\n', { flag: 'a' }, err => {
-                                    if (err) {
-                                        console.error(err);
-                                    }
-                                });
-
-                                let img_w = parseInt(image_geometry.toString().split('+')[0].split('x')[0]);
-                                let img_h = parseInt(image_geometry.toString().split('+')[0].split('x')[1]);
-                                let x = 0, y = 0;
-
-                                let sec = 0, min = 0, hrs = 0;
-                                for (let i = 0; i < number_of_thumbs; i++) {
-                                    let next_hrs = hrs, next_min = min, next_sec = sec + 1;
-
-                                    // Increment by one second
-                                    if (next_sec >= 60) {
-                                        next_sec = 0;
-                                        next_min = min + 1;
-                                    }
-                                    if (next_min >= 60) {
-                                        next_min = 0;
-                                        next_hrs = hrs + 1;
-                                    }
-
-                                    // Append the lines to the file
-                                    fs.appendFileSync(VTTFilePath, `\n${i + 1}\n${hrs}:${min}:${sec}.000 --> ${next_hrs}:${next_min}:${next_sec}.000\n${temp_vidId}_sprite.png#xywh=${x},${y},${img_w},${img_h}\n`, err => {
-                                        if (err) {
-                                            console.error(err);
-                                        }
-                                    });
-
-                                    // Update x and y positions
-                                    x += img_w;
-                                    if (x > (sqrt - 1) * img_w) {
-                                        x = 0;
-                                        y += img_h;
-                                    }
-
-                                    // Update seconds, minutes and hours
-                                    hrs = next_hrs;
-                                    min = next_min;
-                                    sec = next_sec;
-                                }
-
-                                console.log("Finished generating WebVTT file!");
+                                // This will be done after we get the real id of the video, in the function finishNewVideo().
+                                // For now, we can set some variables for the future...
+                                img_w = parseInt(image_geometry.toString().split('+')[0].split('x')[0]);
+                                img_h = parseInt(image_geometry.toString().split('+')[0].split('x')[1]);
 
                                 treatmentFinished = true;
 

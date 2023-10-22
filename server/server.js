@@ -21,6 +21,9 @@ app.use(busboy({
     highWaterMark: 2 * 1024 * 1024, // Définition d'un buffer de 2MiB
 })); // Insertion du middleware busboy
 
+// Serve static files
+app.use('/files', express.static('vid'));
+
 app.route('/').get((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write('<form action="vid/upload" method="post" enctype="multipart/form-data">');

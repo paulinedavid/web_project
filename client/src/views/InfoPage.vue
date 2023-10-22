@@ -1,7 +1,5 @@
 <template>
     <body>
-
-
         <header>
             <div class="headernav">
                 <div class="header-container">
@@ -29,7 +27,14 @@
         <div class="Book-page-container">
             <div class="Book-info-container">
                 <div class="Book-image-container">
-                    <img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info">
+                    <!--<img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info">-->
+                    <video id="video-player" playsinline controls :data-poster="addressServer + '/files/'+this.id+'.png'" style="max-height: 50vh;">
+                      <!--<source src="../../../server/vid/13.mp4" type="video/mp4" />-->
+                      <source :src="addressServer + '/files/' + this.id +'.mp4'" type="video/mp4" />
+
+                      <!-- Captions are optional -->
+                      <!--<track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default />-->
+                    </video>
                 </div>
 
                 <div class="Titre-desc-container"></div>
@@ -202,6 +207,7 @@
             </div>
         </footer>
     </body>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 </template>
 
 
@@ -210,6 +216,8 @@ import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
 import UserAvatar from "../assets/User.png"
 import axios from "axios";
+import Plyr from 'plyr';
+
 export default {
     name: "BookInfoPage",
     components: {
@@ -220,12 +228,19 @@ export default {
         return{
             item_type:null,
             item:{name:"",organization:"",description:""},
-            other_items:[]
-
+            other_items:[],
+            addressServer: localStorage.getItem('addressServer'),
+            id: this.$route.query.video_id ?? this.$route.query.game_id,
         }
 
     },
     mounted() {
+        // Setup the video player
+        // eslint-disable-next-line no-unused-vars
+        const player = new Plyr('#video-player');
+        console.log(this.addressServer + "/files/" + this.id + "_thumbs.vtt");
+        player.setPreviewThumbnails({src: this.addressServer + "/files/" + this.id +"_thumbs.vtt", enabled: true})
+
         const urlParams = new URLSearchParams(window.location.search);
 
         var thisID = document.getElementById("TopBtn");
@@ -310,8 +325,6 @@ export default {
             itemId = parseInt(urlParams.get('game_id'));
         }
         this.getItem(itemId)
-        
-        
     },
     methods: {
         OpenDeleteTask(id) {
