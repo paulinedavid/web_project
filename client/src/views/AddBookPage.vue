@@ -68,14 +68,21 @@
                   <i class="fa fa-bold" aria-hidden="true">Video's title*</i>
                 </p>
                 <div class="loginInputBox">
-                  <input v-model="titre" type="text" name="txtEmail" placeholder="Title" />
+                  <input v-model="title" type="text" name="txtEmail" placeholder="Title" />
                 </div>
 
                 <p class="Form-question">
                   <i class="fa fa-bold" aria-hidden="true">Video's author*</i>
                 </p>
                 <div class="loginInputBox">
-                  <input v-model="auteur" type="text" name="txtEmail" placeholder="Author" />
+                  <input v-model="author" type="text" name="txtEmail" placeholder="Name or Id of the organization." />
+                </div>
+
+                <p class="Form-question">
+                  <i class="fa fa-bold" aria-hidden="true">Video's themes*</i>
+                </p>
+                <div class="loginInputBox">
+                  <input v-model="themes" type="text" name="txtEmail" placeholder="Format ex: Ecology, Climate Change" />
                 </div>
 
                 <div class="Form-question">
@@ -86,61 +93,19 @@
                   </label>
                   <div class="AddBookInput" style="margin-top:15px;">
                     <button class="Form-File-Btn" style="margin-right: 15px; margin-bottom: 8px"
-                      @click="$refs.coverfileupload.click()">
+                      @click="$refs.thumbnailFile.click()">
                       Click here
                     </button>
-                    <input type="file" id="coverfile-upload" ref="coverfileupload" name="file-upload"
-                      class="loginInputBox" placeholder="Upload a screenshot of the issue." @change="handleFileChange"
+                    <input type="file" id="thumbnailFile" ref="thumbnailFile" name="file-upload" @change="handleThumbnailFileChange"
                       style="display: none" />
-                    {{ labelTextCover }}
+                    {{ labelTextThumbnail }}
                   </div>
                 </div>
                 <p class="Form-question">
-                  <i class="fa fa-bold" aria-hidden="true">Duration*</i>
+                  <i class="fa fa-bold" aria-hidden="true">Publication year</i>
                 </p>
                 <div class="loginInputBox">
-                  <input v-model="pages" type="text" name="txtEmail" placeholder="Duration" />
-                </div>
-                <p class="Form-question">
-                  <i class="fa fa-bold" aria-hidden="true">Publication year*</i>
-                </p>
-                <div class="loginInputBox">
-                  <input v-model="date_parution" type="text" name="txtEmail" placeholder="Year in 4 digits" />
-                </div>
-                <!-- <p class="Form-question">
-                  <i class="fa fa-bold" aria-hidden="true">Book's genre(s)*</i>
-                </p>
-                <div class="loginInputBox" v-for="i in nbGenre" :key="i" style="
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-around;
-                  ">
-                  <div class="custom-select1" style="width: 90%">
-                    <select v-model="selectedGenres[i]">
-                      <option v-for="genre in genres" :key="genre.genre" :value="genre.genre_id">
-                        {{ genre.genre }}
-                      </option>
-                    </select>
-                  </div>
-                  <font-awesome-icon @click="
-                    nbGenre += 1;
-                  console.log(selectedGenres);
-                  " id="TaskPlus" icon="fa-solid fa-plus" size="sm" />
-                </div> -->
-                <p class="Form-question">
-                  <i class="fa fa-bold" aria-hidden="true">Video's language*</i>
-                </p>
-                <div class="loginInputBox">
-                  <div class="custom-select1">
-                    <select v-model="langue">
-                      <option value="">Select Language</option>
-                      <option value="English">English</option>
-                      <option value="French">French</option>
-                      <option value="Spanish">Spanish</option>
-                      <option value="German">German</option>
-                      <option value="Others">Others</option>
-                    </select>
-                  </div>
+                  <input v-model="publication_year" type="text" name="txtEmail" placeholder="Year in 4 digits" />
                 </div>
                 <p class="Form-question">
                   <i class="fa fa-bold" aria-hidden="true">Video's summary*</i>
@@ -219,29 +184,23 @@ export default {
   },
   data() {
     return {
-      titre: "",
-      auteur: "",
+      title: "",
+      author: "",
       resume: "",
-      pages: "",
-      date_parution: "",
-      langue: "",
-      selectedGenres: [],
-      url: "",
-      image_src: "",
+      publication_year: "",
+      themes: "",
       sent: false,
       error: false,
-      selectedFileEpub: null,
-      selectedFileCover: null,
-//      labelTextEpub: "No file selected",
       labelTextVideo: "No file selected",
-      labelTextCover: "No file selected",
+      labelTextThumbnail: "No file selected",
       resumeExceedsLimit: false,
-      bookAlreadyExists: false,
+//      bookAlreadyExists: false,
       notComplete: false,
-      genres: [],
-      nbGenre: 1,
+//      genres: [],
+//      nbGenre: 1,
       addressServer: localStorage.getItem('addressServer'),
       videoFile: '',
+      thumbnailFile: '',
       uploadPercentage: 0,
       labelStatus: ''
     };
@@ -275,12 +234,16 @@ export default {
       // TODO: Check if the fields have been completed!
 
       console.log("Sending video...");
-      console.log("Sending file " + this.file.name);
+      console.log("Sending file " + this.videoFile.name);
 
       let formData = new FormData();
-      formData.append('file', this.file);
-      formData.append('video_name', this.titre);
-      // ...
+      formData.append('video_file', this.videoFile);
+      formData.append('thumbnail_file', this.thumbnailFile);
+      formData.append('title', this.title);
+      formData.append('author', this.author);
+      formData.append('publication_year', this.publication_year);
+      formData.append('description', this.resume);
+      formData.append('themes', this.themes);
 
       axios.post(this.addressServer + '/vid/upload',
                  formData,
@@ -396,17 +359,29 @@ export default {
 
     },
     handleVideoFileChange(event) {
-      this.file = event.target.files[0];
+      this.videoFile = event.target.files[0];
 
-      if (this.file) {
+      if (this.videoFile) {
 //        this.selectedFileEpub = file; // Useful???
-        if (this.file.name.length > 35)
-          this.labelTextVideo = this.file.name.substring(0, 35) + "...";
+        if (this.videoFile.name.length > 35)
+          this.labelTextVideo = this.videoFile.name.substring(0, 35) + "...";
         else
-          this.labelTextVideo = this.file.name;
+          this.labelTextVideo = this.videoFile.name;
       } else {
 //        this.selectedFileEpub = null; // Useful ??
         this.labelTextVideo = "No file selected.";
+      }
+    },
+    handleThumbnailFileChange(event) {
+      this.thumbnailFile = event.target.files[0];
+
+      if (this.thumbnailFile) {
+        if (this.thumbnailFile.name.length > 35)
+          this.labelTextThumbnail = this.thumbnailFile.name.substring(0, 35) + "...";
+        else
+          this.labelTextThumbnail = this.thumbnailFile.name;
+      } else {
+        this.labelTextThumbnail = "No file selected.";
       }
     },
     handleEpubFileChange(event) {
