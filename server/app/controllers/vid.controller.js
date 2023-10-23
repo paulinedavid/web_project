@@ -9,158 +9,225 @@ const Video = require("../models/video.model.js");
 const Organization = require('../models/org.model.js');
 
 exports.upload = (req, res, next) => {
-    req.pipe(req.busboy); // Pipe the request through busboy
+    let temp_vidId = "tmp_" + Date.now().toString(36);
 
-    let vidId = '12345';
-    
+    let uploadFinished = false;
+    let treatmentFinished = false;
+
+    let fields = {};
+    let id = null;
+
+    let finishNewVideo = () => {
+        if (uploadFinished && treatmentFinished) {
+            console.log("Saving new video to database...");
+
+            // Renaming files to the new id...
+            fs.rename(path.join(vidUploadPath, `${temp_vidId}.mp4`), path.join(vidUploadPath, `${id}.mp4`));
+            fs.rename(path.join(vidUploadPath, `${temp_vidId}.png`), path.join(vidUploadPath, `${id}.png`));
+            fs.rename(path.join(vidUploadPath, `${temp_vidId}_sprite.png`), path.join(vidUploadPath, `${id}_sprite.png`));
+            fs.rename(path.join(vidUploadPath, `${temp_vidId}_thumbs.vtt`), path.join(vidUploadPath, `${id}_thumbs.vtt`));
+
+            console.log("Everything is done!");
+            res.status(200).end();
+        }
+    };
+
     req.busboy.on('file', (fieldname, file, filename) => {
-        // Step 1: upload file
-        console.log(`Upload of '${filename}' started.`);
+        console.log(`fieldname: ${fieldname}`);
+        console.log(`file: ${file}`);
+        console.log(`filename: ${filename}`);
 
-        // Create a write stream of the new file
-        const fstream = fs.createWriteStream(path.join(vidUploadPath, `${vidId}.mp4`));
-        file.pipe(fstream);
+        if (fieldname === "thumbnail_file") {
+            console.log(`Upload of thumbnail file started.`);
 
-        // On finish of the upload
-        fstream.on('close', () => {
-            console.log(`Upload of '${filename}' finished.`);
-            
-            // Step 2: Generate pictures
-            
-            fs.mkdir(path.join(vidUploadPath, `${vidId}`));
-            const generate_thumbs = spawn('ffmpeg', ['-i', path.join(vidUploadPath, `${vidId}.mp4`), '-vf', 'fps=1', path.join(vidUploadPath, `${vidId}/out%05d.png`)]);
+            const fstream = fs.createWriteStream(path.join(vidUploadPath, `${temp_vidId}.png`));
+            file.pipe(fstream);
 
-            generate_thumbs.stdout.on('data', (data) => {
-                console.log(`stdout: ${data}`);
+            fstream.on('close', () => {
+                console.log("Upload of thumbnail file finished.");
             });
+        }
 
-            generate_thumbs.stderr.on('data', (data) => {
-                console.error(`stderr: ${data}`);
-                // Don't send an error code here!
-                // FFMPEG prints all logs to stderr!
-            });
+        if (fieldname === "video_file") {
+            // Step 1: upload file
+            console.log(`Upload of video file started.`);
 
-            generate_thumbs.on('close', (code) => {
-                console.log(`child process exited with code ${code}.`);
-                console.log("Thumbs generation finished!");
+            // Create a write stream of the new file
+            const fstream = fs.createWriteStream(path.join(vidUploadPath, `${temp_vidId}.mp4`));
+            file.pipe(fstream);
 
-                // Step 3: Compress the thumbs
+            // On finish of the upload
+            fstream.on('close', () => {
+                console.log(`Upload of video file finished.`);
 
-                console.log("Compressing thumbs...");
-                const compress_thumbs = spawn('mogrify', ['-geometry', '100x', path.join(vidUploadPath, `${vidId}/`) + '*']);
+                // Step 2: Generate pictures
 
-                compress_thumbs.stdout.on('data', (data) => {
+                fs.mkdir(path.join(vidUploadPath, `${temp_vidId}`));
+                const generate_thumbs = spawn('ffmpeg', ['-i', path.join(vidUploadPath, `${temp_vidId}.mp4`), '-vf', 'fps=1', path.join(vidUploadPath, `${temp_vidId}/out%05d.png`)]);
+
+                generate_thumbs.stdout.on('data', (data) => {
                     console.log(`stdout: ${data}`);
                 });
 
-                compress_thumbs.stderr.on('data', (data) => {
+                generate_thumbs.stderr.on('data', (data) => {
                     console.error(`stderr: ${data}`);
+                    // Don't send an error code here!
+                    // FFMPEG prints all logs to stderr!
                 });
 
-                compress_thumbs.on('close', (code) => {
+                generate_thumbs.on('close', (code) => {
                     console.log(`child process exited with code ${code}.`);
+                    console.log("Thumbs generation finished!");
 
-                    // Step 4: Identify thumb size
-                    console.log("Identifying thumb size...");
-                    let image_geometry = null;
-                    const thumb_size = spawn('identify', ['-format', '%g', path.join(vidUploadPath, `${vidId}/out00001.png`)]);
+                    // Step 3: Compress the thumbs
 
-                    thumb_size.stdout.on('data', (data) => {
+                    console.log("Compressing thumbs...");
+                    const compress_thumbs = spawn('mogrify', ['-geometry', '100x', path.join(vidUploadPath, `${temp_vidId}/`) + '*']);
+
+                    compress_thumbs.stdout.on('data', (data) => {
                         console.log(`stdout: ${data}`);
-                        image_geometry = data;
                     });
 
-                    thumb_size.stderr.on('data', (data) => {
+                    compress_thumbs.stderr.on('data', (data) => {
                         console.error(`stderr: ${data}`);
                     });
 
-                    thumb_size.on('close', (code) => {
+                    compress_thumbs.on('close', (code) => {
                         console.log(`child process exited with code ${code}.`);
 
-                        if (image_geometry === null) {
-                            console.error("Image geometry is null, can't proceed!");
-                            return;
-                        }
+                        // Step 4: Identify thumb size
+                        console.log("Identifying thumb size...");
+                        let image_geometry = null;
+                        const thumb_size = spawn('identify', ['-format', '%g', path.join(vidUploadPath, `${temp_vidId}/out00001.png`)]);
 
-                        // Step 5: Generate spritemap containing all thumbs.
-                        // Count number of files
-                        let number_of_thumbs = fs.readdirSync(path.join(vidUploadPath, `${vidId}/`)).length;
-
-                        let sqrt = Math.ceil(Math.sqrt(number_of_thumbs));
-                        let spritemap_dimensions = `${sqrt}x${sqrt}`;
-
-                        let generate_spritemap = spawn("montage", [path.join(vidUploadPath, `${vidId}/*.png`), '-tile', spritemap_dimensions, '-geometry', image_geometry, path.join(vidUploadPath, `${vidId}_sprite.png`)]);
-
-                        generate_spritemap.stdout.on('data', (data) => {
+                        thumb_size.stdout.on('data', (data) => {
                             console.log(`stdout: ${data}`);
+                            image_geometry = data;
                         });
 
-                        generate_spritemap.stderr.on('data', (data) => {
+                        thumb_size.stderr.on('data', (data) => {
                             console.error(`stderr: ${data}`);
                         });
 
-                        generate_spritemap.on('close', (code) => {
+                        thumb_size.on('close', (code) => {
                             console.log(`child process exited with code ${code}.`);
 
-                            // Remove all thumbs generated
-                            fs.rmSync(path.join(vidUploadPath, `${vidId}/`), { recursive: true, force: true });
+                            if (image_geometry === null) {
+                                console.error("Image geometry is null, can't proceed!");
+                                return;
+                            }
 
-                            // Step 6: Generate WebVTT file
-                            const VTTFilePath = path.join(vidUploadPath, `${vidId}_thumbs.vtt`);
-                            fs.writeFileSync(VTTFilePath, 'WEBVTT\n', { flag: 'a' }, err => {
-                                if (err) {
-                                    console.error(err);
-                                }
+                            // Step 5: Generate spritemap containing all thumbs.
+                            // Count number of files
+                            let number_of_thumbs = fs.readdirSync(path.join(vidUploadPath, `${temp_vidId}/`)).length;
+
+                            let sqrt = Math.ceil(Math.sqrt(number_of_thumbs));
+                            let spritemap_dimensions = `${sqrt}x${sqrt}`;
+
+                            let generate_spritemap = spawn("montage", [path.join(vidUploadPath, `${temp_vidId}/*.png`), '-tile', spritemap_dimensions, '-geometry', image_geometry, path.join(vidUploadPath, `${temp_vidId}_sprite.png`)]);
+
+                            generate_spritemap.stdout.on('data', (data) => {
+                                console.log(`stdout: ${data}`);
                             });
 
-                            let img_w = parseInt(image_geometry.toString().split('+')[0].split('x')[0]);
-                            let img_h = parseInt(image_geometry.toString().split('+')[0].split('x')[1]);
-                            let x = 0, y = 0;
+                            generate_spritemap.stderr.on('data', (data) => {
+                                console.error(`stderr: ${data}`);
+                            });
 
-                            let sec = 0, min = 0, hrs = 0;
-                            for (let i = 0; i < number_of_thumbs; i++) {
-                                let next_hrs = hrs, next_min = min, next_sec = sec + 1;
+                            generate_spritemap.on('close', (code) => {
+                                console.log(`child process exited with code ${code}.`);
 
-                                // Increment by one second
-                                if (next_sec >= 60) {
-                                    next_sec = 0;
-                                    next_min = min + 1;
-                                }
-                                if (next_min >= 60) {
-                                    next_min = 0;
-                                    next_hrs = hrs + 1;
-                                }
+                                // Remove all thumbs generated
+                                fs.rmSync(path.join(vidUploadPath, `${temp_vidId}/`), { recursive: true, force: true });
 
-                                // Append the lines to the file
-                                fs.appendFileSync(VTTFilePath, `\n${i + 1}\n${hrs}:${min}:${sec}.000 --> ${next_hrs}:${next_min}:${next_sec}.000\n${vidId}_sprite.png#xywh=${x},${y},${img_w},${img_h}\n`, err => {
+                                // Step 6: Generate WebVTT file
+                                const VTTFilePath = path.join(vidUploadPath, `${temp_vidId}_thumbs.vtt`);
+                                fs.writeFileSync(VTTFilePath, 'WEBVTT\n', { flag: 'a' }, err => {
                                     if (err) {
                                         console.error(err);
                                     }
                                 });
 
-                                // Update x and y positions
-                                x += img_w;
-                                if (x > (sqrt - 1) * img_w) {
-                                    x = 0;
-                                    y += img_h;
+                                let img_w = parseInt(image_geometry.toString().split('+')[0].split('x')[0]);
+                                let img_h = parseInt(image_geometry.toString().split('+')[0].split('x')[1]);
+                                let x = 0, y = 0;
+
+                                let sec = 0, min = 0, hrs = 0;
+                                for (let i = 0; i < number_of_thumbs; i++) {
+                                    let next_hrs = hrs, next_min = min, next_sec = sec + 1;
+
+                                    // Increment by one second
+                                    if (next_sec >= 60) {
+                                        next_sec = 0;
+                                        next_min = min + 1;
+                                    }
+                                    if (next_min >= 60) {
+                                        next_min = 0;
+                                        next_hrs = hrs + 1;
+                                    }
+
+                                    // Append the lines to the file
+                                    fs.appendFileSync(VTTFilePath, `\n${i + 1}\n${hrs}:${min}:${sec}.000 --> ${next_hrs}:${next_min}:${next_sec}.000\n${temp_vidId}_sprite.png#xywh=${x},${y},${img_w},${img_h}\n`, err => {
+                                        if (err) {
+                                            console.error(err);
+                                        }
+                                    });
+
+                                    // Update x and y positions
+                                    x += img_w;
+                                    if (x > (sqrt - 1) * img_w) {
+                                        x = 0;
+                                        y += img_h;
+                                    }
+
+                                    // Update seconds, minutes and hours
+                                    hrs = next_hrs;
+                                    min = next_min;
+                                    sec = next_sec;
                                 }
 
-                                // Update seconds, minutes and hours
-                                hrs = next_hrs;
-                                min = next_min;
-                                sec = next_sec;
-                            }
+                                console.log("Finished generating WebVTT file!");
 
-                            console.log("Finished generating WebVTT file!");
+                                treatmentFinished = true;
 
-                            res.status(200).end();
-                            return;
+                                finishNewVideo();
+                            });
                         });
-                    });
-                })
+                    })
+                });
             });
-        });
+        }
     });
+
+    req.busboy.on('field', (fieldname, value) => {
+        console.log(`Received field ${fieldname} with value ${value}.`);
+        fields[fieldname] = value;
+    });
+
+    req.busboy.on("finish", () => {
+        console.log("Finished uploading files and fields!");
+
+        // Insert the video in the database
+        Video.create(new Video({
+            name: fields["title"],
+            description: fields["description"],
+            themes: fields["themes"].split(", "),
+            id_org: fields["author"],
+            publication_year: fields["publication_year"]
+        }), (err, data) => {
+            if (err) {
+                res.status(500).send({message: err.message || "An error occurred while creating the video"});
+                // TODO: Remove all files.
+            } else {
+                id = data.id;
+            }
+        });
+
+        uploadFinished = true;
+        finishNewVideo();
+    });
+
+    req.pipe(req.busboy); // Pipe the request through busboy
 }
 exports.create = (req, res, next) => {
     // Validate request
