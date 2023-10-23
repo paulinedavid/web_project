@@ -226,7 +226,7 @@ export default {
     },
     data(){
         return{
-            item_type:null,
+            item_type: this.$route.query.video_id ? "video" : "game",
             item:{name:"",organization:"",description:""},
             other_items:[],
             addressServer: localStorage.getItem('addressServer'),
@@ -253,7 +253,6 @@ export default {
             }
         };
         window.addEventListener("scroll", myScrollFunc);
-
 
         const submit = document.querySelector('.comment-submit');
         const commentList = document.querySelector('.comments');
@@ -308,23 +307,24 @@ export default {
 
         const saved = JSON.parse(localStorage.getItem('commentListing'));
 
-
         // If there are any saved items, update the current list
         if (saved) {
             commentList.innerHTML = saved;
         }
 
-        this.setContainerScroll();
-        var itemId = null
+//        var itemId = null
         if (urlParams.get('video_id')){
             this.item_type = "video"
-            itemId = parseInt(urlParams.get('video_id'));
+//            itemId = parseInt(urlParams.get('video_id'));
         }
         else if (urlParams.get('game_id')){
             this.item_type = "game"
-            itemId = parseInt(urlParams.get('game_id'));
+//            itemId = parseInt(urlParams.get('game_id'));
         }
-        this.getItem(itemId)
+
+        this.getItem(this.id);
+
+//        this.setContainerScroll();
     },
     methods: {
         OpenDeleteTask(id) {
