@@ -69,7 +69,6 @@ export default {
       mail: "",
       password: "",
       message: "",
-      //addressServer: "http://localhost:8080",
       addressServer: localStorage.getItem('addressServer'),
     };
   },

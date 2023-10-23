@@ -109,8 +109,7 @@ export default {
         sent: false,
         error: false,
         userData: null,
-        //addressServer: localStorage.getItem('addressServer')
-        addressServer: "http://localhost:8080"
+        addressServer: localStorage.getItem('addressServer')
       };
 
     },

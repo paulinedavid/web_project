@@ -139,28 +139,6 @@ export default {
         window.addEventListener("scroll", myScrollFunc);
     },
     methods: {
-        handleFileChange(event) {
-            const file = event.target.files[0];
-            if (file) {
-                this.selectedFile = file;
-                this.labelText = file.name;
-
-                // console.log(file.name);
-                // const reader = new FileReader();
-                // console.log(reader)
-                // reader.onload = () =>  {
-                //     console.log("here");
-                //     imageContent = reader.result;
-                //     console.log("image Content", imageContent)
-                // }
-
-            } else {
-                this.selectedFile = null;
-                this.labelText = "No file selected";
-            }
-
-
-        },
         sendMail() {
             let mailOptions = {
                 to: 'masterbookefrei@gmail.com',
