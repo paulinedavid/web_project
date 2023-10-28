@@ -28,9 +28,10 @@
             <div class="Book-info-container">
                 <div class="Book-image-container">
                     <!--<img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info">-->
-                    <video id="video-player" playsinline controls :data-poster="addressServer + '/files/'+this.id+'.png'" style="max-height: 50vh;">
+                    <!--<video id="video-player" playsinline controls :data-poster="addressServer + '/files/'+this.id+'.png'" style="max-height: 50vh;">-->
+                    <video id="video-player" playsinline controls style="max-height: 50vh;">
                       <!--<source src="../../../server/vid/13.mp4" type="video/mp4" />-->
-                      <source :src="addressServer + '/files/' + this.id +'.mp4'" type="video/mp4" />
+                      <!--<source :src="addressServer + '/files/' + this.id +'.mp4'" type="video/mp4" />-->
 
                       <!-- Captions are optional -->
                       <!--<track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default />-->
@@ -217,6 +218,7 @@ import DarkLightMode from "../components/DarkLightMode.vue";
 import UserAvatar from "../assets/User.png"
 import axios from "axios";
 import Plyr from 'plyr';
+import { ref } from 'vue';
 
 export default {
     name: "BookInfoPage",
@@ -231,15 +233,20 @@ export default {
             other_items:[],
             addressServer: localStorage.getItem('addressServer'),
             id: this.$route.query.video_id ?? this.$route.query.game_id,
+            player: ref(null),
         }
 
     },
     mounted() {
         // Setup the video player
         // eslint-disable-next-line no-unused-vars
-        const player = new Plyr('#video-player');
-        console.log(this.addressServer + "/files/" + this.id + "_thumbs.vtt");
-        player.setPreviewThumbnails({src: this.addressServer + "/files/" + this.id +"_thumbs.vtt", enabled: true})
+//        const player = new Plyr('#video-player');
+        this.player = new Plyr('#video-player');
+//        console.log(this.addressServer + "/files/" + this.id + "_thumbs.vtt");
+//        player.setPreviewThumbnails({src: this.addressServer + "/files/" + this.id +"_thumbs.vtt", enabled: true})
+//        this.player.setPreviewThumbnails({src: this.addressServer + "/files/" + this.id +"_thumbs.vtt", enabled: true})
+        // TODO : Set the player source manually each time the function getVideo() is called.
+        // This will allow the video to change when we click on another video in the "recommended videos" section.
 
         const urlParams = new URLSearchParams(window.location.search);
 
@@ -387,13 +394,33 @@ export default {
             axios.get(`${localStorage.getItem("addressServer")}/vid/id`,{params:{video_id:video_id}})
                 .then(response => {
                     this.item = response.data;
-                    this.getOtherVideos()
                     //console.log("Video  "+JSON.stringify(this.video))
+
+                    this.getOtherVideos()
+
+//                    this.player.destroy();
+//                    this.player = new Plyr('#video-player');
+                    this.player.source = {
+                        type: 'video',
+                        title: this.item.name,
+                        sources: [
+                            {
+                                src: this.addressServer + "/files/" + this.item.id + ".mp4",
+                                type: 'video/mp4'
+                            }
+                        ],
+                        poster: this.addressServer + "/files/" + this.item.id + ".png",
+                        previewThumbnails: {
+                            src: this.addressServer + "/files/" + this.item.id + "_thumbs.vtt",
+                            enabled: true
+                        }
+                    };
+
+                    console.log("LOADED VIDEO " + this.item.name);
                 })
                 .catch(error => {
                     console.log(error.message);
                 })
-
         },
         
         getOtherVideos() {
