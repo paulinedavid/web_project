@@ -241,7 +241,9 @@ export default {
         // Setup the video player
         // eslint-disable-next-line no-unused-vars
 //        const player = new Plyr('#video-player');
-        this.player = new Plyr('#video-player');
+        this.player = new Plyr('#video-player', {
+            ads: {tagUrl: "http://localhost:8080/ads/serve", enabled: true}
+        });
 //        console.log(this.addressServer + "/files/" + this.id + "_thumbs.vtt");
 //        player.setPreviewThumbnails({src: this.addressServer + "/files/" + this.id +"_thumbs.vtt", enabled: true})
 //        this.player.setPreviewThumbnails({src: this.addressServer + "/files/" + this.id +"_thumbs.vtt", enabled: true})

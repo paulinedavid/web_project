@@ -37,6 +37,35 @@ app.route('/auth/test').get((req, res) => {
     return "Hello World";
 });
 
+app.route('/ads/serve').get((req, res) => {
+    const vast = `<VAST version="2.0">
+    <Ad id="1">
+        <InLine>
+            <AdSystem>Togethearth Ad System</AdSystem>
+            <AdTitle>PariMieux</AdTitle>
+            <Description>The best advertisement</Description>
+            <Creatives>
+                <Creative AdID="1">
+                    <Linear>
+                        <Duration>00:00:18</Duration>
+                        <VideoClicks>
+                            <ClickThrough>http://www.parimieux.com</ClickThrough>
+                        </VideoClicks>
+                        <MediaFiles>
+                            <MediaFile delivery="progressive" type="video/mp4" bitrate="4949657" width="1920"
+                                       height="1080" scalable="true" maintainAspectRatio="true">
+                                http://129.151.226.75:8080/files/17.mp4
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>`;
+    res.send(vast);
+})
+
 require('./app/routes/email.routes')(app);
 require('./app/routes/vid.routes.js')(app);
 require('./app/routes/user.routes.js')(app);
