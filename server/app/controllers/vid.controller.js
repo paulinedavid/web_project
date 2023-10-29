@@ -7,6 +7,7 @@ fs.ensureDir(vidUploadPath);
 
 const Video = require("../models/video.model.js");
 const Organization = require('../models/org.model.js');
+const sql = require("../models/db.js");
 
 exports.upload = (req, res, next) => {
     let temp_vidId = "tmp_" + Date.now().toString(36);
