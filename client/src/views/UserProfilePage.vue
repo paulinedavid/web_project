@@ -109,8 +109,9 @@ export default {
         sent: false,
         error: false,
         userData: null,
-        //addressServer: localStorage.getItem('addressServer')
-        addressServer: "http://localhost:8080"
+
+        addressServer: localStorage.getItem('addressServer')
+
       };
 
     },
@@ -120,12 +121,16 @@ export default {
   },
     methods: {
       updateInformation() {
-        fetch(this.addressServer + "/api/auth/updateProfile", {
+
+        fetch(this.addressServer + "/auth/updateProfile", {
+
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ email_user_old: this.userData.email_user, email_user: this.txtEmail, pseudo: this.txtFName })
+
+          body: JSON.stringify({ mail_old: this.userData.mail, mail: this.txtEmail, name: this.txtFName })
+
         })
           .then(response => {
             if (response.ok) {
@@ -140,16 +145,9 @@ export default {
             console.log('Response:', data);
 
             // Mise à jour de la variable locale (dans le navigateur) userData
+            var newtoken = data.token;
 
-            const newUserData = {
-              token: this.userData.token,
-              email_user: (data.userData.email_user != "") ? data.userData.email_user : this.txtEmail,
-              pseudo: (data.userData.pseudo != undefined) ? data.userData.pseudo : this.txtFName
-            };
-
-            console.log(newUserData);
-
-            localStorage.setItem("userData", JSON.stringify(newUserData));
+            localStorage.setItem("token", newtoken);
           })
           .catch(error => {
             console.log('Error:', error);

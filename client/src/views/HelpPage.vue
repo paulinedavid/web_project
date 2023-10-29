@@ -62,26 +62,13 @@
                             <input type="text" id="fname" name="fname" class="help-input"
                                 placeholder="Paste the link to where the issue is happening." v-model="txtLink"><br>
                         </div>
-                        <div class="help-question">
-                            <label for="file-upload" class="help-label">Upload Screenshot</label>
-                            <div class="help-input">
-                                <button class="Create-planning-Btn" style="margin-right: 15px;"
-                                    @click="$refs.fileupload.click()">Click here</button>
-                                <input type="file" id="file-upload" ref="fileupload" name="file-upload" class="help-input"
-                                    placeholder="Upload a screenshot of the issue." @change="handleFileChange"
-                                    style="display:none">
-                                {{ labelText }}
-                            </div>
-
-                            <br>
-                        </div>
-                        <button @click="sendMail" type="submit" class="submit-help-btn" id="UpdateBtn">
-                            Send
-                        </button>
                         <div class="help-question" style="height: 40px;">
                             <p class="help-prompt" v-if="sent" style="color: green"> Help Request sent !</p>
                             <p class="help-prompt" v-if="error" style="color: red"> Please fill every field with a * !</p>
                         </div>
+                        <button @click="sendMail" type="submit" class="submit-help-btn" id="UpdateBtn">
+                            Send
+                        </button>
                     </div>
                 </form>
                 <p class="help-prompt">Thank you for your feedback !</p>
@@ -117,8 +104,6 @@
 <script>
 import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
-import axios from "axios";
-let imageContent = null;
 export default {
     name: "HelpPage",
     components: {
@@ -132,6 +117,8 @@ export default {
             txtSummary: "",
             txtDetails: "",
             txtLink: "",
+            message:"",
+            formData:"",
             sent: false,
             error: false,
             selectedFile: null,
@@ -152,24 +139,6 @@ export default {
         window.addEventListener("scroll", myScrollFunc);
     },
     methods: {
-        handleFileChange(event) {
-            const file = event.target.files[0];
-            if (file) {
-                this.selectedFile = file;
-                this.labelText = file.name;
-                const reader = new FileReader();
-                reader.onloaded = () => {
-                    imageContent = reader.result;
-                    console.log("image Content", imageContent)
-                }
-
-            } else {
-                this.selectedFile = null;
-                this.labelText = "No file selected";
-            }
-
-
-        },
         sendMail() {
             let mailOptions = {
                 to: 'masterbookefrei@gmail.com',
@@ -181,7 +150,6 @@ export default {
                     summary: this.txtSummary,
                     details: this.txtDetails,
                     link: this.txtLink,
-                    img: imageContent
                 },
                 attachments: [
                     {
@@ -192,10 +160,27 @@ export default {
                 ],
             };
 
-            axios.post(this.addressServer + "/email/send", mailOptions)
-                .then((response) => {
-                    console.log(response)
-                })
+            fetch(this.addressServer + "/email/send", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(mailOptions)
+        })
+          .then(response => {
+            if (response.ok) {
+              this.message = 'Email sent';
+            } else {
+              throw new Error('Error sending the email');
+            }
+            this.sent=true;
+
+            return response.json();
+          })
+          .catch(error => {
+            console.log('Error:', error);
+          });
+
 
 
         }

@@ -21,9 +21,10 @@ module.exports = app =>{
 
     router.post('/change_password', users.change_password);
     
-    router.post('/isAdmin', users.isAdmin);
 
     router.post('/updateProfile', users.updateProfile);
+
+    router.post('/send_notification', users.send_notif);
 
     app.use('/auth', router);
 }
