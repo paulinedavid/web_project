@@ -222,7 +222,79 @@ exports.upload = (req, res, next) => {
                 id = data.id;
             }
         });
-
+  
+        //we get the list of id of users that follow the organisation
+        sql.query("SELECT id_user FROM follow WHERE id_org = ?", [fields["author"]], (err, data) => {
+        if (err)
+            if (err === "User not found") {
+            return res.status(409).json({ message: err });
+            } else {
+            res.status(500).send({
+                message: err.message || "Some error ",
+            });
+            }
+        else {
+            console.log("successful !");
+            console.log(data);
+            //for each user, we get their email address
+            if(data!=[]){
+            data.forEach(row => {
+                console.log(row.id_user);
+                sql.query("SELECT mail FROM users WHERE id = ?", [row.id_user], (err,data)=> {
+                if(err){
+                    if (err === "User not found") {
+                    return res.status(409).json({ message: err });
+                    } else {
+                    return res.status(500).json({
+                        message: err.message || "Some error ",
+                    });
+                    }
+                }else{
+                    console.log(data);
+                    console.log(data[0].mail);
+                    var emailaddress = data[0].mail;
+                    sql.query("SELECT name FROM organization WHERE id = ?",[req.body.id_org], (err,data) => {
+                    if(err){
+                        res.status(500).send({
+                            message: err.message || "Some error ",
+                        });
+                    }else{
+                        console.log(data);
+                        // once we have their email address, we send them a mail vu the information associated to the organisation
+                        const email = new Email({
+                        to: emailaddress,
+                        subject: "New notification Togethearth",
+                        template: "email-body-notif",
+                        context: {
+                            name : data[0].name,
+                            link: "http://129.151.226.75:8081/login-page"
+                        },
+                        attachments: [{
+                            filename: "LogoJour1.png",
+                            path: "LogoJour1.png",
+                            cid: "image_cid"
+                        }]
+                        });
+                        Email.send(email, (result) => {
+                        if (!result) {
+                            // Error occurred during sending the email
+                            console.error("Error sending email:", error);
+                            res.status(500).json({ message: "An error occurred while sending the email!" });
+                        } else {
+                            // Email sent successfully
+                            console.log("Email sent successfully:", result);
+                            res.status(200).json({ message: "Email was sent." });
+                        }
+                        });
+                    }
+                    })
+                }
+                })
+            });
+            }
+        }
+        });
+        
         uploadFinished = true;
         finishNewVideo();
     });
