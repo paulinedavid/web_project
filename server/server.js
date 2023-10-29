@@ -25,7 +25,9 @@ app.use(busboy({
 
 // Intercept requests for
 app.use((req, res, next) => {
-    const filePath = path.join(__dirname, 'vid', req.url);
+    const filePath = path.join(__dirname, 'vid', req.url.replace(/^\/files\//, ''));
+    console.log(req.url);
+    console.log(filePath);
 
     // Check if the request is for a PNG file and doesn't end with _sprite.png
     if (path.extname(filePath) === '.png' && !filePath.endsWith('_sprite.png')) {
@@ -33,7 +35,7 @@ app.use((req, res, next) => {
         fs.access(filePath, fs.constants.F_OK, (err) => {
             if (err) {
                 // If the file doesn't exist, serve the default PNG file
-                const defaultFilePath = path.join(__dirname, 'vid', 'default_thumbnail.png');
+                const defaultFilePath = path.join(__dirname, 'vid', 'default_thumbnail.jpg');
                 res.sendFile(defaultFilePath);
             } else {
                 // If the file exists, serve the requested file
