@@ -50,7 +50,7 @@
                         {{ organization.name }}
                     </div></div>
                 <div class="follow-container">
-                    <div class="follow-icon"><button class="join-asso-Btn">
+                    <div class="follow-icon"><button class="join-asso-Btn" @click="subscribe()">
                         <!-- <font-awesome-icon icon="fa-regular fa-bell" />  -->
                         <font-awesome-icon icon="fa-regular fa-handshake" style="font-size: 21px; margin-right: 15px;"/>
                         Join
@@ -235,6 +235,7 @@ export default {
             other_videos:[],
             pined_game:{name:"game_name",organization:"game_organization"},
             other_games:[],
+            isSubscribed:false,
         }
     },
     methods: {
@@ -243,9 +244,10 @@ export default {
             window.scrollTo({top: 0, behavior: 'smooth'});
         },
         getOrganization(org_id){
-            axios.get(`${localStorage.getItem("addressServer")}/org/id`,{params:{org_id:org_id}})
+            axios.get(`${localStorage.getItem("addressServer")}/org/id`,{params:{org_id:org_id,token:localStorage.getItem('token')}})
                 .then(response => {
                     this.organization = response.data;
+                    this.isSubscribed = response.data.isSubscribed
                     console.log("Organization  "+JSON.stringify(this.organization))
                     this.getPinedVideo()
                     this.getOtherVideos()
@@ -304,8 +306,15 @@ export default {
                 })
         },
 
-        
-
+        subscribe(){
+            axios.post(`${localStorage.getItem("addressServer")}/org/subscribe`,{org_id:this.organization.id,token:localStorage.getItem("token")})
+                .then(response => {
+                    this.isSubscribed = response
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
     },
     mounted() {
 
