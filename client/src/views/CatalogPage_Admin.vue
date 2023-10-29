@@ -63,7 +63,7 @@
                             <ul class="item-grid">
                                 <li  v-for = "item in items[theme.id]" :key="item.id" >
                                     <RouterLink v-if="page==='video'" :to="{ path: 'video-info-page', query: { video_id: item.id }}">
-                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
+                                        <img :src="this.addressServer + '/files/' + item.id + '.png'" alt="vid_pic" class="vid-mini-pic" >
                                     </RouterLink>
                                     <RouterLink v-if="page==='game'" :to="{ path: 'game-info-page', query: { game_id: item.id }}">
                                         <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
@@ -140,7 +140,7 @@ export default {
             items:{},
             searchbar:"",
             page:null,
-
+            addressServer: localStorage.getItem('addressServer'),
         }
     },
     mounted() {
