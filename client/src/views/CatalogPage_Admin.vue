@@ -28,8 +28,13 @@
                             <div><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></div>
                         <!-- </form> -->
                     </div>
+
                     <div class="lib-button-container" style="margin-right: 100px;">
-                        <div @click="filterJoined = !filterJoined; getThemes()"><font-awesome-icon icon="fa-regular fa-heart" /></div>
+                        <div @click="filterJoined = !filterJoined; getThemes()">
+                            <font-awesome-icon icon="fa-solid fa-heart" v-if="filterJoined"/>
+                            <font-awesome-icon icon="fa-regular fa-heart" v-else/>
+                        </div>
+
                     </div>
                 </div>
                 <div class="search-container search-container-fixe hide" id="search-container-fixe">
@@ -63,7 +68,7 @@
                             <ul class="item-grid">
                                 <li  v-for = "item in items[theme.id]" :key="item.id" >
                                     <RouterLink v-if="page==='video'" :to="{ path: 'video-info-page', query: { video_id: item.id }}">
-                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
+                                        <img :src="this.addressServer + '/files/' + item.id + '.png'" alt="vid_pic" class="vid-mini-pic" >
                                     </RouterLink>
                                     <RouterLink v-if="page==='game'" :to="{ path: 'game-info-page', query: { game_id: item.id }}">
                                         <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
@@ -140,8 +145,8 @@ export default {
             items:{},
             searchbar:"",
             page:null,
+            addressServer: localStorage.getItem('addressServer'),
             filterJoined:false,
-
         }
     },
     mounted() {

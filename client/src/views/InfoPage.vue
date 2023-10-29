@@ -1,7 +1,5 @@
 <template>
     <body>
-
-
         <header>
             <div class="headernav">
                 <div class="header-container">
@@ -29,7 +27,18 @@
         <div class="Book-page-container">
             <div class="Book-info-container">
                 <div class="Book-image-container">
-                    <img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info">
+                    <!--<img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info">-->
+                    <!--<video id="video-player" playsinline controls :data-poster="addressServer + '/files/'+this.id+'.png'" style="max-height: 50vh;">-->
+                    <video id="video-player" playsinline controls style="max-height: 50vh;" v-if="item_type === 'video'">
+                      <!--<source src="../../../server/vid/13.mp4" type="video/mp4" />-->
+                      <!--<source :src="addressServer + '/files/' + this.id +'.mp4'" type="video/mp4" />-->
+
+                      <!-- Captions are optional -->
+                      <!--<track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default />-->
+                    </video>
+
+                    <!-- video et jeux ici -->
+                    <img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info" v-if="item_type === 'game'" >
                 </div>
 
                 <div class="Titre-desc-container"></div>
@@ -69,7 +78,7 @@
                         <div><font-awesome-icon icon="fa-regular fa-bookmark" /></div>
                     </div> -->
                 </div>
-                <div class="summary-container">
+                <div class="summary-container" style="white-space: pre-wrap;">
                     {{ item.description }} </div>
                 <!-- <div class="save-share-info">
                     <div>
@@ -105,7 +114,7 @@
                             
                             <li v-for="i in other_items" :key="i.id">
                                 <router-link :to="item_type === 'video' ? { path: 'video-info-page', query: { video_id: i.id } } : { path: 'game-info-page', query: { game_id: i.id } }" @click="getItem(i.id)">
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <img :src="addressServer + '/files/' + i.id + '.png'" alt="vid_pic" class="vid-mini-pic">
                                 </router-link>
                                 <div class="mini-vid-desc">
                                     <div class="mini-vid-name">
@@ -202,6 +211,7 @@
             </div>
         </footer>
     </body>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 </template>
 
 
@@ -210,6 +220,9 @@ import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
 import UserAvatar from "../assets/User.png"
 import axios from "axios";
+import Plyr from 'plyr';
+import { ref } from 'vue';
+
 export default {
     name: "BookInfoPage",
     components: {
@@ -218,14 +231,28 @@ export default {
     },
     data(){
         return{
-            item_type:null,
+            item_type: this.$route.query.video_id ? "video" : "game",
             item:{name:"",organization:"",description:""},
-            other_items:[]
-
+            other_items:[],
+            addressServer: localStorage.getItem('addressServer'),
+            id: this.$route.query.video_id ?? this.$route.query.game_id,
+            player: ref(null),
         }
 
     },
     mounted() {
+        // Setup the video player
+        // eslint-disable-next-line no-unused-vars
+//        const player = new Plyr('#video-player');
+        this.player = new Plyr('#video-player', {
+            ads: {tagUrl: this.addressServer + "/ads/serve", enabled: true}
+        });
+//        console.log(this.addressServer + "/files/" + this.id + "_thumbs.vtt");
+//        player.setPreviewThumbnails({src: this.addressServer + "/files/" + this.id +"_thumbs.vtt", enabled: true})
+//        this.player.setPreviewThumbnails({src: this.addressServer + "/files/" + this.id +"_thumbs.vtt", enabled: true})
+        // TODO : Set the player source manually each time the function getVideo() is called.
+        // This will allow the video to change when we click on another video in the "recommended videos" section.
+
         const urlParams = new URLSearchParams(window.location.search);
 
         var thisID = document.getElementById("TopBtn");
@@ -238,7 +265,6 @@ export default {
             }
         };
         window.addEventListener("scroll", myScrollFunc);
-
 
         const submit = document.querySelector('.comment-submit');
         const commentList = document.querySelector('.comments');
@@ -293,25 +319,24 @@ export default {
 
         const saved = JSON.parse(localStorage.getItem('commentListing'));
 
-
         // If there are any saved items, update the current list
         if (saved) {
             commentList.innerHTML = saved;
         }
 
-        this.setContainerScroll();
-        var itemId = null
+//        var itemId = null
         if (urlParams.get('video_id')){
             this.item_type = "video"
-            itemId = parseInt(urlParams.get('video_id'));
+//            itemId = parseInt(urlParams.get('video_id'));
         }
         else if (urlParams.get('game_id')){
             this.item_type = "game"
-            itemId = parseInt(urlParams.get('game_id'));
+//            itemId = parseInt(urlParams.get('game_id'));
         }
-        this.getItem(itemId)
-        
-        
+
+        this.getItem(this.id);
+
+//        this.setContainerScroll();
     },
     methods: {
         OpenDeleteTask(id) {
@@ -374,13 +399,31 @@ export default {
             axios.get(`${localStorage.getItem("addressServer")}/vid/id`,{params:{video_id:video_id}})
                 .then(response => {
                     this.item = response.data;
+
                     this.getOtherVideos()
-                    //console.log("Video  "+JSON.stringify(this.video))
+
+//                    this.player.destroy();
+//                    this.player = new Plyr('#video-player');
+                    this.player.source = {
+                        type: 'video',
+                        title: this.item.name,
+                        sources: [
+                            {
+                                src: this.addressServer + "/files/" + this.item.id + ".mp4",
+                                type: 'video/mp4'
+                            }
+                        ],
+                        poster: this.addressServer + "/files/" + this.item.id + ".png",
+                        previewThumbnails: {
+                            src: this.addressServer + "/files/" + this.item.id + "_thumbs.vtt",
+                            enabled: true
+                        }
+                    };
+
                 })
                 .catch(error => {
                     console.log(error.message);
                 })
-
         },
         
         getOtherVideos() {

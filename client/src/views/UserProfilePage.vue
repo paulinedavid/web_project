@@ -109,7 +109,9 @@ export default {
         sent: false,
         error: false,
         userData: null,
+
         addressServer: localStorage.getItem('addressServer')
+
       };
 
     },
@@ -119,12 +121,16 @@ export default {
   },
     methods: {
       updateInformation() {
+
         fetch(this.addressServer + "/auth/updateProfile", {
+
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
+
           body: JSON.stringify({ mail_old: this.userData.mail, mail: this.txtEmail, name: this.txtFName })
+
         })
           .then(response => {
             if (response.ok) {
@@ -139,7 +145,6 @@ export default {
             console.log('Response:', data);
 
             // Mise à jour de la variable locale (dans le navigateur) userData
-
             var newtoken = data.token;
 
             localStorage.setItem("token", newtoken);

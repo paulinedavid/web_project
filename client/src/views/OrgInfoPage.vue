@@ -49,8 +49,8 @@
                 <div class="asso-name">
                         {{ organization.name }}
                     </div></div>
-                <div class="follow-container">
-                    <div class="follow-icon"><button class="join-asso-Btn" @click="subscribe()">
+                <div class="follow-container"> 
+                    <div class="follow-icon"><button :class="isSubscribed?'join-asso-Btn-joined':'join-asso-Btn'" @click="subscribe()">
                         <!-- <font-awesome-icon icon="fa-regular fa-bell" />  -->
                         <font-awesome-icon icon="fa-regular fa-handshake" style="font-size: 21px; margin-right: 15px;"/>
                         Join
@@ -247,7 +247,8 @@ export default {
             axios.get(`${localStorage.getItem("addressServer")}/org/id`,{params:{org_id:org_id,token:localStorage.getItem('token')}})
                 .then(response => {
                     this.organization = response.data;
-                    this.isSubscribed = response.data.isSubscribed
+                    this.isSubscribed = response.data.isSubsribed
+                    console.log(response)
                     console.log("Organization  "+JSON.stringify(this.organization))
                     this.getPinedVideo()
                     this.getOtherVideos()
@@ -309,7 +310,8 @@ export default {
         subscribe(){
             axios.post(`${localStorage.getItem("addressServer")}/org/subscribe`,{org_id:this.organization.id,token:localStorage.getItem("token")})
                 .then(response => {
-                    this.isSubscribed = response
+                    console.log(this.isSubscribed)
+                    this.isSubscribed = response.data
                 })
                 .catch(error => {
                     console.log(error);
