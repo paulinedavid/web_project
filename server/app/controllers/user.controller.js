@@ -293,6 +293,17 @@ exports.extract_email = (req, res) => {
 }
 
 
+exports.verifyuserToken = (token) => {
+  // we try decoding the token with the correct secret key
+
+  try {
+    const secretKey = 'togethearthmdp';
+    const decoded = jwt.verify(token, secretKey);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
 const verifyuserToken = (token) => {
   // we try decoding the token with the correct secret key
 
