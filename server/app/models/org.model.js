@@ -134,5 +134,44 @@ Organization.getFiltered = (filterQuery, result) => {
         }
     })
 }
+Organization.subscribe = (mail,id_org,result) => {
+    sql.query("INSERT INTO follow (id_user, id_org) VALUES ((SELECT id FROM users WHERE mail = ?),?)", [mail,id_org], (err, res) => {
+        if(err){
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, true);
+        return;
+    });
+}
+Organization.unsubscribe = (mail,id_org,result) => {
+    sql.query("DELETE FROM follow WHERE id_user = (SELECT id FROM users WHERE mail = ?) AND id_org = ?", [mail,id_org], (err, res) => {
+        if(err){
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, true);
+        return;
+    });
+}
+Organization.isSubscribed = (mail,id_org,result) => {
+    sql.query("SELECT * FROM follow JOIN users WHERE id_user = id AND mail = ? AND id_org = ?", [mail,id_org], (err, res) => {
+        if(err){
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if(res.length){
+            result(null, true);
+            return;
+        }
+        else{
+            result(null, false);
+            return;
+        }
+    });
+}
 
 module.exports = Organization;

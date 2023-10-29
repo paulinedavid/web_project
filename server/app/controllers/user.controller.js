@@ -292,8 +292,10 @@ exports.extract_email = (req, res) => {
   res.json({ email: decoded.email });
 }
 
+
 const verifyuserToken = (token) => {
   // we try decoding the token with the correct secret key
+
   try {
     const secretKey = 'togethearthmdp';
     const decoded = jwt.verify(token, secretKey);
@@ -306,7 +308,9 @@ const verifyuserToken = (token) => {
 exports.get_mail_name = (req, res) => {
   const token = req.query.token;
   console.log(token);
+
   //we get the token decoded
+
   const decoded = verifyuserToken(token);
   console.log("here");
   if (!decoded) {
@@ -317,7 +321,9 @@ exports.get_mail_name = (req, res) => {
   
   console.log(decoded);
 
+
   // we get the mail from the decoded token
+
   const mail = decoded.mail;
 
   console.log(mail);
@@ -325,16 +331,20 @@ exports.get_mail_name = (req, res) => {
   // Call User.get with the extracted email
   User.get({ mail: mail }, (err, userData) => {
     if (err) {
+
       //if an error occurred
+
       return res.status(500).json({ error: 'An error occurred while fetching user data' });
     }
 
     if (!userData) {
+
       // if the user was not found
       return res.status(404).json({ error: 'User not found' });
     }
 
     // we send the information found
+
     return res.json({ mail: userData.mail, name: userData.name });
   });
 }
@@ -416,9 +426,11 @@ exports.updateProfile = (req, res) => {
   var args = []
 
   if (mail !== undefined && mail.trim() != "") {
+
     mail_query = "mail = ?";
     query_args.push(mail_query);
     args.push(mail);
+
   }
   if (name !== undefined && name.trim() != "") {
     name_query = "name = ?";
@@ -428,7 +440,9 @@ exports.updateProfile = (req, res) => {
 
   args.push(mail_old);
 
+
   var query = "UPDATE users SET " + query_args.join(', ') + " WHERE mail = ?";
+
   console.log(query);
   console.log(args);
 

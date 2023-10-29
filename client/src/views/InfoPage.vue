@@ -29,6 +29,7 @@
         <div class="Book-page-container">
             <div class="Book-info-container">
                 <div class="Book-image-container">
+                    <!-- video et jeux ici -->
                     <img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info">
                 </div>
 

@@ -28,8 +28,10 @@
                             <div><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></div>
                         <!-- </form> -->
                     </div>
+
                     <div class="lib-button-container" style="margin-right: 100px;">
                         <div @click="filterJoined = !filterJoined; getThemes()"><font-awesome-icon icon="fa-regular fa-heart" /></div>
+
                     </div>
                 </div>
                 <div class="search-container search-container-fixe hide" id="search-container-fixe">

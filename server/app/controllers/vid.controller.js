@@ -7,7 +7,11 @@ fs.ensureDir(vidUploadPath);
 
 const Video = require("../models/video.model.js");
 const Organization = require('../models/org.model.js');
+
+const { verifyuserToken } = require("../controllers/user.controller");
+
 const sql = require("../models/db.js");
+
 
 exports.upload = (req, res, next) => {
     let temp_vidId = "tmp_" + Date.now().toString(36);
@@ -352,6 +356,13 @@ exports.getFiltered = (req, res) => {
             });
             filterQuery = filterQuery.slice(0,-1);
             filterQuery += "))";
+        }
+        if(filters.joined == "true"){
+            
+            const decoded = verifyuserToken(filters.token);
+            const mail = decoded.mail
+            filterQuery += "AND id_org IN (SELECT id_org FROM follow JOIN users WHERE id_user = id AND mail = '"+mail+"')";
+            
         }
         //console.log(filterQuery);
         Video.getFiltered(filterQuery, (err, data) => {

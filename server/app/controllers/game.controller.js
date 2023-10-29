@@ -1,5 +1,6 @@
 const Game = require("../models/game.model");
 const Organization = require("../models/org.model")
+const { verifyuserToken } = require("../controllers/user.controller");
 
 exports.create = (req, res) => {
     // Validate request
@@ -52,6 +53,13 @@ exports.getFiltered = (req,res) => {
         }
         if(filters.id_org){
             filterQuery += "AND id_org = " + filters.id_org;
+        }
+        if(filters.joined == "true"){
+            
+            const decoded = verifyuserToken(filters.token);
+            const mail = decoded.mail
+            filterQuery += "AND id_org IN (SELECT id_org FROM follow JOIN users WHERE id_user = id AND mail = '"+mail+"')";
+            
         }
         //console.log(filterQuery);
         Game.getFiltered(filterQuery, (err, data) => {
