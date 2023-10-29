@@ -1,5 +1,6 @@
 .DS_Store
 /server/vid
+!/server/vid/default_thumbnail.jpg
 /client/node_modules
 /server/node_modules
 node_modules

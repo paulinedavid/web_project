@@ -111,7 +111,7 @@
                             
                             <li v-for="i in other_items" :key="i.id">
                                 <router-link :to="item_type === 'video' ? { path: 'video-info-page', query: { video_id: i.id } } : { path: 'game-info-page', query: { game_id: i.id } }" @click="getItem(i.id)">
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <img :src="addressServer + '/files/' + i.id + '.png'" alt="vid_pic" class="vid-mini-pic">
                                 </router-link>
                                 <div class="mini-vid-desc">
                                     <div class="mini-vid-name">

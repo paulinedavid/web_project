@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
 
 // Import busboy, used to stream large files to the server.
 const busboy = require('connect-busboy');
@@ -20,6 +22,29 @@ app.use(express.json());
 app.use(busboy({
     highWaterMark: 2 * 1024 * 1024, // Définition d'un buffer de 2MiB
 })); // Insertion du middleware busboy
+
+// Intercept requests for
+app.use((req, res, next) => {
+    const filePath = path.join(__dirname, 'vid', req.url);
+
+    // Check if the request is for a PNG file and doesn't end with _sprite.png
+    if (path.extname(filePath) === '.png' && !filePath.endsWith('_sprite.png')) {
+        // Check if the file exists
+        fs.access(filePath, fs.constants.F_OK, (err) => {
+            if (err) {
+                // If the file doesn't exist, serve the default PNG file
+                const defaultFilePath = path.join(__dirname, 'vid', 'default_thumbnail.png');
+                res.sendFile(defaultFilePath);
+            } else {
+                // If the file exists, serve the requested file
+                res.sendFile(filePath);
+            }
+        });
+    } else {
+        // For non-PNG files or files ending with _sprite.png, continue to the next middleware
+        next();
+    }
+});
 
 // Serve static files
 app.use('/files', express.static('vid'));
