@@ -3843,11 +3843,11 @@ body.dark .asso-summary-container{
   /* margin-left: 280px; */
   margin-bottom: 20px;
   font-weight: 600;
-  margin-left: 35%;
+  margin-left: 27%;
 }
 
 .FormInputBox input[type="submit"]:hover {
-  background-color: #c18cd6;
+  background-color: #9bd68c;
   color: aliceblue;
 }
 
