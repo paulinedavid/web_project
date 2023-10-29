@@ -162,7 +162,7 @@ exports.findById = (req,res) => {
                         });
                     }
                     else{
-                        res.send({isSubsribed:isSubscribed,...data});
+                        res.send({isSubsribed:isSubscribed>0?true:false,...data});
                     } 
                 });
             } 

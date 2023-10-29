@@ -30,7 +30,10 @@
                     </div>
 
                     <div class="lib-button-container" style="margin-right: 100px;">
-                        <div @click="filterJoined = !filterJoined; getThemes()"><font-awesome-icon icon="fa-regular fa-heart" /></div>
+                        <div @click="filterJoined = !filterJoined; getThemes()">
+                            <font-awesome-icon icon="fa-solid fa-heart" v-if="filterJoined"/>
+                            <font-awesome-icon icon="fa-regular fa-heart" v-else/>
+                        </div>
 
                     </div>
                 </div>
