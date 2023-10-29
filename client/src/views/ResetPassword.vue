@@ -75,8 +75,7 @@ export default {
       goodToken: true,
       mail: "",
       message: "",
-      // addressServer: localStorage.getItem('addressServer')
-      addressServer : "http://localhost:8080"
+      addressServer: localStorage.getItem('addressServer')
     };
   },
   mounted() {

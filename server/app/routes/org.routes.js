@@ -10,6 +10,8 @@ module.exports = app => {
     router.get("/filtered", organisation.getFiltered);
 
     router.get("/id", organisation.findById);
+    
+    router.post("/subscribe",organisation.subscribe);
 
     // router.post("/update", organisation.update);
 

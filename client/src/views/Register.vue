@@ -97,7 +97,6 @@ export default {
       message: "",
       token : "",
       addressServer: localStorage.getItem('addressServer')
-      //addressServer: "http://localhost:8080"
     };
   },
   mounted() {

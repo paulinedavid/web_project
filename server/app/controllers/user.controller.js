@@ -16,7 +16,7 @@ exports.register = (req, res) => {
 
   User.exists(req, (err, result) => {
     if (err){
-
+      // if the user doesn't have an account already
       const payload = {
         name: req.body.name,
         mail: req.body.mail,
@@ -31,9 +31,10 @@ exports.register = (req, res) => {
 
     const token = jwt.sign(payload, secretKey, options);
 
-    //const resetLink = `http://129.151.226.75:8081/reset-password-page?token=${token}`;
-    const resetLink = `http://localhost:8081/register-page?token=${token}`;
+    const resetLink = `http://129.151.226.75:8081/reset-password-page?token=${token}`;
+    // const resetLink = `http://localhost:8081/register-page?token=${token}`;
 
+    //we send a mail with a link to confirm their account
     const email = new Email({
       to: req.body.mail,
       subject: "Welcome to Togethearth",
@@ -42,8 +43,8 @@ exports.register = (req, res) => {
         link: resetLink
       },
       attachments: [{
-        filename: "LogoJour.png",
-        path: "LogoJour.png",
+        filename: "LogoJour1.png",
+        path: "LogoJour1.png",
         cid: "image_cid"
       }]
     });
@@ -81,6 +82,7 @@ exports.create = (req, res) => {
     });
   }
 
+  //we get the token from the url
   const token = req.query.token;
   const decoded = this.verifyResetToken(token);
   console.log(decoded)
@@ -135,7 +137,7 @@ exports.login = (req, res) => {
         });
       }
     else {
-      const token = jwt.sign({ email: req.body.mail }, "togethearthmdp");
+      const token = jwt.sign({ mail: req.body.mail }, "togethearthmdp");
       console.log(token);
       console.log("Login successful !");
       res.json({ token: token, mail: req.body.mail, name: data.name });
@@ -166,6 +168,7 @@ exports.forgot_password = (req, res) => {
 
       console.log("User exists ! Sending mail...");
 
+      // we encode the mail in a token
       const payload = {
         mail: req.body.mail,
       };
@@ -176,11 +179,13 @@ exports.forgot_password = (req, res) => {
         expiresIn: '1 hour', // Set the token expiration time
       };
 
+      // we build the token
       const token = jwt.sign(payload, secretKey, options);
 
-      //const resetLink = `http://129.151.226.75:8081/reset-password-page?token=${token}`;
-      const resetLink = `http://localhost:8081/reset-password-page?token=${token}`;
+      //we create the link with the token embedded
+      const resetLink = `http://129.151.226.75:8081/reset-password-page?token=${token}`;
 
+      //we create an email object
       const email = new Email({
         to: req.body.mail,
         subject: "Reset Password Togethearth",
@@ -189,12 +194,13 @@ exports.forgot_password = (req, res) => {
           link: resetLink
         },
         attachments: [{
-          filename: "LogoJour.png",
-          path: "LogoJour.png",
+          filename: "LogoJour1.png",
+          path: "LogoJour1.png",
           cid: "image_cid"
         }]
       });
 
+      // we store the reset token
       sql.query("INSERT INTO reset_tokens (token, email_user) VALUES (?,?)", [token, req.body.mail], (error, results) => {
         if (error) {
           console.error("Error storing token in the database:", error);
@@ -203,6 +209,7 @@ exports.forgot_password = (req, res) => {
           // Token stored successfully
           console.log("Token stored successfully in the database.");
 
+          // we send the mail
           Email.send(email, (result) => {
             if (!result) {
               // Error occurred during sending the email
@@ -242,8 +249,8 @@ exports.verif_token = (req, res) => {
     // Token verification failed, handle accordingly (e.g., show error page)
     console.log("failed");
     // return res.status(400).json({ error: 'Invalid or expired reset token' });
-    // const redirectLink = `http://129.151.226.75:8081/reset-password`;
-    const redirectLink = `http://localhost:8081/reset-password`;
+    const redirectLink = `http://129.151.226.75:8081/reset-password`;
+    //const redirectLink = `http://localhost:8081/reset-password`;
     res.redirect(redirectLink);
   }
   // Token is valid, render the password reset page
@@ -254,6 +261,16 @@ exports.verif_token = (req, res) => {
 exports.verifyResetToken = (token) => {
   try {
     const secretKey = 'mastercampmdp';
+    const decoded = jwt.verify(token, secretKey);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
+
+exports.verifyUserToken = (token) => {
+  try {
+    const secretKey = 'togethearthmdp';
     const decoded = jwt.verify(token, secretKey);
     return decoded;
   } catch (error) {
@@ -273,6 +290,74 @@ exports.extract_email = (req, res) => {
     return res.status(400).json({ error: 'Invalid or expired reset token' });
   }
   res.json({ email: decoded.email });
+}
+
+
+exports.verifyuserToken = (token) => {
+  // we try decoding the token with the correct secret key
+
+  try {
+    const secretKey = 'togethearthmdp';
+    const decoded = jwt.verify(token, secretKey);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
+const verifyuserToken = (token) => {
+  // we try decoding the token with the correct secret key
+
+  try {
+    const secretKey = 'togethearthmdp';
+    const decoded = jwt.verify(token, secretKey);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
+
+exports.get_mail_name = (req, res) => {
+  const token = req.query.token;
+  console.log(token);
+
+  //we get the token decoded
+
+  const decoded = verifyuserToken(token);
+  console.log("here");
+  if (!decoded) {
+    // Token verification failed, handle accordingly (e.g., show error page)
+    console.log("failed");
+    return res.status(400).json({ error: 'Invalid or expired reset token' });
+  }
+  
+  console.log(decoded);
+
+
+  // we get the mail from the decoded token
+
+  const mail = decoded.mail;
+
+  console.log(mail);
+  
+  // Call User.get with the extracted email
+  User.get({ mail: mail }, (err, userData) => {
+    if (err) {
+
+      //if an error occurred
+
+      return res.status(500).json({ error: 'An error occurred while fetching user data' });
+    }
+
+    if (!userData) {
+
+      // if the user was not found
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // we send the information found
+
+    return res.json({ mail: userData.mail, name: userData.name });
+  });
 }
 
 
@@ -337,63 +422,133 @@ exports.change_password = (req, res) => {
 }
 
 exports.updateProfile = (req, res) => {
-  if (req.body.email_user_old === undefined || (req.body.email_user === undefined && req.body.pseudo === undefined)) {
+  if (req.body.mail_old === undefined || (req.body.mail === undefined && req.body.name === undefined)) {
     res.status(400).json({ message: "Body cannot be empty!" });
     return;
   }
 
   // Pas d'erreur, on modifie les données
-  var email_user = req.body.email_user;
-  var email_user_query = "";
-  var pseudo = req.body.pseudo;
-  var pseudo_query = "";
-  var email_user_old = req.body.email_user_old;
+  var mail = req.body.mail;
+  var mail_query = "";
+  var name = req.body.name;
+  var name_query = "";
+  var mail_old = req.body.mail_old;
   var query_args = []
   var args = []
 
-  if (email_user !== undefined && email_user.trim() != "") {
-    email_user_query = "email_user = ?";
-    query_args.push(email_user_query);
-    args.push(email_user);
+  if (mail !== undefined && mail.trim() != "") {
+
+    mail_query = "mail = ?";
+    query_args.push(mail_query);
+    args.push(mail);
+
   }
-  if (pseudo !== undefined && pseudo.trim() != "") {
-    pseudo_query = "pseudo = ?";
-    query_args.push(pseudo_query);
-    args.push(pseudo);
+  if (name !== undefined && name.trim() != "") {
+    name_query = "name = ?";
+    query_args.push(name_query);
+    args.push(name);
   }
 
-  args.push(email_user_old);
+  args.push(mail_old);
 
-  var query = "UPDATE User SET " + query_args.join(', ') + " WHERE email_user = ?";
+
+  var query = "UPDATE users SET " + query_args.join(', ') + " WHERE mail = ?";
+
   console.log(query);
   console.log(args);
 
-  sql.execute(query, args, (err, result) => {
+  sql.execute(query,args, (err, result) => {
     if (err) {
+      console.log("didn't work");
+      console.log(err);
       res.status(500).send({ message: err });
       return;
     }
 
-    newUserData = {}
-    if (query_args.includes(email_user_query)) newUserData['email_user'] = email_user
-    if (query_args.includes(pseudo)) newUserData['pseudo'] = pseudo
+    const token = jwt.sign({ mail: mail }, "togethearthmdp");
 
-    res.status(200).json({ message: "Updated user!", userData: newUserData });
+    res.status(200).json({ message: "Updated user!", token: token });
   })
 };
 
-exports.isAdmin = (req, res) => {
+
+
+exports.send_notif = (req,res) => {
   if (!req.body) {
     res.status(400).send({
       message: "Content cannot be empty!"
     });
   }
 
-  User.isAdmin(req, (error, result) => {
-    if (error) {
-      res.status(500).json({ message: error.message });
-    } else {
-      res.status(200).json({ isAdmin: result });
+  //we get the list of id of users that follow the organisation
+  sql.query("SELECT id_user FROM follow WHERE id_org = ?", [req.body.id_org], (err, data) => {
+    if (err)
+      if (err === "User not found") {
+        return res.status(409).json({ message: err });
+      } else {
+        res.status(500).send({
+          message: err.message || "Some error ",
+        });
+      }
+    else {
+      console.log("successful !");
+      console.log(data);
+      //for each user, we get their email address
+      if(data!=[]){
+        data.forEach(row => {
+          console.log(row.id_user);
+          sql.query("SELECT mail FROM users WHERE id = ?", [row.id_user], (err,data)=> {
+            if(err){
+              if (err === "User not found") {
+                return res.status(409).json({ message: err });
+              } else {
+                return res.status(500).json({
+                  message: err.message || "Some error ",
+                });
+              }
+            }else{
+              console.log(data);
+              console.log(data[0].mail);
+              var emailaddress = data[0].mail;
+              sql.query("SELECT name FROM organization WHERE id = ?",[req.body.id_org], (err,data) => {
+                if(err){
+                    res.status(500).send({
+                      message: err.message || "Some error ",
+                    });
+                }else{
+                  console.log(data);
+                  // once we have their email address, we send them a mail vu the information associated to the organisation
+                  const email = new Email({
+                    to: emailaddress,
+                    subject: "New notification Togethearth",
+                    template: "email-body-notif",
+                    context: {
+                      name : data[0].name,
+                      link: "http://129.151.226.75:8081/login-page"
+                    },
+                    attachments: [{
+                      filename: "LogoJour1.png",
+                      path: "LogoJour1.png",
+                      cid: "image_cid"
+                    }]
+                  });
+                  Email.send(email, (result) => {
+                    if (!result) {
+                      // Error occurred during sending the email
+                      console.error("Error sending email:", error);
+                      res.status(500).json({ message: "An error occurred while sending the email!" });
+                    } else {
+                      // Email sent successfully
+                      console.log("Email sent successfully:", result);
+                      res.status(200).json({ message: "Email was sent." });
+                    }
+                  });
+                }
+              })
+            }
+          })
+        });
+      }
     }
   });
 };

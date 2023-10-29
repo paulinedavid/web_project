@@ -36,6 +36,9 @@
                       <!-- Captions are optional -->
                       <!--<track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default />-->
                     </video>
+
+                    <!-- video et jeux ici -->
+                    <img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info">
                 </div>
 
                 <div class="Titre-desc-container"></div>

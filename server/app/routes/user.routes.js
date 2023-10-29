@@ -17,11 +17,14 @@ module.exports = app =>{
 
     router.get('/extract_mail' , users.extract_email);
 
+    router.get('/get_mail_name' , users.get_mail_name);
+
     router.post('/change_password', users.change_password);
     
-    router.post('/isAdmin', users.isAdmin);
 
     router.post('/updateProfile', users.updateProfile);
+
+    router.post('/send_notification', users.send_notif);
 
     app.use('/auth', router);
 }

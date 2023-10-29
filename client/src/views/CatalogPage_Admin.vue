@@ -28,8 +28,10 @@
                             <div><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></div>
                         <!-- </form> -->
                     </div>
-                    <div class="lib-button-container">
-                        <div><font-awesome-icon icon="fa-regular fa-handshake" style="font-size: 21px; margin-right: 15px;"/></div>
+
+                    <div class="lib-button-container" style="margin-right: 100px;">
+                        <div @click="filterJoined = !filterJoined; getThemes()"><font-awesome-icon icon="fa-regular fa-heart" /></div>
+
                     </div>
                 </div>
                 <div class="search-container search-container-fixe hide" id="search-container-fixe">
@@ -39,7 +41,7 @@
                             <div><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></div>
                         <!-- </form> -->
                     </div>
-                    <div class="lib-button-container">
+                    <div class="lib-button-container" style="margin-right: 100px;">
                         <div class="dropdown">
                             <font-awesome-icon icon="fa-regular fa-heart" />
                            
@@ -58,7 +60,7 @@
                     <div class="cat-vids-label">
                         {{theme.name}}
                     </div>
-                    <div class="hor-scroll-wrap">
+                    <div :class="page!='organization'?'hor-scroll-wrap':'hor-scroll-wrap assoc-categories-cont'">
                         <div class="hor-scroll">
                             <ul class="item-grid">
                                 <li  v-for = "item in items[theme.id]" :key="item.id" >
@@ -141,6 +143,7 @@ export default {
             searchbar:"",
             page:null,
             addressServer: localStorage.getItem('addressServer'),
+            filterJoined:false,
         }
     },
     mounted() {
@@ -228,7 +231,7 @@ export default {
 
         getFilteredVideo(theme) {
             //console.log("getfiltered "+JSON.stringify(theme))
-            axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{themes:[theme],name:this.searchbar}})
+            axios.get(`${localStorage.getItem("addressServer")}/vid/filtered`,{params:{themes:[theme],name:this.searchbar,joined:this.filterJoined,token:localStorage.getItem('token')}})
                 .then(response => {
                     this.items[theme.id] = response.data;
                     //console.log("videos  "+JSON.stringify(this.videos))
@@ -239,7 +242,7 @@ export default {
         },
 
         getFilteredGame(theme) {
-            axios.get(`${localStorage.getItem("addressServer")}/game/filtered`,{params:{themes:[theme],name:this.searchbar}})
+            axios.get(`${localStorage.getItem("addressServer")}/game/filtered`,{params:{themes:[theme],name:this.searchbar,joined:this.filterJoined,token:localStorage.getItem('token')}})
                 .then(response => {
                     this.items[theme.id] = response.data;
                     //console.log("Games  "+JSON.stringify(this.items))
@@ -250,7 +253,7 @@ export default {
         },
 
         getFilteredOrganization(theme){
-            axios.get(`${localStorage.getItem("addressServer")}/org/filtered`,{params:{themes:[theme],name:this.searchbar}})
+            axios.get(`${localStorage.getItem("addressServer")}/org/filtered`,{params:{themes:[theme],name:this.searchbar,joined:this.filterJoined,token:localStorage.getItem('token')}})
                 .then(response => {
                     this.items[theme.id] = response.data;
                     //console.log("Organizations  "+JSON.stringify(this.items))

@@ -1,3 +1,4 @@
+const {verifyuserToken} = require("../controllers/user.controller");
 const Organization = require("../models/org.model");
 
 exports.create = (req, res) => {
@@ -75,6 +76,21 @@ exports.getFiltered = (req,res) => {
             filterQuery += "))";
             filter = true;
         }
+        if(filters.joined == "true"){
+            
+            const decoded = verifyuserToken(filters.token);
+            const mail = decoded.mail
+        
+            if(filter){
+                filterQuery += "AND ";
+            }
+            else{
+                filterQuery += "WHERE ";
+            }
+            filterQuery += "id IN (SELECT id_org FROM follow JOIN users WHERE id_user = id AND mail = '"+mail+"')";
+            filter = true;
+            
+        }
 
         //console.log("Query: "+filterQuery)
         Organization.getFiltered(filterQuery, (err, data) => {
@@ -116,7 +132,13 @@ exports.findById = (req,res) => {
         res.status(400).send({
             message: error
         });
-
+    }
+    else if (!req.query.token){
+        var error = JSON.stringify(req.query)+" Wrong format. Required : {org_id:, token:}"
+        console.log(error)
+        res.status(400).send({
+            message: error
+        });          
     }
     else{
         var org_id = req.query.org_id;
@@ -132,13 +154,90 @@ exports.findById = (req,res) => {
                     });
                 }
             } else{
-                console.log("Organization.findById")
-                res.send(data);
+                var mail = verifyuserToken(req.query.token).mail;
+                Organization.isSubscribed(mail, org_id, (err, isSubscribed) => {
+                    if (err){
+                        res.status(500).send({
+                            message: err.message || "Some error occured while getting the organizations"
+                        });
+                    }
+                    else{
+                        res.send({isSubsribed:isSubscribed,...data});
+                    } 
+                });
             } 
         });
     }
 }
 
+exports.subscribe = (req,res) => {
+    if (!req.body){
+        console.log("Content can not be empty !")
+        res.status(400).send({
+            message: "Content can not be empty !"
+        });
+    }
+    else if (!req.body.org_id){
+        var error = JSON.stringify(req.body)+" Wrong format. Required : {org_id:}"
+        console.log(error)
+        res.status(400).send({
+            message: error
+        });
+
+    }
+    else if (!req.body.token){
+        var error = JSON.stringify(req.body)+" Wrong format. Required : {org_id:, token:}"
+        console.log(error)
+        res.status(400).send({
+            message: error
+        });          
+    }
+    else{
+        var org_id = req.body.org_id;
+        var mail = verifyuserToken(req.body.token).mail;
+        Organization.isSubscribed(mail, org_id, (err, data) => {
+            if (err){
+                res.status(500).send({
+                    message: err.message || "Some error occured while getting the organizations"
+                });
+            }
+            else if(data){
+                Organization.unsubscribe(mail, org_id, (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.status(404).send({
+                                message: "Organization not found with id " + org_id
+                            });
+                        } else {
+                            res.status(500).send({
+                                message: "Error retrieving organization with id " + org_id
+                            });
+                        }
+                    } else{
+                        res.send(false);
+                    } 
+                })
+            }
+            else{
+                Organization.subscribe(mail, org_id, (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.status(404).send({
+                                message: "Organization not found with id " + org_id
+                            });
+                        } else {
+                            res.status(500).send({
+                                message: "Error retrieving organization with id " + org_id
+                            });
+                        }
+                    } else{
+                        res.send(true);
+                    } 
+                });
+            } 
+        })
+    }
+}
 
 
 
