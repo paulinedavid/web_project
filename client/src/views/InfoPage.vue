@@ -78,7 +78,7 @@
                         <div><font-awesome-icon icon="fa-regular fa-bookmark" /></div>
                     </div> -->
                 </div>
-                <div class="summary-container" style="white-space: pre;">
+                <div class="summary-container" style="white-space: pre-wrap;">
                     {{ item.description }} </div>
                 <!-- <div class="save-share-info">
                     <div>
