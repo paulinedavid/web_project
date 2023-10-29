@@ -29,7 +29,7 @@
                 <div class="Book-image-container">
                     <!--<img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info">-->
                     <!--<video id="video-player" playsinline controls :data-poster="addressServer + '/files/'+this.id+'.png'" style="max-height: 50vh;">-->
-                    <video id="video-player" playsinline controls style="max-height: 50vh;">
+                    <video id="video-player" playsinline controls style="max-height: 50vh;" v-if="item_type === 'video'">
                       <!--<source src="../../../server/vid/13.mp4" type="video/mp4" />-->
                       <!--<source :src="addressServer + '/files/' + this.id +'.mp4'" type="video/mp4" />-->
 
@@ -38,7 +38,7 @@
                     </video>
 
                     <!-- video et jeux ici -->
-                    <img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info">
+                    <img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info" v-if="item_type === 'game'" >
                 </div>
 
                 <div class="Titre-desc-container"></div>
