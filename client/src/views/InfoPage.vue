@@ -75,7 +75,7 @@
                         <div><font-awesome-icon icon="fa-regular fa-bookmark" /></div>
                     </div> -->
                 </div>
-                <div class="summary-container">
+                <div class="summary-container" style="white-space: pre;">
                     {{ item.description }} </div>
                 <!-- <div class="save-share-info">
                     <div>
@@ -396,7 +396,6 @@ export default {
             axios.get(`${localStorage.getItem("addressServer")}/vid/id`,{params:{video_id:video_id}})
                 .then(response => {
                     this.item = response.data;
-                    //console.log("Video  "+JSON.stringify(this.video))
 
                     this.getOtherVideos()
 
@@ -418,7 +417,6 @@ export default {
                         }
                     };
 
-                    console.log("LOADED VIDEO " + this.item.name);
                 })
                 .catch(error => {
                     console.log(error.message);
