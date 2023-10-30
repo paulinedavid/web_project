@@ -50,6 +50,7 @@ app.use((req, res, next) => {
 
 // Serve static files
 app.use('/files', express.static('vid'));
+app.use('/games', express.static('games'));
 
 app.route('/').get((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
