@@ -71,10 +71,10 @@
                                         <img :src="this.addressServer + '/files/' + item.id + '.png'" alt="vid_pic" class="vid-mini-pic" >
                                     </RouterLink>
                                     <RouterLink v-if="page==='game'" :to="{ path: 'game-info-page', query: { game_id: item.id }}">
-                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
+                                        <img :src="this.addressServer + '/games/' + item.id + '.png'" alt="vid_pic" class="vid-mini-pic" >
                                     </RouterLink>
                                     <RouterLink v-if="page==='organization'" :to="{ path: 'organization-info-page', query: { org_id: item.id }}">
-                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic" >
+                                        <img :src="this.addressServer + '/orga/' + item.id + '.png'" alt="vid_pic" class="vid-mini-pic" >
                                     </RouterLink>
                                     <div v-if="page!=='organization'" class="mini-vid-desc">
                                         <div class="mini-vid-name">
