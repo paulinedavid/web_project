@@ -1,25 +1,27 @@
 
 // export default router
-import { createWebHistory, createRouter } from "vue-router";
+
+import { createRouter, createWebHistory } from "vue-router";
+
 import AddBookPage from "@/views/AddBookPage.vue";
-import InfoPage from "@/views/InfoPage.vue";
 import CatalogPageAdmin from "@/views/CatalogPage_Admin.vue";
 import ForgotPwd from "@/views/ForgotPwd.vue";
 import HelloWorld from "@/views/HelloWorld.vue";
 import HelpPage from "@/views/HelpPage.vue";
+import InfoPage from "@/views/InfoPage.vue";
 import LandingPage from "@/views/LandingPage.vue";
 import Login from "@/views/Login.vue";
-import Register from "@/views/Register.vue";
 import OrgInfoPage from "@/views/OrgInfoPage.vue"
+import ProfilePage from "@/views/UserProfilePage.vue";
+import Register from "@/views/Register.vue";
 import ResetPassword from "@/views/ResetPassword.vue";
 import ResetPwd from "@/views/ResetPwd.vue";
-import ProfilePage from "@/views/UserProfilePage.vue";
 
 const routes = [
 
   {
-    path: "/add-book-page",
-    name: "AddBookPage",
+    path: "/add-video-page",
+    name: "AddVideoPage",
     component: AddBookPage,
   },
   {

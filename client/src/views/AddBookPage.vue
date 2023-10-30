@@ -138,7 +138,7 @@
                 </div>
                 <p class="Form-forgotPswd">
                   Done here ?
-                  <router-link to="/fgpassword-page">Go back</router-link>
+                  <router-link to="/organization-catalog-page">Go back</router-link>
                 </p>
               <!--</form>-->
             </div>
