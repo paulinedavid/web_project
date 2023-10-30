@@ -40,9 +40,9 @@
             <div class="asso-presentation-cont">
                 <div class="asso-name-profile">
                 <div class="HomeImages">
-                    <div class="iDpicDiv"><img src="..\assets\profile_pic.avif" alt="Profile pic asso" class="iDpic"></div>
-                    <div class="BigiDpicDiv"><img src="..\assets\profile_pic.avif" alt="Profile pic asso" class="BigiDpic"></div>
-                    <div class="SmalliDpicDiv"><img src="..\assets\profile_pic.avif" alt="Profile pic asso" class="SmalliDpic">
+                    <div class="iDpicDiv"><img :src="addressServer + '/orga/' + organization.id + '.png'" alt="Profile pic asso" class="iDpic"></div>
+                    <div class="BigiDpicDiv"><img :src="addressServer + '/orga/' + organization.id + '.png'" class="BigiDpic"></div>
+                    <div class="SmalliDpicDiv"><img :src="addressServer + '/orga/' + organization.id + '.png'" class="SmalliDpic">
                     </div>
                     
                 </div>
@@ -97,7 +97,7 @@
                             <ul class="item-grid1">
                                 <li>
                                     <router-link :to="{ path: 'game-info-page', query: { game_id: pined_game.id }}">
-                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-pinned-pic">
+                                        <img :src="addressServer + '/games/' + pined_game.id + '.png'" alt="vid_pic" class="vid-pinned-pic">
                                     </router-link>
                                     <div class="mini-vid-desc">
                                         <div class="mini-vid-name">
@@ -169,7 +169,7 @@
                         <ul class="item-grid">
                             <li v-for="game in other_games" :key= game.id >
                                 <router-link :to="{ path: 'game-info-page', query: { game_id: game.id }}">
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <img :src="addressServer + '/files/' + game.id + '.png'" alt="vid_pic" class="vid-mini-pic">
                                 </router-link>
                                 <div class="mini-vid-desc">
                                     <div class="mini-vid-name">

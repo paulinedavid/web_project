@@ -27,36 +27,17 @@
         <div class="Book-page-container">
             <div class="Book-info-container">
                 <div class="Book-image-container">
-                    <!--<img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info">-->
-                    <!--<video id="video-player" playsinline controls :data-poster="addressServer + '/files/'+this.id+'.png'" style="max-height: 50vh;">-->
                     <video id="video-player" playsinline controls style="max-height: 50vh;" v-if="item_type === 'video'">
-                      <!--<source src="../../../server/vid/13.mp4" type="video/mp4" />-->
-                      <!--<source :src="addressServer + '/files/' + this.id +'.mp4'" type="video/mp4" />-->
-
-                      <!-- Captions are optional -->
-                      <!--<track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default />-->
                     </video>
 
                     <!-- video et jeux ici -->
-                    <img src="..\assets\video_example.jpg" alt="book_pic" class="book-cover-info" v-if="item_type === 'game'" >
+                    <img :src="addressServer + '/games/' + item.id + '.png'" alt="book_pic" class="book-cover-info" v-if="item_type === 'game'" >
                 </div>
 
                 <div class="Titre-desc-container"></div>
                 <div class="Book-info-specs-container">
                     <div class="book-title-info">
                         {{item.name}}
-                        <!-- <div class="rate">
-                        <input type="radio" id="star5" name="rate" value="5" />
-                        <label for="star5" title="Must read - 5">5 stars</label> -->
-                        <!-- <input type="radio" id="star4" name="rate" value="4" />
-                        <label for="star4" title="Really good - 4">4 stars</label>
-                        <input type="radio" id="star3" name="rate" value="3" />
-                        <label for="star3" title="Entertaining - 3">3 stars</label>
-                        <input type="radio" id="star2" name="rate" value="2" />
-                        <label for="star2" title="Passable - 2">2 stars</label>
-                        <input type="radio" id="star1" name="rate" value="1" />
-                        <label for="star1" title="No comment - 1">1 star</label> -->
-                        <!-- </div> -->
                     </div>
                     <div class="Asso-pic-name">
                         <img class="comment-avatar" src="../assets/UserWrite.png" alt="User Write img">
@@ -69,38 +50,9 @@
                     <div class="date-and-language-info">
                         2023
                     </div>
-                    <!-- <div class="book-genres-info">
-                        Romance, Action
-                    </div> -->
-
-                    <!-- <div class="lib-button-container adapted-wishlist" style="padding-left: 35px; padding-top: 40px; ">
-                        <div><font-awesome-icon icon="fa-regular fa-heart" /></div>
-                        <div><font-awesome-icon icon="fa-regular fa-bookmark" /></div>
-                    </div> -->
                 </div>
                 <div class="summary-container" style="white-space: pre-wrap;">
                     {{ item.description }} </div>
-                <!-- <div class="save-share-info">
-                    <div>
-                        <router-link to="/book-read-page" class="LogRegBtnLink"
-                            style="--shadow: #9216ffd1; --color: #f291bb; --background: #f291bbba; text-align: center;">Read</router-link>
-                    </div>
-                    <div class="help-question">
-                        <label for="fname" class="help-label label-recs-book" style="text-align: center; ">Want to share
-                            this book with someone?</label>
-                        <input type="text" id="fname" name="fname" class="help-input label-recs-book" placeholder="Email"
-                            v-model="email"><br>
-                    </div>
-                --><!-- <p class="Form-question"><i class="fa fa-bold" aria-hidden="true">Number of pages*</i> </p>
-                                <div class="loginInputBox">
-                                    <input v-model="email" type="text" name="txtEmail" placeholder="Number of pages">
-                                </div> --><!--
-                    <button to="/register-page" @click="OpenDeleteTask()" class="LogRegBtnLink"
-                        style="--shadow: #f291bb; --color: rgb(162, 85, 255,0.3); --background: #c18cd6; border-top: transparent; border-left:transparent; margin-top: 10px;">Share</button>
-                    <p class="book-disclaimer-info">*Read/Share available for 30 days</p>
-
-
-                </div> -->
 
             </div>
 
@@ -113,8 +65,11 @@
                         <ul class="item-grid" >
                             
                             <li v-for="i in other_items" :key="i.id">
-                                <router-link :to="item_type === 'video' ? { path: 'video-info-page', query: { video_id: i.id } } : { path: 'game-info-page', query: { game_id: i.id } }" @click="getItem(i.id)">
+                                <router-link v-if="item_type === 'video'" :to=" { path: 'video-info-page', query: { video_id: i.id } }" @click="getItem(i.id)">
                                     <img :src="addressServer + '/files/' + i.id + '.png'" alt="vid_pic" class="vid-mini-pic">
+                                </router-link >
+                                <router-link v-else :to="{ path: 'game-info-page', query: { game_id: i.id } }" @click="getItem(i.id)">
+                                    <img :src="addressServer + '/games/' + i.id + '.png'" alt="vid_pic" class="vid-mini-pic">
                                 </router-link>
                                 <div class="mini-vid-desc">
                                     <div class="mini-vid-name">
@@ -193,8 +148,6 @@
             <div class="content-footer">
                 <div class="top">
                     <div class="logo-details">
-                        <!-- <img alt="Vue logo" style="opacity: 0.7;" src="../assets/LogoWhite.png"
-                            class="logo-nav-clean" /> -->
                         <div class="logo-nav-clean"></div>
                         <p class="logo-name">
                             TOGETHEARTH <br />
