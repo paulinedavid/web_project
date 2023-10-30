@@ -287,6 +287,7 @@ export default {
             axios.get(`${localStorage.getItem("addressServer")}/game/id`,{params:{game_id:this.organization.id_pined_game}})
                 .then(response => {
                     this.pined_game = response.data;
+                    this.isSubscribed = response.isJoined
                 })
                 .catch(error => {
                     console.log(error.message);
