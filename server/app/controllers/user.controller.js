@@ -31,7 +31,7 @@ exports.register = (req, res) => {
 
     const token = jwt.sign(payload, secretKey, options);
 
-    const resetLink = `http://129.151.226.75:8081/reset-password-page?token=${token}`;
+    const resetLink = `http://129.151.226.75:8081/register-page?token=${token}`;
     // const resetLink = `http://localhost:8081/register-page?token=${token}`;
 
     //we send a mail with a link to confirm their account
