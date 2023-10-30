@@ -2494,6 +2494,7 @@ body.dark .hor-scroll-wrap.scrolled-left::before {
 
 .hor-scroll {
   padding: 1rem 0;
+  min-height: 266px;
   overflow-x: scroll;
 }
 
@@ -3452,7 +3453,7 @@ body.dark .contrast{
   font-size: 70px;
   text-transform: uppercase;
   color: #4b4b4b;
-  text-shadow: 6px 5px #fffd9c;
+  text-shadow: 0px 3px #fffd9c;
 }
 
 body.dark .asso-name{ 
@@ -3678,6 +3679,7 @@ body.dark .asso-summary-label{
 .vid-pinned-pic{
   display: inline-block;
   width: 21rem;
+  height: 12rem;
   /* padding: 3rem; */
   background-color: #48484839;
   border-radius: 20px;
