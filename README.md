@@ -13,9 +13,9 @@ npm install
 ```
 
 
-### Connect to the MySQL database:
+### Connect to the MySQL database (if you want it on your local MySQL):
 
-#### Go to ``server/app/config/``, copy the ``db.config_example.js`` file and replace the example connection pparameters by the log in credentials of you MySQL database, then rename thie file ``db.config.js```.
+#### Go to ``server/app/config/``, copy the ``db.config.js`` file and replace the example connection pparameters by the log in credentials of your MySQL database.
 
 ### Creation of the tables:
 
