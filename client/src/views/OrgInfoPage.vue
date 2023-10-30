@@ -69,7 +69,7 @@
                             <ul class="item-grid1">
                                 <li>
                                     <router-link :to="{ path: 'video-info-page', query: { video_id: pined_video.id }}">
-                                        <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-pinned-pic">
+                                        <img :src="addressServer + '/files/' + pined_video.id + '.png'" alt="vid_pic" class="vid-pinned-pic">
                                     </router-link>
                                     <div class="mini-vid-desc">
                                         <div class="mini-vid-name">
@@ -140,7 +140,7 @@
                         <ul class="item-grid">
                             <li v-for="video in other_videos" :key= video.id >
                                 <router-link :to="{ path: 'video-info-page', query: { video_id: video.id }}">
-                                    <img src="..\assets\video_example.jpg" alt="vid_pic" class="vid-mini-pic">
+                                    <img :src="addressServer + '/files/' + video.id + '.png'" alt="vid_pic" class="vid-mini-pic">
                                 </router-link>
                                 <div class="mini-vid-desc">
                                     <div class="mini-vid-name">
@@ -236,6 +236,7 @@ export default {
             pined_game:{name:"game_name",organization:"game_organization"},
             other_games:[],
             isSubscribed:false,
+            addressServer: localStorage.getItem('addressServer')
         }
     },
     methods: {
