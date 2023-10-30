@@ -23,6 +23,9 @@ app.use(busboy({
     highWaterMark: 2 * 1024 * 1024, // Définition d'un buffer de 2MiB
 })); // Insertion du middleware busboy
 
+app.use('/games', express.static('games'));
+app.use('/orga', express.static('orga'));
+
 // Intercept requests for
 app.use((req, res, next) => {
     const filePath = path.join(__dirname, 'vid', req.url.replace(/^\/files\//, ''));
@@ -50,8 +53,6 @@ app.use((req, res, next) => {
 
 // Serve static files
 app.use('/files', express.static('vid'));
-app.use('/games', express.static('games'));
-app.use('/orga', express.static('orga'));
 
 app.route('/').get((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
