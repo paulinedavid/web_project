@@ -2553,6 +2553,7 @@ body.dark .hor-scroll-wrap.scrolled-left::before {
 
 .mini-vid-author-info{
   font-size: 16px;
+  overflow: hidden;
     text-transform: uppercase;
     color: #303030b0;
     /* padding: 20px; */
