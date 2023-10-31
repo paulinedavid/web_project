@@ -2539,6 +2539,7 @@ body.dark .hor-scroll-wrap.scrolled-left::before {
 
 .mini-vid-author{
   display: flex;
+  overflow: hidden;
     margin-left: 6px;
     margin-bottom: 5px;
     align-items: center;

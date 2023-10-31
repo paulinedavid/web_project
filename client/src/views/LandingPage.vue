@@ -56,11 +56,11 @@
                             Commit yourself for a brighter future...
                         </p>
                     </div>
-                    <!-- <img src="../assets/catalog.png" alt="Planner demo" class="Vocabdemo"> -->
+                    <img src="../assets/LandingPagePic1.png" alt="Planner demo" class="Vocabdemo">
                 </div>
                 <div class="ExoPrez">
-                    <!-- <img src="../assets/recommend.png" alt="Add Task demo" class="Vocabdemo"> -->
-                    <div class="ExoDescription">
+                    <img src="../assets/LandingPagePic2.png" alt="Add Task demo" class="Vocabdemo">
+                    <div class="ExoDescription" style="margin-top: 8%;">
                         <h1>Stay updated</h1>
                         <p>
                             Keep in touch with the most recent content of the organizations you follow.<br /><br />
@@ -69,14 +69,14 @@
                     </div>
                 </div>
                 <div class="VocabPrez">
-                    <div class="VocabDescription">
+                    <div class="VocabDescription" style="margin-top: 10%;">
                         <h1 class="TestH1">An interactive experience</h1>
                         <p>
                             Deepen your knowledge of topics you're interested in, in a dynamic way : <br /><br />
                             Watch our various videos and play our enticing games!
                         </p>
                     </div>
-                    <!-- <img src="../assets/book_page.png" alt="ToDo demo" class="Vocabdemo" style="margin-top:3%;"> -->
+                    <img src="../assets/LandingPagePic3.png" alt="ToDo demo" class="Vocabdemo" style="margin-top:3%;">
                 </div>
                 <div class="WelcomePrompt WelcomeEnd">
                     <h1> </h1>
