@@ -45,10 +45,11 @@
                         <!-- </form> -->
                     </div>
                     <div class="lib-button-container" style="margin-right: 100px;">
-                        <div class="dropdown">
-                            <font-awesome-icon icon="fa-regular fa-heart" />
-                           
+                        <div @click="filterJoined = !filterJoined; getThemes()">
+                            <font-awesome-icon icon="fa-solid fa-heart" v-if="filterJoined"/>
+                            <font-awesome-icon icon="fa-regular fa-heart" v-else/>
                         </div>
+
                     </div>
                 </div>
                 <div class="cat-Navbar-container">

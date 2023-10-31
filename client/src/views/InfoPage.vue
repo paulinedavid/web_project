@@ -68,9 +68,6 @@
                                 <router-link v-if="item_type === 'video'" :to=" { path: 'video-info-page', query: { video_id: i.id } }" @click="getItem(i.id)">
                                     <img :src="addressServer + '/files/' + i.id + '.png'" alt="vid_pic" class="vid-mini-pic">
                                 </router-link >
-                                <RouterLink v-if="page==='game'" :to="{ path: 'game-info-page', query: { game_id: item.id }}">
-                                        <img :src="this.addressServer + '/games/' + item.id + '.png'" alt="vid_pic" class="vid-mini-pic" >
-                                </RouterLink>
                                 <router-link v-else :to="{ path: 'game-info-page', query: { game_id: i.id } }" @click="getItem(i.id)">
                                     <img :src="addressServer + '/games/' + i.id + '.png'" alt="vid_pic" class="vid-mini-pic">
                                 </router-link>
