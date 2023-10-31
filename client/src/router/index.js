@@ -99,10 +99,14 @@ const routes = [
     name: "ProfilePage",
     component: ProfilePage,
   },
-  // {
-  //   path: '/:catchAll(.*)',
-  //   redirect: '/landing-page'
-  // }
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/landing-page'
+  },
+  {
+    path: '',
+    redirect: '/landing-page'
+  }
 ];
 
 const router = createRouter({
@@ -110,16 +114,16 @@ const router = createRouter({
   routes,
 });
 // Permet de vérifier si l'utilisateur est connecté, si il ne l'est pas, il est redirigé vers la page de connexion
-// router.beforeEach((to, from, next) => {
-//   const userData = JSON.parse(localStorage.getItem("userData"));
-//   console.log("userdata  ",userData);
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  console.log("token  ",token);
 
-  // if (!userData && to.path !== '/login-page' && to.path !== '/register-page' && to.path !== '/fgpassword-page' && to.path !== '/reset-password-page' && to.path !== '/reset-pwd-page' && to.path !== '/landing-page' && to.path !== '/book-read-page' && to.path !== '/help-page') {
-  //   next("/landing-page"); // Redirige vers la page de connexion
-  // } else {
-  //   next(); // Continue la navigation normalement
-  // }
-// });
+  if (!token && to.path !== '/login-page' && to.path !== '/register-page' && to.path !== '/fgpassword-page' && to.path !== '/reset-password-page' && to.path !== '/reset-pwd-page' && to.path !== '/landing-page' && to.path !== '/help-page') {
+    next("/landing-page"); // Redirige vers la page de connexion
+  } else {
+    next(); // Continue la navigation normalement
+  }
+});
 
 
 export default router;
