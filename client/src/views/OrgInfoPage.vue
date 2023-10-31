@@ -169,7 +169,7 @@
                         <ul class="item-grid">
                             <li v-for="game in other_games" :key= game.id >
                                 <router-link :to="{ path: 'game-info-page', query: { game_id: game.id }}">
-                                    <img :src="addressServer + '/files/' + game.id + '.png'" alt="vid_pic" class="vid-mini-pic">
+                                    <img :src="addressServer + '/games/' + game.id + '.png'" alt="vid_pic" class="vid-mini-pic">
                                 </router-link>
                                 <div class="mini-vid-desc">
                                     <div class="mini-vid-name">
