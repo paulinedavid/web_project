@@ -35,37 +35,37 @@ Game.create = (newGame, result) => {
 };
 
 Game.getFiltered = (filterQuery, result) => {
-    //console.log(filterQuery);
     sql.query(filterQuery, (err, resGames) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
-        }else if (resGames.length > 0) {
-            let myGames = [];
-            resGames.forEach(game => {
-                game.themes = [];
+        } 
+        let myGames = [];
+        let promises = [];
+        resGames.forEach(game => {
+            let promise = new Promise((resolve, reject) => {
                 sql.query("SELECT name FROM game_theme JOIN Theme ON game_theme.id_theme = Theme.id WHERE id_game = ?", [game.id], (err, resThemes) => {
                     if (err) {
                         console.log("error: ", err);
-                        result(null, err);
+                        reject(err);
                         return;
-                    }else{
-                        resThemes.forEach(theme => {
-                            game.themes.push(theme);
-                        });
-                        myGames.push(game);
-                        //console.log(JSON.stringify(myGames))
-                        result(null, myGames);
-                        return
                     }
+                    game.themes = resThemes.map(theme => theme.name);
+                    resolve();
                 });
             });
-        }
-        else {
-            result(null, resGames);
-            return;
-        }
+            promises.push(promise);
+            myGames.push(game);
+        });
+        Promise.all(promises)
+            .then(() => {
+                result(null, myGames);
+            })
+            .catch(error => {
+                console.log("error: ", error);
+                result(null, error);
+            });
     });
 }
 

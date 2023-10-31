@@ -71,7 +71,6 @@ Video.create = (newVideo, result) => {
 
 // fonction pour récupérer les videos par filtre
 Video.getFiltered = (filterQuery, result) => {
-  //console.log(filterQuery);
   sql.query(filterQuery, (err, resVideos) => {
     if (err) {
       console.log("error: ", err);
@@ -79,23 +78,34 @@ Video.getFiltered = (filterQuery, result) => {
       return;
     }
     let myVideos = [];
-    if (resVideos.length > 0) {
-      resVideos.forEach(video => {
-        video.themes = [];
+    let promises = [];
+
+    resVideos.forEach(video => {
+      let promise = new Promise((resolve, reject) => {
         sql.query("SELECT name FROM video_theme JOIN Theme ON video_theme.id_theme = Theme.id WHERE id_video = ?", [video.id], (err, resThemes) => {
           if (err) {
             console.log("error: ", err);
-            result(null, err);
+            reject(err);
             return;
           }
-          resThemes.forEach(theme => {
-            video.themes.push(theme);
-          });
-          myVideos.push(video);
-        })
+          video.themes = resThemes.map(theme => theme.name);
+          resolve();
+        });
       });
-    }
-    result(null, resVideos);
+
+      promises.push(promise);
+      myVideos.push(video);
+    });
+
+    Promise.all(promises)
+      .then(() => {
+        console.log(JSON.stringify(myVideos));
+        result(null, myVideos);
+      })
+      .catch(error => {
+        console.log("error: ", error);
+        result(null, error);
+      });
   });
 }
 
